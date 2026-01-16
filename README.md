@@ -53,7 +53,7 @@ The tool consists of 6 sequential scripts. Each output feeds into the next step.
   * **`THRESHOLD_MONO_MIN` (Script 4):** The percentage threshold to classify a cluster as a "Monoculture" (Default: 0.70 or 70%).
 
 ## Remind
-* **Sample Data:** 
+* **Sample Data:** The original dataset recording tree traits, environment values, and carbon information is uploaded as a sample named _tree_carbon_updated.csv._
 * **Pre-Processing:** There is a pre-step to extract trunk diameter information; please look in another repository: https://github.com/sleepyheadzzzzzz/Tree-point-cloud-trunk-segmentation-and-measurement.
 * **Sequential Execution:** You should run the scripts in order (1 → 6). If you skip a step, the subsequent script will miss required columns (e.g., Script 6 requires the `Mono_Rate` column generated in Script 4).
   * But you can use either of the scripts individually if you have your own dataset.
