@@ -54,7 +54,7 @@ The tool consists of 6 sequential scripts. Each output feeds into the next step.
 
 ## Remind
 * **Sample Data:** 
-* **Pre-Processing:** There is a pre-step to extract trunk diameter information, please look in another repository.
+* **Pre-Processing:** There is a pre-step to extract trunk diameter information; please look in another repository: https://github.com/sleepyheadzzzzzz/Tree-point-cloud-trunk-segmentation-and-measurement.
 * **Sequential Execution:** You should run the scripts in order (1 → 6). If you skip a step, the subsequent script will miss required columns (e.g., Script 6 requires the `Mono_Rate` column generated in Script 4).
   * But you can use either of the scripts individually if you have your own dataset.
 * **Coordinate System:** Ensure your input CSV uses a projected coordinate system (meters), not geographic (lat/lon), for accurate distance calculations in DBSCAN.
