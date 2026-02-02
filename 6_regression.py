@@ -41,8 +41,8 @@ import joblib
 # =============================================================================
 
 # IO PATHS
-INPUT_FILE = "F:/mobile/tree/tree_carbon_updated.csv"
-OUTPUT_FOLDER = "F:/mobile/analysis/ana83/"
+INPUT_FILE = "F:/mobile/analysis/ana89_CLUSTER_VULNERABILITY/tree_carbon_updated7_spatial.csv"
+OUTPUT_FOLDER = "F:/mobile/analysis/ana90/"
 MODEL_OUTPUT_FOLDER_NAME = "models"
 
 # SPECIES MAPPING
