@@ -1,6 +1,6 @@
-# Archived reviewer results
+# Archived numerical results
 
-These compact outputs are the numerical audit trail for the manuscript. They allow reviewers to verify reported point estimates without redistributing the full tree-level dataset.
+These compact outputs are the numerical audit trail for the manuscript. They allow reported point estimates to be verified without redistributing the full tree-level dataset.
 
 - `model_comparison/`: OLS, RF, XGBoost, and MLP results on the common grouped split, plus clustered bootstrap comparisons.
 - `attribution/`: height-and-species baseline versus the full model, and joint-permutation analyses.

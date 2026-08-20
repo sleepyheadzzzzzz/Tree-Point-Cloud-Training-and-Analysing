@@ -9,6 +9,6 @@ authors:
 repository-code: "https://github.com/sleepyheadzzzzzz/Tree-Point-Cloud-Training-and-Analysing"
 license: GPL-3.0-only
 abstract: >-
-  Reviewer release for pooled and species-specific urban-tree carbon-growth
+  Reproducible workflow for pooled and species-specific urban-tree carbon-growth
   modelling, SHAP attribution, spatially blocked deployment validation,
   suitability diagnosis, and planning-oriented spatial outputs.

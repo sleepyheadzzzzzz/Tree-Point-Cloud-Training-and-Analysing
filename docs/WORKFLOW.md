@@ -1,13 +1,13 @@
 # Reproduction workflow
 
-Run commands from `journal_review_release/`. All output paths below are ignored by Git. Scripts stop if a requested output directory already exists, protecting earlier results.
+Run commands from the repository root. All output paths below are ignored by Git. Scripts stop if a requested output directory already exists, protecting earlier results.
 
 ## 1. Environment and audit
 
 ```bash
 conda env create -f environment.yml
-conda activate urban-tree-growth-review
-python tests/validate_release.py
+conda activate urban-tree-growth
+python tests/validate_project.py
 ```
 
 Place the exact author-supplied data at `data/tree_carbon_updated4.csv` before refitting.

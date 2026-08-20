@@ -1,6 +1,6 @@
 # Manuscript-to-code alignment
 
-This index maps the analytical claims in the submitted manuscript to executable scripts and archived reviewer outputs. It separates retrospective interpretation from deployment-oriented spatial diagnosis.
+This index maps the analytical claims in the manuscript to executable scripts and archived numerical outputs. It separates retrospective interpretation from deployment-oriented spatial diagnosis.
 
 | Manuscript component | Primary script(s) | Archived evidence |
 |---|---|---|

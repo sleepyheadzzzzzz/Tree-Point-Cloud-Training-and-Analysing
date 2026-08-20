@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit the reviewer release without importing the scientific stack."""
+"""Audit the research project without importing the scientific stack."""
 
 from __future__ import annotations
 
@@ -136,6 +136,7 @@ def write_manifest() -> Path:
         if path.is_file()
         and path != target
         and "__pycache__" not in path.parts
+        and ".git" not in path.parts
     )
     lines = []
     for path in paths:
@@ -154,7 +155,7 @@ def main() -> int:
     if args.write_manifest:
         manifest = write_manifest()
         print(f"Wrote {manifest.relative_to(ROOT)}")
-    print("Release audit passed: scripts compile, model JSON parses, and archived results match expected values.")
+    print("Project audit passed: scripts compile, model JSON parses, and archived results match expected values.")
     return 0
 
 

@@ -5,7 +5,7 @@ The exact analysis dataset is intentionally not committed to this public reposit
 To reproduce the numerical analyses, place the author-supplied file at:
 
 ```text
-journal_review_release/data/tree_carbon_updated4.csv
+data/tree_carbon_updated4.csv
 ```
 
 The analytical unit is a positive-growth tree-period observation. Repeated monitoring periods from the same tree are linked by `OID_` and must remain in the same split. The response is constructed as:

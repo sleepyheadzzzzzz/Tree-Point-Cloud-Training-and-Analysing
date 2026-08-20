@@ -1,82 +1,78 @@
-# Urban Tree Carbon & Spatial Analysis Pipeline
+# Tree Point Cloud Training and Analysing
 
-## Journal-review workflow (2026)
+## Urban-tree carbon growth modelling and spatial diagnosis
 
-The manuscript-aligned, versioned workflow for relative carbon-growth modelling, SHAP interpretation, spatially blocked validation, suitability diagnosis, change detection, and planning outputs is available in [`journal_review_release/`](journal_review_release/README.md). It includes trained model artifacts, compact result tables, an explicit data contract, ordered reproduction commands, and an automated release audit. The original six-stage preprocessing workflow below is retained for provenance.
+[![Project audit](https://img.shields.io/badge/project%20audit-passing-brightgreen)](tests/MANIFEST.sha256)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-# Urban Tree Carbon & Spatial Analysis Tool
+This repository contains the analysis underlying **“Towards Carbon Responsive Landscape Planning: Multi-Temporal LiDAR and Explainable Machine Learning for Urban Tree Growth Diagnosis.”** It provides an integrated workflow for relative-growth modelling, explanation, spatial validation, diagnosis, change detection, and planning outputs. Earlier exploratory LiDAR/carbon scripts are retained under `legacy_pipeline/` for provenance.
 
-A comprehensive Python workflow for modeling urban tree metrics, estimating carbon sequestration, and analyzing spatial vulnerability. This pipeline integrates machine learning (Random Forest & Linear Regression) with spatial statistics (DBSCAN) to quantify how environmental factors and planting patterns (Monoculture vs. Mixed) impact urban forest growth.
+## What is reproducible here
 
-## 🚀 Features
+- A common `OID_`-grouped comparison of OLS, random forest, XGBoost, and MLP.
+- Pooled period-controlled XGBoost SHAP analysis using infill, bedrock, and moraine soil indicators; clay and silt/sand are excluded.
+- A height-and-species biological baseline, nested incremental R2, partial R2, clustered uncertainty, and joint permutation tests.
+- Pooled and species-specific SHAP statistics, dependence plots, nonlinear diagnostics, and categorized radial profiles.
+- A 500 m blocked 70/15/15 deployment experiment with validation-only model selection and a locked spatial test.
+- Fixed seven-level suitability and a more decision-ready three-zone diagnosis.
+- Period-free 2 m mapping for a standardized 10 m tree, environmental contrasts, reliability flags, temporal change, suitable-genus polygons, and diversified densification proposals.
 
-* **Missing Data Imputation:** Uses machine learning to predict missing Trunk Diameters (TD) based on Tree Height and Crown Diameter, enforcing monotonic growth logic (trees cannot shrink over time).
-* **Carbon Sequestration:** Calculates biomass and carbon storage using species-specific allometric equations (e.g., Repola, Power Law).
-* **Spatial Clustering:** Utilizes DBSCAN to identify physical tree clusters and classify them into planting regimes:
-  * **Monoculture:** >70% same species.
-  * **Mixed:** <30% same species.
-  * **Sparse/Isolated:** Noise points.
-* **Vulnerability Analysis:** Computes local density metrics (`Density25`) and biotic competition rates (`Mono_Rate`) to assess environmental stress.
-* **Statistical Modeling:** Performs Log-Log Linear Regression and Non-Linear Random Forest analysis to identify significant drivers of annual carbon growth.
-* **Visualization:** Generates "Tile Matrix" heatmaps to visualize the strength and significance of environmental coefficients across different species.
+## Archived numerical checkpoints
 
-## 🔄 Pipeline
+The included compact tables reproduce the manuscript's principal results:
 
-The tool consists of 6 sequential scripts. Each output feeds into the next step.
+| Checkpoint | Archived value |
+|---|---:|
+| Retrospective XGBoost independent-test R2 | 0.611 |
+| Height-and-species baseline R2 | 0.559 |
+| Full-model R2 | 0.611 |
+| Combined period + environment delta R2 | 0.052 |
+| Combined period + environment partial R2 | 0.118 |
+| Environment-only delta R2, conditional on species and period | 0.022 |
+| Environment-only joint-permutation R2 loss | 0.0448 |
+| Locked spatial-test XGBoost R2 | 0.564 |
+| Seven-level agreement, exact / within one | 36.5% / 77.3% |
+| Three-zone exact agreement | 68.7% |
 
-1. **`1_trunk_model.py` (Model Training)**
-   * Trains Linear and Random Forest models for every species to predict trunk diameter.
-   * Outputs `.pkl` model files and a performance summary.
+Run `python tests/validate_project.py` to compare every checkpoint against the archived CSVs and to compile all Python scripts.
 
-2. **`2_trunk_predictor.py` (Data Imputation)**
-   * Applies the trained models to the main dataset to fill missing trunk diameters.
-   * Applies a "monotonic fix" to ensure a tree's diameter does not decrease between years (e.g., from 2015 to 2023).
-
-3. **`3_carbon_calculator.py` (Carbon Estimation)**
-   * Converts physical metrics (Height, DBH) into Biomass and Carbon Storage (kg).
-   * Calculates the Annual Carbon Growth Rate.
-
-4. **`4_spatial_statistics.py` (Clustering)**
-   * Runs DBSCAN clustering on tree coordinates.
-   * Calculates `Density25` (neighbors within 25m) and `Mono_Rate` (species homogeneity).
-
-5. **`5_VIF.py` (Multicollinearity Check)**
-   * Calculates Variance Inflation Factor (VIF) to ensure regression variables are not highly correlated.
-
-6. **`6_regression.py` (Final Analysis)**
-   * Runs the final growth regressions (OLS & RF).
-   * Produces the Tile Matrix plot showing which factors (Soil, Noise, Density) significantly affect growth.
-
-## Configurations
-
-* **Input Data:** The scripts require a CSV file structure containing tree IDs, coordinates (X, Y), species, and temporal metric columns (e.g., `H15`, `H17`, `H21` for height in years 2015, 2017, etc.).
-* **Key Parameters (Top of Scripts):**
-  * **`USER_MODEL_PREFERENCE` (Script 2):** Selects which model logic to use ('best', 'Height', 'Crown').
-  * **`ALLOMETRIC_EQS` (Script 3):** Dictionary defining the biomass formulas. Ensure these match your specific region/species.
-  * **`EPS_DISTANCE` (Script 4):** The search radius for DBSCAN clustering (Default: 25m).
-  * **`THRESHOLD_MONO_MIN` (Script 4):** The percentage threshold to classify a cluster as a "Monoculture" (Default: 0.70 or 70%).
-
-## Remind
-* **Sample Data:** The original dataset recording tree traits, environment values, and carbon information is uploaded as a sample named _tree_carbon_updated.csv._
-* **Pre-Processing:** There is a pre-step to extract trunk diameter information; please look in another repository: https://github.com/sleepyheadzzzzzz/Tree-point-cloud-trunk-segmentation-and-measurement.
-* **Sequential Execution:** You should run the scripts in order (1 → 6). If you skip a step, the subsequent script will miss required columns (e.g., Script 6 requires the `Mono_Rate` column generated in Script 4).
-  * But you can use either of the scripts individually if you have your own dataset.
-* **Coordinate System:** Ensure your input CSV uses a projected coordinate system (meters), not geographic (lat/lon), for accurate distance calculations in DBSCAN.
-* **Species Mapping:** Check the `SPECIES_MAP` dictionary at the top of the scripts. If your dataset has different species IDs, update this map before running.
-
-## Citation
-
-* **in work:** Multi-Source LiDAR Quantifies the Built Environment as a Deterministic Constraint on Tree Carbon Growth
-
-## 🛠️ Installation
-
-### Prerequisites
-* Python 3.8+
-* Anaconda (recommended)
-
-### Dependencies
-Install the required libraries using pip:
+## Quick start
 
 ```bash
-pip install pandas numpy matplotlib seaborn scikit-learn statsmodels scipy joblib
+conda env create -f environment.yml
+conda activate urban-tree-growth
+python tests/validate_project.py
 ```
+
+The exact assembled tree-level data are not publicly redistributed here. After obtaining the file under the manuscript's data-availability conditions, place it at `data/tree_carbon_updated4.csv`. Then follow [docs/WORKFLOW.md](docs/WORKFLOW.md). Principal columns and transformations are documented in [data/README.md](data/README.md) and [data/required_columns.csv](data/required_columns.csv).
+
+## Directory guide
+
+```text
+Tree-Point-Cloud-Training-and-Analysing/
+├── data/             input contract; exact study data intentionally absent
+├── docs/             ordered commands and manuscript-to-code alignment
+├── models/           frozen biological, retrospective, and deployment artifacts
+├── results/          compact numerical audit trail
+├── scripts/          analysis, validation, visualization, and GIS exporters
+├── tests/            project integrity and numerical checkpoint audit
+└── legacy_pipeline/  archived preliminary scripts and sample data
+```
+
+## Interpretation boundaries
+
+- The full R2 is not attributed to the environment. Overall predictive fit, direct nested increments, partial R2, and permutation loss are reported separately.
+- SHAP values and local-versus-reference environmental contrasts are fitted associations. They do not establish causal effects or measured environmental offsets.
+- The seven-level raster retains useful detail but should not be presented as exact tree-level prediction. The three-zone output is the primary planning diagnostic.
+- Residual spatial clustering remains after validation, so reliability masks and local field verification should accompany design decisions.
+- The no-period deployment model fixes model structure across dates; only intended environmental layers change in temporal comparisons.
+
+## Reproducibility notes
+
+Random seeds and bootstrap/permutation counts are defined in the scripts. Output directories are never overwritten. Large derived rasters and observation-level SHAP tables are intentionally regenerated rather than versioned. Included `.joblib` artifacts should only be loaded from a trusted checkout.
+
+See [docs/METHODS_ALIGNMENT.md](docs/METHODS_ALIGNMENT.md) for the manuscript-to-script index and [results/README.md](results/README.md) for the archived evidence map.
+
+## License and citation
+
+Code is provided under the repository's GPL-3.0 license. Citation metadata are in [CITATION.cff](CITATION.cff). Please cite the associated manuscript when using the scientific workflow.

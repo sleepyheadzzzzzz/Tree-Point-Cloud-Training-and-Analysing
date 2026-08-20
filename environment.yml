@@ -1,4 +1,4 @@
-name: urban-tree-growth-review
+name: urban-tree-growth
 channels:
   - conda-forge
 dependencies:
