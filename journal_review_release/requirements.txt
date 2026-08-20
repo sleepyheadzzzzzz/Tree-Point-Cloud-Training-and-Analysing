@@ -1,0 +1,16 @@
+numpy>=1.26,<3
+pandas>=2.1,<4
+scipy>=1.11,<2
+scikit-learn>=1.3,<2
+statsmodels>=0.14,<1
+xgboost>=2.0,<4
+shap>=0.44,<1
+matplotlib>=3.8,<4
+seaborn>=0.13,<1
+joblib>=1.3,<2
+rasterio>=1.3,<2
+libpysal>=4.10,<5
+geopandas>=0.14,<2
+pyogrio>=0.7,<1
+Pillow>=10,<13
+openpyxl>=3.1,<4

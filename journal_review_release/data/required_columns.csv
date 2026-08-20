@@ -1,0 +1,16 @@
+field_or_pattern,role,notes
+OID_,group_identifier,All repeated periods for one tree remain in one split
+X,projected_easting,Metric coordinate used for spatial blocking
+Y,projected_northing,Metric coordinate used for spatial blocking
+Species,species_code,Observed categories 1-11; 0 is never a tree-level species
+type,park_context,Source for park versus street/non-park indicator
+soil,soil_context,Source for infill bedrock and moraine indicators
+H15|H17|H21|H23,height,Period-specific tree height
+CS_15|CS_17|CS_21|CS_23,carbon_stock,Period-specific carbon stock used to construct response and kg-C errors
+Density25|period-specific density,surrounding_tree_density,Tree count within 25 m
+Mono_Rate|period-specific monoculture,monoculture_rate,Local taxonomic composition
+svf15|svf17|svf21|svf23,sky_view_factor,Period-specific or period-averaged SVF
+ra15_17|ra17_21|ra21_23,solar_radiation,Period-specific mean radiation
+LST_1516|LST_1720|LST_2122,land_surface_temperature,Period-specific mean land-surface temperature
+noise17d|noise22d,daytime_noise,Period-specific daytime transport-noise indicator
+lightemiss,nighttime_illumination,Nighttime light-emission indicator

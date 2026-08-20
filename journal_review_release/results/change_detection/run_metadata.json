@@ -1,0 +1,45 @@
+{
+  "change_definition": "later minus earlier",
+  "environmental_periods": "2015-2017 to 2021-2023",
+  "noise_source_years": "2017 to 2022",
+  "noise_sources": [
+    "road",
+    "rail",
+    "tram",
+    "metro"
+  ],
+  "noise_combination": "maximum available 5-dB class midpoint across transport sources",
+  "quiet_floor_db": 40.0,
+  "colour_direction": {
+    "panels_A_C": "red=negative/decrease; green=positive/increase",
+    "panels_B_D_E_F": "green=negative/decrease; red=positive/increase"
+  },
+  "colour_limits": "panel-specific symmetric 99th percentile",
+  "raster_outputs": [
+    "analysis\\environment_change_figure_noise_20260820\\daytime_noise_2017_db.tif",
+    "analysis\\environment_change_figure_noise_20260820\\daytime_noise_2022_db.tif",
+    "analysis\\environment_change_figure_noise_20260820\\daytime_noise_change_2017_2022_db.tif"
+  ],
+  "figure_outputs": [
+    "analysis\\environment_change_figure_noise_20260820\\Figure7_environment_change_with_noise_2015_2023.png",
+    "analysis\\environment_change_figure_noise_20260820\\Figure7_environment_change_with_noise_2015_2023.pdf",
+    "analysis\\environment_change_figure_noise_20260820\\Figure7_environment_change_with_noise_2015_2023.svg"
+  ],
+  "figure_data": "analysis\\environment_change_figure_noise_20260820\\Figure7_environment_change_with_noise_data.npz",
+  "noise_change_summary": {
+    "Variable": "Daytime_noise_change_2022_minus_2017",
+    "Unit": "dB",
+    "N": 3988736,
+    "Min": -32.5,
+    "P01": -12.5,
+    "P05": -7.5,
+    "Median": 0.0,
+    "Mean": -1.2588116887154226,
+    "P95": 5.0,
+    "P99": 12.5,
+    "Max": 32.5,
+    "Percent_negative": 27.449422573968295,
+    "Percent_zero": 66.23674768147102,
+    "Percent_positive": 6.313829744560683
+  }
+}

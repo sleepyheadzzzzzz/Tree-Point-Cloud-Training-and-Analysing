@@ -1,5 +1,9 @@
 # Urban Tree Carbon & Spatial Analysis Pipeline
 
+## Journal-review workflow (2026)
+
+The manuscript-aligned, versioned workflow for relative carbon-growth modelling, SHAP interpretation, spatially blocked validation, suitability diagnosis, change detection, and planning outputs is available in [`journal_review_release/`](journal_review_release/README.md). It includes trained model artifacts, compact result tables, an explicit data contract, ordered reproduction commands, and an automated release audit. The original six-stage preprocessing workflow below is retained for provenance.
+
 # Urban Tree Carbon & Spatial Analysis Tool
 
 A comprehensive Python workflow for modeling urban tree metrics, estimating carbon sequestration, and analyzing spatial vulnerability. This pipeline integrates machine learning (Random Forest & Linear Regression) with spatial statistics (DBSCAN) to quantify how environmental factors and planting patterns (Monoculture vs. Mixed) impact urban forest growth.
@@ -75,3 +79,4 @@ Install the required libraries using pip:
 
 ```bash
 pip install pandas numpy matplotlib seaborn scikit-learn statsmodels scipy joblib
+```

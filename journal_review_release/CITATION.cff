@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the associated manuscript and this software release."
+title: "Urban tree carbon-growth modelling and spatial diagnosis workflow"
+type: software
+version: 1.0.0
+date-released: 2026-08-20
+authors:
+  - family-names: "sleepyheadzzzzzz"
+repository-code: "https://github.com/sleepyheadzzzzzz/Tree-Point-Cloud-Training-and-Analysing"
+license: GPL-3.0-only
+abstract: >-
+  Reviewer release for pooled and species-specific urban-tree carbon-growth
+  modelling, SHAP attribution, spatially blocked deployment validation,
+  suitability diagnosis, and planning-oriented spatial outputs.

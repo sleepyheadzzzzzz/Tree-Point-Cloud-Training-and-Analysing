@@ -1,0 +1,3 @@
+Output,Threshold_Scope,Evaluation_Unit,N_Units,Exact_Accuracy,Within_One_Accuracy,MAE_Levels,Quadratic_Weighted_Kappa
+Seven-level detail,global,tree,3345,0.36472346786248133,0.7733931240657698,0.9180866965620329,0.7918506221888113
+Three-zone diagnosis,global,tree,3345,0.6872944693572496,0.9973094170403587,0.3153961136023916,0.7076348815884553

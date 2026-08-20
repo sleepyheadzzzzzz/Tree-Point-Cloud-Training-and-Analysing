@@ -1,0 +1,23 @@
+{
+  "model_test_r2": {
+    "OLS": 0.576,
+    "RF": 0.608,
+    "XGB": 0.611,
+    "MLP": 0.600
+  },
+  "biological_baseline_test_r2": 0.5587320177992345,
+  "full_model_test_r2": 0.6105719816629462,
+  "combined_period_environment_delta_r2": 0.0518399638637117,
+  "combined_period_environment_partial_r2": 0.11747954974019803,
+  "environment_only_delta_r2": 0.0220253467559814,
+  "environment_only_partial_r2": 0.053530633,
+  "environment_only_permutation_loss": 0.04479585694652959,
+  "combined_period_environment_permutation_loss": 0.10236798069959747,
+  "spatial_locked_test_r2": 0.5641630448623657,
+  "spatial_locked_test_rmse_log_sgr": 0.8694181565337867,
+  "spatial_locked_test_mae_log_sgr": 0.6897951300977972,
+  "seven_level_exact_accuracy": 0.36472346786248133,
+  "seven_level_within_one_accuracy": 0.7733931240657698,
+  "three_zone_exact_accuracy": 0.6872944693572496,
+  "noise_change_mean_db": -1.2588116887154226
+}

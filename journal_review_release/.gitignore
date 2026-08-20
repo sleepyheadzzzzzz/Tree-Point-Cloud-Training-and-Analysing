@@ -1,0 +1,17 @@
+data/*.csv
+!data/required_columns.csv
+data/*.parquet
+data/*.tif
+data/*.tiff
+data/*.gpkg
+data/*.shp
+data/*.shx
+data/*.dbf
+data/*.prj
+data/*.cpg
+outputs/
+work/
+__pycache__/
+*.py[cod]
+*.log
+.DS_Store

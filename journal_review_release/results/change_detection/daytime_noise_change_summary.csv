@@ -1,0 +1,2 @@
+Variable,Unit,N,Min,P01,P05,Median,Mean,P95,P99,Max,Percent_negative,Percent_zero,Percent_positive
+Daytime_noise_change_2022_minus_2017,dB,3988736,-32.5,-12.5,-7.5,0.0,-1.2588116887154226,5.0,12.5,32.5,27.449422573968295,66.23674768147102,6.313829744560683

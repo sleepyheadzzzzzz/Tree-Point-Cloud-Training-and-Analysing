@@ -1,0 +1,833 @@
+Group,Feature,Feature_Label,Decile,Feature_Median,Mean_SHAP,N
+Overall,avg_noise_day,Daytime noise,1,35.0,0.04691646430300727,1428
+Overall,avg_noise_day,Daytime noise,2,47.5,0.020076727320229866,819
+Overall,avg_noise_day,Daytime noise,3,52.5,0.00959659005154323,1305
+Overall,avg_noise_day,Daytime noise,4,57.5,-0.011145565626926512,1264
+Overall,avg_noise_day,Daytime noise,5,62.5,-0.024844054061250648,994
+Overall,avg_noise_day,Daytime noise,6,67.5,-0.0625653659641328,613
+Overall,avg_noise_day,Daytime noise,7,72.5,-0.07995560774232054,422
+Overall,Density25,Tree density (25 m),1,4.0,-0.09263163052620532,845
+Overall,Density25,Tree density (25 m),2,7.0,-0.06829400318345963,694
+Overall,Density25,Tree density (25 m),3,8.0,-0.06913302494825323,654
+Overall,Density25,Tree density (25 m),4,10.0,-0.05901736216715295,730
+Overall,Density25,Tree density (25 m),5,12.0,-0.029910625366599063,612
+Overall,Density25,Tree density (25 m),6,15.0,0.003325847847891624,783
+Overall,Density25,Tree density (25 m),7,18.0,0.04258176251327495,631
+Overall,Density25,Tree density (25 m),8,21.0,0.05873991672915564,652
+Overall,Density25,Tree density (25 m),9,26.0,0.0920980381017107,617
+Overall,Density25,Tree density (25 m),10,35.0,0.164919047290385,627
+Overall,Mono_Rate,Monoculture rate,1,0.1111111119389534,0.008581848393711572,689
+Overall,Mono_Rate,Monoculture rate,2,0.3571428656578064,0.01828235172429573,692
+Overall,Mono_Rate,Monoculture rate,3,0.6370441317558289,0.012716325271699488,3353
+Overall,Mono_Rate,Monoculture rate,4,0.6666666865348816,0.0037866854154823444,114
+Overall,Mono_Rate,Monoculture rate,5,0.800000011920929,-0.007690661048620871,643
+Overall,Mono_Rate,Monoculture rate,6,1.0,-0.04436312038252822,1354
+Overall,avg_svf,Sky-view factor,1,0.7193760275840759,0.05394765840604116,685
+Overall,avg_svf,Sky-view factor,2,0.8391065001487732,0.031645635496854126,684
+Overall,avg_svf,Sky-view factor,3,0.8989610075950623,0.04022480538760713,685
+Overall,avg_svf,Sky-view factor,4,0.933792233467102,0.035103332272138306,684
+Overall,avg_svf,Sky-view factor,5,0.9550099968910217,-0.008559430405326491,686
+Overall,avg_svf,Sky-view factor,6,0.9707170128822327,-0.015972805771973065,687
+Overall,avg_svf,Sky-view factor,7,0.981872022151947,-0.023462911436833902,685
+Overall,avg_svf,Sky-view factor,8,0.9890092611312866,-0.024993153083345453,736
+Overall,avg_svf,Sky-view factor,9,0.9958165287971497,-0.009111757452957659,635
+Overall,avg_svf,Sky-view factor,10,1.0,-0.012287882520897235,678
+Overall,avg_radiation,Solar radiation,1,543.8610229492188,0.06665996026084589,685
+Overall,avg_radiation,Solar radiation,2,731.5455017089844,0.07097696293309999,684
+Overall,avg_radiation,Solar radiation,3,829.8579711914062,0.02938834084970883,685
+Overall,avg_radiation,Solar radiation,4,903.4809875488281,0.009623268047687294,684
+Overall,avg_radiation,Solar radiation,5,957.125,0.006569554138363889,685
+Overall,avg_radiation,Solar radiation,6,1001.2749938964844,-0.001417702258036727,684
+Overall,avg_radiation,Solar radiation,7,1043.5399780273438,-0.028766867495303612,684
+Overall,avg_radiation,Solar radiation,8,1079.469970703125,-0.054027773807876066,687
+Overall,avg_radiation,Solar radiation,9,1116.75,-0.056139257681027566,682
+Overall,avg_radiation,Solar radiation,10,1164.31005859375,-0.09525745498861125,685
+Overall,avg_LST,Land-surface temperature,1,21.376474380493164,-0.06552441365635545,686
+Overall,avg_LST,Land-surface temperature,2,23.185461044311523,-0.00539875074508625,683
+Overall,avg_LST,Land-surface temperature,3,24.045093536376953,-0.002150609304663641,687
+Overall,avg_LST,Land-surface temperature,4,24.738096237182617,0.02265909314339078,682
+Overall,avg_LST,Land-surface temperature,5,25.36103057861328,0.021348973533289888,685
+Overall,avg_LST,Land-surface temperature,6,25.961748123168945,0.019823690529855182,686
+Overall,avg_LST,Land-surface temperature,7,26.58126449584961,0.02222917106488314,684
+Overall,avg_LST,Land-surface temperature,8,27.365699768066406,0.017040544441986338,686
+Overall,avg_LST,Land-surface temperature,9,28.295400619506836,0.003446282837807479,682
+Overall,avg_LST,Land-surface temperature,10,29.935195922851562,-0.037237167588676116,684
+Overall,lightemiss,Night illumination,1,50.0,-0.018081235533989107,822
+Overall,lightemiss,Night illumination,2,60.0,-0.0034357604318684246,978
+Overall,lightemiss,Night illumination,3,70.0,0.008025505403616708,2047
+Overall,lightemiss,Night illumination,4,80.0,0.018342519121791998,1264
+Overall,lightemiss,Night illumination,5,90.0,-0.020933352834620955,583
+Overall,lightemiss,Night illumination,6,100.0,0.008238861989069911,673
+Overall,lightemiss,Night illumination,7,130.0,-0.02984088141879149,478
+Overall,type_Puisto,Park context,1,0.0,-0.0024465171663830445,1939
+Overall,type_Puisto,Park context,2,1.0,0.00575697194016747,4906
+Overall,soil_infill,Soil: fill,1,0.0,-0.01946620796311991,3203
+Overall,soil_infill,Soil: fill,2,1.0,0.01794702531751352,3642
+Overall,soil_bedrock,Soil: bedrock,1,0.0,0.030300023580695636,3040
+Overall,soil_bedrock,Soil: bedrock,2,1.0,-0.026599812640096282,3805
+Overall,soil_moraine,Soil: moraine,1,0.0,0.004996156210580369,6399
+Overall,soil_moraine,Soil: moraine,2,1.0,-0.061106627761603506,446
+Conifer,avg_noise_day,Daytime noise,1,35.0,0.05378067475349882,288
+Conifer,avg_noise_day,Daytime noise,2,47.5,0.023697622705102814,88
+Conifer,avg_noise_day,Daytime noise,3,50.0,0.008952960104498241,67
+Conifer,avg_noise_day,Daytime noise,4,52.5,0.013027445211928496,126
+Conifer,avg_noise_day,Daytime noise,5,55.0,0.0036015852017263913,29
+Conifer,avg_noise_day,Daytime noise,6,57.5,-0.022159543340468275,137
+Conifer,avg_noise_day,Daytime noise,7,60.0,-0.0166309788906708,39
+Conifer,avg_noise_day,Daytime noise,8,62.5,-0.04022349180498471,81
+Conifer,Density25,Tree density (25 m),1,6.0,-0.06553162352810073,86
+Conifer,Density25,Tree density (25 m),2,10.0,-0.06923351332692332,95
+Conifer,Density25,Tree density (25 m),3,14.0,-0.024751856280260484,91
+Conifer,Density25,Tree density (25 m),4,16.0,0.020971991652583132,88
+Conifer,Density25,Tree density (25 m),5,18.0,0.038816369701114094,89
+Conifer,Density25,Tree density (25 m),6,21.0,0.05603357915727732,72
+Conifer,Density25,Tree density (25 m),7,23.0,0.06999450438397836,83
+Conifer,Density25,Tree density (25 m),8,26.0,0.09050851073911095,82
+Conifer,Density25,Tree density (25 m),9,29.0,0.14222765954521796,96
+Conifer,Density25,Tree density (25 m),10,38.0,0.19744694118120082,73
+Conifer,Mono_Rate,Monoculture rate,1,0.10810811072587967,-0.028185510603127593,87
+Conifer,Mono_Rate,Monoculture rate,2,0.6370441317558289,0.016135444896430852,707
+Conifer,Mono_Rate,Monoculture rate,3,0.7575757503509521,-0.00019039831350397196,61
+Conifer,avg_svf,Sky-view factor,1,0.8174167275428772,0.025188280116539275,86
+Conifer,avg_svf,Sky-view factor,2,0.8987284898757935,0.030522858708247762,85
+Conifer,avg_svf,Sky-view factor,3,0.9276280105113983,0.03054842112794367,86
+Conifer,avg_svf,Sky-view factor,4,0.950357973575592,-0.007950598753043724,85
+Conifer,avg_svf,Sky-view factor,5,0.9657922685146332,-0.017272428154598837,86
+Conifer,avg_svf,Sky-view factor,6,0.9798905253410339,-0.017347697603434103,85
+Conifer,avg_svf,Sky-view factor,7,0.986752986907959,-0.022984548218965787,87
+Conifer,avg_svf,Sky-view factor,8,0.9916334748268127,-0.009345686530097104,92
+Conifer,avg_svf,Sky-view factor,9,0.9965140223503113,-0.0007497478274252409,78
+Conifer,avg_svf,Sky-view factor,10,1.0,-0.008283611031348462,85
+Conifer,avg_radiation,Solar radiation,1,613.3625183105469,0.05464588189605883,86
+Conifer,avg_radiation,Solar radiation,2,784.5659790039062,0.06022143718129133,85
+Conifer,avg_radiation,Solar radiation,3,871.1189880371094,0.029207727532064933,86
+Conifer,avg_radiation,Solar radiation,4,920.3660278320312,0.007562575475586687,85
+Conifer,avg_radiation,Solar radiation,5,967.0635070800781,0.013037164465776038,86
+Conifer,avg_radiation,Solar radiation,6,1000.6900024414062,-0.001839109872611623,85
+Conifer,avg_radiation,Solar radiation,7,1042.300048828125,-0.03447279843008694,85
+Conifer,avg_radiation,Solar radiation,8,1080.6500244140625,-0.05765763363735967,86
+Conifer,avg_radiation,Solar radiation,9,1121.6400146484375,-0.0610159320071997,85
+Conifer,avg_radiation,Solar radiation,10,1172.0599975585938,-0.08181049851808957,86
+Conifer,avg_LST,Land-surface temperature,1,21.29187774658203,-0.08752519326544432,86
+Conifer,avg_LST,Land-surface temperature,2,22.751373291015625,-0.01725729497428442,86
+Conifer,avg_LST,Land-surface temperature,3,23.732343673706055,-0.013870729239749571,86
+Conifer,avg_LST,Land-surface temperature,4,24.33904266357422,-0.0021143469294613517,84
+Conifer,avg_LST,Land-surface temperature,5,24.941469192504883,0.016868214588612318,86
+Conifer,avg_LST,Land-surface temperature,6,25.35077667236328,0.01406259204837667,86
+Conifer,avg_LST,Land-surface temperature,7,25.899368286132812,0.01843724554540434,84
+Conifer,avg_LST,Land-surface temperature,8,26.64706039428711,0.033432822188546575,86
+Conifer,avg_LST,Land-surface temperature,9,27.628887176513672,0.029667177957382464,86
+Conifer,avg_LST,Land-surface temperature,10,29.2849178314209,-0.010058136959217817,85
+Conifer,lightemiss,Night illumination,1,50.0,-0.021125190788850643,119
+Conifer,lightemiss,Night illumination,2,60.0,0.000512445440709741,242
+Conifer,lightemiss,Night illumination,3,70.0,0.0073333590139205065,299
+Conifer,lightemiss,Night illumination,4,80.0,0.023764674767813423,97
+Conifer,lightemiss,Night illumination,5,90.0,-0.017778080567950383,36
+Conifer,lightemiss,Night illumination,6,115.0,-0.01167797992327964,62
+Conifer,type_Puisto,Park context,1,0.0,0.030721082485450264,55
+Conifer,type_Puisto,Park context,2,1.0,0.0029834822391967466,800
+Conifer,soil_infill,Soil: fill,1,0.0,-0.017300295567728868,624
+Conifer,soil_infill,Soil: fill,2,1.0,0.019680566194737372,231
+Conifer,soil_bedrock,Soil: bedrock,1,0.0,0.03701458079373743,254
+Conifer,soil_bedrock,Soil: bedrock,2,1.0,-0.03351198353288624,601
+Conifer,soil_moraine,Soil: moraine,1,0.0,0.005565035164115464,770
+Conifer,soil_moraine,Soil: moraine,2,1.0,-0.049628499233821295,85
+Broadleaf,avg_noise_day,Daytime noise,1,41.25,0.035203273956657365,1871
+Broadleaf,avg_noise_day,Daytime noise,2,52.5,0.009246621936654265,1112
+Broadleaf,avg_noise_day,Daytime noise,3,55.0,0.0009685253860896933,323
+Broadleaf,avg_noise_day,Daytime noise,4,57.5,-0.014799247981094185,775
+Broadleaf,avg_noise_day,Daytime noise,5,60.0,-0.01454803161868159,299
+Broadleaf,avg_noise_day,Daytime noise,6,62.5,-0.029253431256735383,609
+Broadleaf,avg_noise_day,Daytime noise,7,67.5,-0.06369933178442679,583
+Broadleaf,avg_noise_day,Daytime noise,8,72.5,-0.08033541389367806,418
+Broadleaf,Density25,Tree density (25 m),1,4.0,-0.09377955159606652,815
+Broadleaf,Density25,Tree density (25 m),2,7.0,-0.0683443759087047,638
+Broadleaf,Density25,Tree density (25 m),3,8.0,-0.06969574161866958,362
+Broadleaf,Density25,Tree density (25 m),4,10.0,-0.06406592675714216,629
+Broadleaf,Density25,Tree density (25 m),5,11.0,-0.04553386821140093,651
+Broadleaf,Density25,Tree density (25 m),6,14.0,-0.005252437010679614,677
+Broadleaf,Density25,Tree density (25 m),7,16.0,0.027521880934907296,426
+Broadleaf,Density25,Tree density (25 m),8,20.0,0.049701006999416854,682
+Broadleaf,Density25,Tree density (25 m),9,25.0,0.0786625665066822,535
+Broadleaf,Density25,Tree density (25 m),10,34.0,0.15759404492685977,575
+Broadleaf,Mono_Rate,Monoculture rate,1,0.1111111119389534,0.012248492957385209,604
+Broadleaf,Mono_Rate,Monoculture rate,2,0.3333333432674408,0.018204907040872118,598
+Broadleaf,Mono_Rate,Monoculture rate,3,0.6370441317558289,0.012403898939547697,2738
+Broadleaf,Mono_Rate,Monoculture rate,4,0.692307710647583,0.0022911078428729764,257
+Broadleaf,Mono_Rate,Monoculture rate,5,1.0,-0.03634036716862022,1793
+Broadleaf,avg_svf,Sky-view factor,1,0.7094839811325073,0.055282492775226885,599
+Broadleaf,avg_svf,Sky-view factor,2,0.828655481338501,0.034445233793779034,599
+Broadleaf,avg_svf,Sky-view factor,3,0.8920274972915649,0.03968379841248687,599
+Broadleaf,avg_svf,Sky-view factor,4,0.9308139979839325,0.04103940064967901,600
+Broadleaf,avg_svf,Sky-view factor,5,0.9531907439231873,-0.005236944024901553,598
+Broadleaf,avg_svf,Sky-view factor,6,0.9693225026130676,-0.015549763211425703,603
+Broadleaf,avg_svf,Sky-view factor,7,0.9805880188941956,-0.02363387926188897,606
+Broadleaf,avg_svf,Sky-view factor,8,0.9882019758224487,-0.027757813620359433,611
+Broadleaf,avg_svf,Sky-view factor,9,0.9951195120811462,-0.010736106308409652,597
+Broadleaf,avg_svf,Sky-view factor,10,1.0,-0.012692324147427476,578
+Broadleaf,avg_radiation,Solar radiation,1,536.905029296875,0.06805821066529479,599
+Broadleaf,avg_radiation,Solar radiation,2,721.5040283203125,0.0729025763537535,599
+Broadleaf,avg_radiation,Solar radiation,3,824.0239868164062,0.03038836020306662,599
+Broadleaf,avg_radiation,Solar radiation,4,899.8800048828125,0.009467579997165533,599
+Broadleaf,avg_radiation,Solar radiation,5,956.4019775390625,0.005097679979544698,599
+Broadleaf,avg_radiation,Solar radiation,6,1001.3599853515625,-0.0014086956610379713,599
+Broadleaf,avg_radiation,Solar radiation,7,1043.5899658203125,-0.02793939523541723,599
+Broadleaf,avg_radiation,Solar radiation,8,1079.4000244140625,-0.053691380034487125,599
+Broadleaf,avg_radiation,Solar radiation,9,1116.199951171875,-0.05552202610019905,599
+Broadleaf,avg_radiation,Solar radiation,10,1162.469970703125,-0.0969438779900334,599
+Broadleaf,avg_LST,Land-surface temperature,1,21.392709732055664,-0.06357663426551546,599
+Broadleaf,avg_LST,Land-surface temperature,2,23.228185653686523,-0.0022380545065479145,599
+Broadleaf,avg_LST,Land-surface temperature,3,24.102344512939453,0.0008251888446587449,600
+Broadleaf,avg_LST,Land-surface temperature,4,24.79705810546875,0.02499812763243197,599
+Broadleaf,avg_LST,Land-surface temperature,5,25.466989517211914,0.023383935209461262,599
+Broadleaf,avg_LST,Land-surface temperature,6,26.061725616455078,0.01987123102780773,601
+Broadleaf,avg_LST,Land-surface temperature,7,26.687223434448242,0.018471108060523204,597
+Broadleaf,avg_LST,Land-surface temperature,8,27.46311378479004,0.015601663606171457,603
+Broadleaf,avg_LST,Land-surface temperature,9,28.40734100341797,-0.00119045229603645,594
+Broadleaf,avg_LST,Land-surface temperature,10,30.002702713012695,-0.038039090165297794,599
+Broadleaf,lightemiss,Night illumination,1,50.0,-0.017565971415456356,703
+Broadleaf,lightemiss,Night illumination,2,60.0,-0.004733947688884616,736
+Broadleaf,lightemiss,Night illumination,3,70.0,0.008143898865012112,1748
+Broadleaf,lightemiss,Night illumination,4,80.0,0.017891834376578562,1167
+Broadleaf,lightemiss,Night illumination,5,90.0,-0.021141012435352474,547
+Broadleaf,lightemiss,Night illumination,6,100.0,0.007873240740246442,642
+Broadleaf,lightemiss,Night illumination,7,140.0,-0.029194123041461212,447
+Broadleaf,type_Puisto,Park context,1,0.0,-0.0034147857337136346,1884
+Broadleaf,type_Puisto,Park context,2,1.0,0.006297349865344426,4106
+Broadleaf,soil_infill,Soil: fill,1,0.0,-0.019990259663284316,2579
+Broadleaf,soil_infill,Soil: fill,2,1.0,0.01782962633110522,3411
+Broadleaf,soil_bedrock,Soil: bedrock,1,0.0,0.029687856483742076,2786
+Broadleaf,soil_bedrock,Soil: bedrock,2,1.0,-0.025303241258521136,3204
+Broadleaf,soil_moraine,Soil: moraine,1,0.0,0.00491833833987118,5629
+Broadleaf,soil_moraine,Soil: moraine,2,1.0,-0.06380923420166303,361
+Acer,avg_noise_day,Daytime noise,1,35.0,0.04548700092273937,167
+Acer,avg_noise_day,Daytime noise,2,47.5,0.020359595465129735,113
+Acer,avg_noise_day,Daytime noise,3,52.5,0.019099584871060095,167
+Acer,avg_noise_day,Daytime noise,4,55.0,0.0047183471664175155,50
+Acer,avg_noise_day,Daytime noise,5,57.5,-0.008842231454828084,114
+Acer,avg_noise_day,Daytime noise,6,62.5,-0.028586301928012762,116
+Acer,avg_noise_day,Daytime noise,7,65.0,-0.0352184269087095,19
+Acer,avg_noise_day,Daytime noise,8,67.5,-0.08367633787750066,79
+Acer,Density25,Tree density (25 m),1,5.0,-0.0823023103532337,105
+Acer,Density25,Tree density (25 m),2,7.5,-0.07249167887493968,100
+Acer,Density25,Tree density (25 m),3,10.0,-0.06529740828635364,87
+Acer,Density25,Tree density (25 m),4,11.0,-0.04900095969634621,38
+Acer,Density25,Tree density (25 m),5,13.0,-0.014949153393849841,109
+Acer,Density25,Tree density (25 m),6,15.0,0.01604046788496158,58
+Acer,Density25,Tree density (25 m),7,19.0,0.045573792602226604,80
+Acer,Density25,Tree density (25 m),8,23.0,0.06474463261683729,94
+Acer,Density25,Tree density (25 m),9,29.0,0.11187593173235655,72
+Acer,Density25,Tree density (25 m),10,40.0,0.1666206889899402,82
+Acer,Mono_Rate,Monoculture rate,1,0.06666667014360428,0.021162170324550315,83
+Acer,Mono_Rate,Monoculture rate,2,0.17307692766189575,0.012886684556866474,82
+Acer,Mono_Rate,Monoculture rate,3,0.30000001192092896,0.011876454016601201,104
+Acer,Mono_Rate,Monoculture rate,4,0.375,0.02542621505187614,62
+Acer,Mono_Rate,Monoculture rate,5,0.4615384638309479,0.02675669002469237,95
+Acer,Mono_Rate,Monoculture rate,6,0.5714285969734192,0.01308303140894682,69
+Acer,Mono_Rate,Monoculture rate,7,0.6609195470809937,0.004013184183305584,82
+Acer,Mono_Rate,Monoculture rate,8,0.75,-0.009336233366083028,83
+Acer,Mono_Rate,Monoculture rate,9,1.0,-0.03897596983773507,165
+Acer,avg_svf,Sky-view factor,1,0.7431409955024719,0.05031799402014992,83
+Acer,avg_svf,Sky-view factor,2,0.8685717582702637,0.036290852076135485,82
+Acer,avg_svf,Sky-view factor,3,0.9166334867477417,0.04232719555463507,83
+Acer,avg_svf,Sky-view factor,4,0.948267251253128,0.0015124265230885457,82
+Acer,avg_svf,Sky-view factor,5,0.9640830159187317,-0.021565249398597244,85
+Acer,avg_svf,Sky-view factor,6,0.9765689969062805,-0.025991658306558182,87
+Acer,avg_svf,Sky-view factor,7,0.9839640259742737,-0.034174161696185666,75
+Acer,avg_svf,Sky-view factor,8,0.9895414710044861,-0.02604015998959573,89
+Acer,avg_svf,Sky-view factor,9,0.9951195120811462,-0.008709723775361701,88
+Acer,avg_svf,Sky-view factor,10,0.9993029832839966,-0.010217117244036684,71
+Acer,avg_radiation,Solar radiation,1,571.8090209960938,0.06316354295732565,83
+Acer,avg_radiation,Solar radiation,2,777.0820007324219,0.05411179972494521,82
+Acer,avg_radiation,Solar radiation,3,857.0469970703125,0.02004819293436314,83
+Acer,avg_radiation,Solar radiation,4,931.3170166015625,0.0003078282304003795,82
+Acer,avg_radiation,Solar radiation,5,976.6840209960938,0.012552026558964771,83
+Acer,avg_radiation,Solar radiation,6,1012.7350158691406,-0.005687164024537906,82
+Acer,avg_radiation,Solar radiation,7,1045.7649536132812,-0.022236052212708562,82
+Acer,avg_radiation,Solar radiation,8,1080.280029296875,-0.049210704296423366,83
+Acer,avg_radiation,Solar radiation,9,1109.8099975585938,-0.04853335515845839,82
+Acer,avg_radiation,Solar radiation,10,1154.989990234375,-0.07195330177804074,83
+Acer,avg_LST,Land-surface temperature,1,20.950075149536133,-0.05169051029075621,83
+Acer,avg_LST,Land-surface temperature,2,23.130773544311523,0.003001696375133356,82
+Acer,avg_LST,Land-surface temperature,3,23.75883388519287,-0.005095432294183411,84
+Acer,avg_LST,Land-surface temperature,4,24.38005828857422,0.006141688850209589,81
+Acer,avg_LST,Land-surface temperature,5,24.913270950317383,0.01801339858940926,83
+Acer,avg_LST,Land-surface temperature,6,25.39862823486328,0.01959913677504718,82
+Acer,avg_LST,Land-surface temperature,7,26.078815460205078,0.014111174097290286,83
+Acer,avg_LST,Land-surface temperature,8,26.994844436645508,0.016576560722769057,82
+Acer,avg_LST,Land-surface temperature,9,27.96727180480957,0.010766229523273595,83
+Acer,avg_LST,Land-surface temperature,10,29.476326942443848,-0.0347849918648646,82
+Acer,lightemiss,Night illumination,1,40.0,-0.04111075458309517,87
+Acer,lightemiss,Night illumination,2,60.0,-0.0056374478093118175,91
+Acer,lightemiss,Night illumination,3,70.0,0.0076711587434406935,224
+Acer,lightemiss,Night illumination,4,80.0,0.02255228587078402,166
+Acer,lightemiss,Night illumination,5,90.0,-0.0286558379795259,65
+Acer,lightemiss,Night illumination,6,100.0,0.01097999584777022,72
+Acer,lightemiss,Night illumination,7,110.0,0.006415926761837909,40
+Acer,lightemiss,Night illumination,8,120.0,-0.020247671487049958,80
+Acer,type_Puisto,Park context,1,0.0,-0.0067850132396819795,180
+Acer,type_Puisto,Park context,2,1.0,0.008947556080362514,645
+Acer,soil_infill,Soil: fill,1,0.0,-0.020335123341138815,378
+Acer,soil_infill,Soil: fill,2,1.0,0.019368779495248043,447
+Acer,soil_bedrock,Soil: bedrock,1,0.0,0.036516598271784176,356
+Acer,soil_bedrock,Soil: bedrock,2,1.0,-0.029566618977293277,469
+Acer,soil_moraine,Soil: moraine,1,0.0,0.005174404351666492,769
+Acer,soil_moraine,Soil: moraine,2,1.0,-0.07495073957501777,56
+Alnus,avg_noise_day,Daytime noise,1,41.25,0.028564869304713997,23
+Alnus,avg_noise_day,Daytime noise,2,47.5,0.02676734146238728,22
+Alnus,avg_noise_day,Daytime noise,3,50.0,0.014323381707072258,12
+Alnus,avg_noise_day,Daytime noise,4,52.5,0.014515616323998464,7
+Alnus,avg_noise_day,Daytime noise,5,55.0,0.004713476901607854,14
+Alnus,avg_noise_day,Daytime noise,6,57.5,-0.020142854842561064,16
+Alnus,avg_noise_day,Daytime noise,7,62.5,0.003308108262717724,15
+Alnus,avg_noise_day,Daytime noise,8,65.0,0.035105113250513874,6
+Alnus,Density25,Tree density (25 m),1,4.0,-0.08456326834857464,14
+Alnus,Density25,Tree density (25 m),2,6.0,-0.04370028980904155,9
+Alnus,Density25,Tree density (25 m),3,10.0,-0.036925492947921155,20
+Alnus,Density25,Tree density (25 m),4,15.0,-0.005723304112810486,12
+Alnus,Density25,Tree density (25 m),5,16.0,0.005658713036349842,7
+Alnus,Density25,Tree density (25 m),6,18.0,0.033574442187922875,14
+Alnus,Density25,Tree density (25 m),7,21.0,0.0401640678755939,10
+Alnus,Density25,Tree density (25 m),8,22.5,0.019617712202186038,6
+Alnus,Density25,Tree density (25 m),9,26.0,0.05057105773382566,11
+Alnus,Density25,Tree density (25 m),10,38.0,0.09039610205218196,12
+Alnus,Mono_Rate,Monoculture rate,1,0.07692307978868484,0.021361107045474153,12
+Alnus,Mono_Rate,Monoculture rate,2,0.125,0.026246752886270933,11
+Alnus,Mono_Rate,Monoculture rate,3,0.17391304671764374,0.00021652889457376054,12
+Alnus,Mono_Rate,Monoculture rate,4,0.20000000298023224,-0.0006763109175319022,11
+Alnus,Mono_Rate,Monoculture rate,5,0.2857142984867096,-0.005394938493347061,14
+Alnus,Mono_Rate,Monoculture rate,6,0.375,0.01328456681618594,11
+Alnus,Mono_Rate,Monoculture rate,7,0.4444444477558136,0.012443577818986442,9
+Alnus,Mono_Rate,Monoculture rate,8,0.563492089509964,0.0027776838438252787,14
+Alnus,Mono_Rate,Monoculture rate,9,1.0,-0.03670732912030958,21
+Alnus,avg_svf,Sky-view factor,1,0.7374437749385834,0.05742228745172421,12
+Alnus,avg_svf,Sky-view factor,2,0.8723825216293335,0.05538774620402943,11
+Alnus,avg_svf,Sky-view factor,3,0.932605504989624,0.03639424444797138,12
+Alnus,avg_svf,Sky-view factor,4,0.9549005031585693,-0.010385630736974153,11
+Alnus,avg_svf,Sky-view factor,5,0.9655217528343201,-0.022035003824081894,12
+Alnus,avg_svf,Sky-view factor,6,0.9764044880867004,-0.03332525072619319,12
+Alnus,avg_svf,Sky-view factor,7,0.9839640259742737,-0.024325709451328625,11
+Alnus,avg_svf,Sky-view factor,8,0.9874504804611206,-0.019873992772772908,12
+Alnus,avg_svf,Sky-view factor,9,0.9905875027179718,-0.05195942865684629,10
+Alnus,avg_svf,Sky-view factor,10,0.9986060261726379,0.0009536851042260727,12
+Alnus,avg_radiation,Solar radiation,1,576.7244873046875,0.11676978257795174,12
+Alnus,avg_radiation,Solar radiation,2,773.0130004882812,0.07538754763928326,11
+Alnus,avg_radiation,Solar radiation,3,889.5239868164062,0.01874629673189842,13
+Alnus,avg_radiation,Solar radiation,4,932.4519958496094,-0.024628796702018008,10
+Alnus,avg_radiation,Solar radiation,5,964.4665222167969,0.0009176026408871015,12
+Alnus,avg_radiation,Solar radiation,6,1015.9299926757812,-0.02393953688442707,11
+Alnus,avg_radiation,Solar radiation,7,1073.449951171875,-0.05121154676784168,11
+Alnus,avg_radiation,Solar radiation,8,1096.8949584960938,-0.07601956433306138,12
+Alnus,avg_radiation,Solar radiation,9,1133.6600341796875,-0.07977434709160165,11
+Alnus,avg_radiation,Solar radiation,10,1178.0849609375,-0.07905748160555959,12
+Alnus,avg_LST,Land-surface temperature,1,18.95309829711914,-0.0996967163713028,12
+Alnus,avg_LST,Land-surface temperature,2,21.24231719970703,-0.08887947994199666,11
+Alnus,avg_LST,Land-surface temperature,3,22.34035587310791,-0.023693724574210744,12
+Alnus,avg_LST,Land-surface temperature,4,23.00259780883789,-0.012656130087138577,11
+Alnus,avg_LST,Land-surface temperature,5,23.842576026916504,-0.003939548507332802,12
+Alnus,avg_LST,Land-surface temperature,6,24.86370849609375,6.28117413725704e-05,12
+Alnus,avg_LST,Land-surface temperature,7,25.801100730895996,0.01825690744444728,10
+Alnus,avg_LST,Land-surface temperature,8,26.991426467895508,0.02334791669048942,13
+Alnus,avg_LST,Land-surface temperature,9,28.5842227935791,0.02698463751849803,11
+Alnus,avg_LST,Land-surface temperature,10,30.060808181762695,-0.02443195041269064,11
+Alnus,lightemiss,Night illumination,1,50.0,-0.0192916102023446,32
+Alnus,lightemiss,Night illumination,2,60.0,-0.023319293885530595,24
+Alnus,lightemiss,Night illumination,3,70.0,0.01719236420467496,18
+Alnus,lightemiss,Night illumination,4,90.0,0.013858565341003916,11
+Alnus,lightemiss,Night illumination,5,100.0,0.013736165508075996,27
+Alnus,lightemiss,Night illumination,6,110.0,0.019399119230608147,3
+Alnus,type_Puisto,Park context,1,0.0,0.013256881502456963,21
+Alnus,type_Puisto,Park context,2,1.0,0.002037814476197843,94
+Alnus,soil_infill,Soil: fill,1,0.0,-0.0468967121682669,57
+Alnus,soil_infill,Soil: fill,2,1.0,0.029956683725247096,58
+Alnus,soil_bedrock,Soil: bedrock,1,0.0,0.03614392892147104,78
+Alnus,soil_bedrock,Soil: bedrock,2,1.0,-0.031621539638050505,37
+Alnus,soil_moraine,Soil: moraine,1,0.0,0.004647476434877369,107
+Alnus,soil_moraine,Soil: moraine,2,1.0,-0.04287381668109447,8
+Betula,avg_noise_day,Daytime noise,1,47.5,0.026608546580703187,121
+Betula,avg_noise_day,Daytime noise,2,52.5,0.009488153040028582,108
+Betula,avg_noise_day,Daytime noise,3,55.0,-0.0035812852841515383,26
+Betula,avg_noise_day,Daytime noise,4,57.5,-0.02736562741695032,62
+Betula,avg_noise_day,Daytime noise,5,60.0,-0.011862891849078652,18
+Betula,avg_noise_day,Daytime noise,6,62.5,-0.03999867749528265,51
+Betula,avg_noise_day,Daytime noise,7,67.5,-0.05611544086908301,15
+Betula,Density25,Tree density (25 m),1,5.0,-0.08601954674178904,55
+Betula,Density25,Tree density (25 m),2,7.0,-0.06359790494808784,26
+Betula,Density25,Tree density (25 m),3,10.0,-0.049035621087320826,44
+Betula,Density25,Tree density (25 m),4,13.0,-0.019632925119740553,39
+Betula,Density25,Tree density (25 m),5,15.0,0.007538201524478543,41
+Betula,Density25,Tree density (25 m),6,20.0,0.03743544421893986,38
+Betula,Density25,Tree density (25 m),7,22.5,0.04584723990410566,38
+Betula,Density25,Tree density (25 m),8,28.0,0.07429137916880704,42
+Betula,Density25,Tree density (25 m),9,35.0,0.13330676338563746,39
+Betula,Density25,Tree density (25 m),10,47.0,0.23549907539899534,39
+Betula,Mono_Rate,Monoculture rate,1,0.0,-0.036267172795061656,41
+Betula,Mono_Rate,Monoculture rate,2,0.12132352963089943,-0.026062365394318478,40
+Betula,Mono_Rate,Monoculture rate,3,0.22902098298072815,-0.016333913314156234,40
+Betula,Mono_Rate,Monoculture rate,4,0.33974359929561615,0.005147064381162636,40
+Betula,Mono_Rate,Monoculture rate,5,0.4615384638309479,0.03563176152529195,40
+Betula,Mono_Rate,Monoculture rate,6,0.5909090638160706,0.009125899766265164,41
+Betula,Mono_Rate,Monoculture rate,7,0.6666666865348816,0.004005647991270496,39
+Betula,Mono_Rate,Monoculture rate,8,0.800000011920929,0.004829420407143671,41
+Betula,Mono_Rate,Monoculture rate,9,1.0,0.0004788043354696865,79
+Betula,avg_svf,Sky-view factor,1,0.8570525050163269,0.019418676789827283,41
+Betula,avg_svf,Sky-view factor,2,0.9270952343940735,0.03244792565528769,40
+Betula,avg_svf,Sky-view factor,3,0.9668715000152588,-0.02053140641310165,40
+Betula,avg_svf,Sky-view factor,4,0.9793304800987244,-0.01792862008442171,40
+Betula,avg_svf,Sky-view factor,5,0.9860554933547974,-0.023088536903378552,40
+Betula,avg_svf,Sky-view factor,6,0.9923855066299438,-0.01876209031842235,45
+Betula,avg_svf,Sky-view factor,7,0.9958170056343079,-0.0034110835498891946,43
+Betula,avg_svf,Sky-view factor,8,0.9979084730148315,-0.012856451956781022,33
+Betula,avg_svf,Sky-view factor,9,1.0,0.012587041047378148,79
+Betula,avg_radiation,Solar radiation,1,662.7440185546875,0.07709269452749229,41
+Betula,avg_radiation,Solar radiation,2,789.3544921875,0.06006018220214173,40
+Betula,avg_radiation,Solar radiation,3,878.6004943847656,0.04377104526211042,40
+Betula,avg_radiation,Solar radiation,4,962.8354797363281,0.019956516049569474,40
+Betula,avg_radiation,Solar radiation,5,1015.1399841308594,-0.006991422512692224,40
+Betula,avg_radiation,Solar radiation,6,1052.260009765625,-0.03809772055828944,40
+Betula,avg_radiation,Solar radiation,7,1088.989990234375,-0.05488624107092619,40
+Betula,avg_radiation,Solar radiation,8,1120.7300415039062,-0.07223269527312368,40
+Betula,avg_radiation,Solar radiation,9,1151.77001953125,-0.09599531800826876,41
+Betula,avg_radiation,Solar radiation,10,1221.81005859375,-0.10595143033573642,39
+Betula,avg_LST,Land-surface temperature,1,18.615568161010742,-0.08424719209532912,41
+Betula,avg_LST,Land-surface temperature,2,20.898805618286133,-0.0555152494693175,40
+Betula,avg_LST,Land-surface temperature,3,22.50869369506836,-0.024483070119822516,40
+Betula,avg_LST,Land-surface temperature,4,23.24185848236084,0.0011488189389638136,40
+Betula,avg_LST,Land-surface temperature,5,23.798141479492188,-0.0077616667869733645,40
+Betula,avg_LST,Land-surface temperature,6,24.262991905212402,-0.019387191255373182,40
+Betula,avg_LST,Land-surface temperature,7,25.002138137817383,0.009639962303037642,41
+Betula,avg_LST,Land-surface temperature,8,25.848098754882812,0.01459108541185299,39
+Betula,avg_LST,Land-surface temperature,9,26.993135452270508,0.02438322353118565,40
+Betula,avg_LST,Land-surface temperature,10,29.04223918914795,0.003948139838757925,40
+Betula,lightemiss,Night illumination,1,40.0,-0.027580195243227416,46
+Betula,lightemiss,Night illumination,2,50.0,0.005925671458680881,45
+Betula,lightemiss,Night illumination,3,60.0,-0.0037869990056732823,79
+Betula,lightemiss,Night illumination,4,70.0,0.015062717842696192,86
+Betula,lightemiss,Night illumination,5,80.0,0.027437756702096926,90
+Betula,lightemiss,Night illumination,6,110.0,-0.03233132856080263,41
+Betula,lightemiss,Night illumination,7,120.0,-0.03320775974342333,14
+Betula,type_Puisto,Park context,1,0.0,0.015060002379379092,78
+Betula,type_Puisto,Park context,2,1.0,0.0028932662901501732,323
+Betula,soil_infill,Soil: fill,1,0.0,-0.020395854074199315,215
+Betula,soil_infill,Soil: fill,2,1.0,0.022482906174983688,186
+Betula,soil_bedrock,Soil: bedrock,1,0.0,0.022675659244638616,209
+Betula,soil_bedrock,Soil: bedrock,2,1.0,-0.023937136869790265,192
+Betula,soil_moraine,Soil: moraine,1,0.0,0.004139337274837935,344
+Betula,soil_moraine,Soil: moraine,2,1.0,-0.05966962370745789,57
+Pinus,avg_noise_day,Daytime noise,1,35.0,0.05758671013534005,87
+Pinus,avg_noise_day,Daytime noise,2,47.5,0.02450948349993538,27
+Pinus,avg_noise_day,Daytime noise,3,52.5,0.0139409209254099,33
+Pinus,avg_noise_day,Daytime noise,4,55.0,0.0027330704698605196,14
+Pinus,avg_noise_day,Daytime noise,5,57.5,-0.02255970560363494,20
+Pinus,avg_noise_day,Daytime noise,6,60.0,-0.03418789711907844,22
+Pinus,avg_noise_day,Daytime noise,7,67.5,-0.05916868208441883,16
+Pinus,Density25,Tree density (25 m),1,6.0,-0.06851704315892582,29
+Pinus,Density25,Tree density (25 m),2,10.0,-0.060960015282034874,18
+Pinus,Density25,Tree density (25 m),3,13.0,-0.027352996720847757,22
+Pinus,Density25,Tree density (25 m),4,16.0,0.02717121286113979,20
+Pinus,Density25,Tree density (25 m),5,19.0,0.048161095082759856,25
+Pinus,Density25,Tree density (25 m),6,22.0,0.04753516673257476,19
+Pinus,Density25,Tree density (25 m),7,25.0,0.05049971981151473,21
+Pinus,Density25,Tree density (25 m),8,29.0,0.1276031143411442,27
+Pinus,Density25,Tree density (25 m),9,33.0,0.13895246743535003,24
+Pinus,Density25,Tree density (25 m),10,40.0,0.22510289400815964,14
+Pinus,Mono_Rate,Monoculture rate,1,0.0,-0.03527552702210166,22
+Pinus,Mono_Rate,Monoculture rate,2,0.09761904925107956,-0.0242807731750266,24
+Pinus,Mono_Rate,Monoculture rate,3,0.1538461595773697,-0.020038281742017716,20
+Pinus,Mono_Rate,Monoculture rate,4,0.30000001192092896,-0.03510882366074087,23
+Pinus,Mono_Rate,Monoculture rate,5,0.40625,0.03517515788830462,21
+Pinus,Mono_Rate,Monoculture rate,6,0.47058823704719543,0.031037984327191397,21
+Pinus,Mono_Rate,Monoculture rate,7,0.5769230723381042,0.014563152434952233,23
+Pinus,Mono_Rate,Monoculture rate,8,0.6551724076271057,0.01653528717690192,21
+Pinus,Mono_Rate,Monoculture rate,9,0.75,0.00976764274768673,23
+Pinus,Mono_Rate,Monoculture rate,10,1.0,-0.024487810043085898,21
+Pinus,avg_svf,Sky-view factor,1,0.8321389853954315,0.02545152221996845,22
+Pinus,avg_svf,Sky-view factor,2,0.901233971118927,0.035125799153162086,23
+Pinus,avg_svf,Sky-view factor,3,0.9219329953193665,0.045181299692818096,21
+Pinus,avg_svf,Sky-view factor,4,0.94014573097229,0.012661293768112293,22
+Pinus,avg_svf,Sky-view factor,5,0.9562459886074066,-0.015049868125722489,22
+Pinus,avg_svf,Sky-view factor,6,0.9675599932670593,-0.017248813794659718,21
+Pinus,avg_svf,Sky-view factor,7,0.9805602729320526,-0.03005548814226958,22
+Pinus,avg_svf,Sky-view factor,8,0.9851469993591309,-0.01817373439817774,22
+Pinus,avg_svf,Sky-view factor,9,0.9909365177154541,-0.017519410729975156,23
+Pinus,avg_svf,Sky-view factor,10,0.9965140223503113,-0.009164901821696688,21
+Pinus,avg_radiation,Solar radiation,1,610.0559997558594,0.04824287848631767,22
+Pinus,avg_radiation,Solar radiation,2,797.1275024414062,0.033023586507293985,22
+Pinus,avg_radiation,Solar radiation,3,885.3315124511719,0.011600260821234604,22
+Pinus,avg_radiation,Solar radiation,4,935.7174987792969,-0.008127694188839418,22
+Pinus,avg_radiation,Solar radiation,5,970.8385009765625,0.0003098835004493594,22
+Pinus,avg_radiation,Solar radiation,6,1007.989990234375,-0.00855484846397303,21
+Pinus,avg_radiation,Solar radiation,7,1044.2149658203125,-0.03449786454439163,22
+Pinus,avg_radiation,Solar radiation,8,1084.3500366210938,-0.05310022204437039,22
+Pinus,avg_radiation,Solar radiation,9,1125.5249633789062,-0.06334655469452793,22
+Pinus,avg_radiation,Solar radiation,10,1172.885009765625,-0.07290398028933189,22
+Pinus,avg_LST,Land-surface temperature,1,21.217535972595215,-0.10842881588773294,22
+Pinus,avg_LST,Land-surface temperature,2,22.51296615600586,-0.04692863975651562,22
+Pinus,avg_LST,Land-surface temperature,3,23.348670959472656,-0.012993638112675399,22
+Pinus,avg_LST,Land-surface temperature,4,23.97844123840332,-0.008865083911982567,23
+Pinus,avg_LST,Land-surface temperature,5,24.701353073120117,0.005554382085046243,21
+Pinus,avg_LST,Land-surface temperature,6,25.087589263916016,0.008282316127969395,21
+Pinus,avg_LST,Land-surface temperature,7,25.75752067565918,0.002900255616227894,23
+Pinus,avg_LST,Land-surface temperature,8,26.66671371459961,0.03657076419663748,21
+Pinus,avg_LST,Land-surface temperature,9,28.04930305480957,0.02547613756376615,22
+Pinus,avg_LST,Land-surface temperature,10,29.47034454345703,0.004294170029673048,22
+Pinus,lightemiss,Night illumination,1,45.0,-0.03437499845385901,40
+Pinus,lightemiss,Night illumination,2,60.0,0.005238771460613069,78
+Pinus,lightemiss,Night illumination,3,70.0,0.009456434168476755,39
+Pinus,lightemiss,Night illumination,4,80.0,0.024240279073516526,30
+Pinus,lightemiss,Night illumination,5,90.0,-0.012379144168724971,14
+Pinus,lightemiss,Night illumination,6,100.0,-0.00854655790479026,18
+Pinus,type_Puisto,Park context,1,0.0,0.0086280235031154,20
+Pinus,type_Puisto,Park context,2,1.0,0.0054511465892738585,199
+Pinus,soil_infill,Soil: fill,1,0.0,-0.018482466830339814,140
+Pinus,soil_infill,Soil: fill,2,1.0,0.02251586141182652,79
+Pinus,soil_bedrock,Soil: bedrock,1,0.0,0.04306501490646042,64
+Pinus,soil_bedrock,Soil: bedrock,2,1.0,-0.041038674993380424,155
+Pinus,soil_moraine,Soil: moraine,1,0.0,0.003725127087363944,208
+Pinus,soil_moraine,Soil: moraine,2,1.0,-0.023323297246613285,11
+Prunus,avg_noise_day,Daytime noise,1,41.25,0.02085730521223293,13
+Prunus,avg_noise_day,Daytime noise,2,52.5,0.011992041213607476,46
+Prunus,avg_noise_day,Daytime noise,3,57.5,-0.01813200800852091,27
+Prunus,avg_noise_day,Daytime noise,4,60.0,-0.023453114003959028,11
+Prunus,avg_noise_day,Daytime noise,5,62.5,-0.03379799433362981,12
+Prunus,avg_noise_day,Daytime noise,6,65.0,-0.03445516233997686,7
+Prunus,Density25,Tree density (25 m),1,7.0,-0.06625706632621586,18
+Prunus,Density25,Tree density (25 m),2,10.0,-0.04096687383328875,12
+Prunus,Density25,Tree density (25 m),3,11.0,-0.02462586620822549,6
+Prunus,Density25,Tree density (25 m),4,14.0,-0.012437187286895305,13
+Prunus,Density25,Tree density (25 m),5,15.0,0.017022020183503628,13
+Prunus,Density25,Tree density (25 m),6,18.0,0.037472527982159096,11
+Prunus,Density25,Tree density (25 m),7,23.5,0.036989263724535704,12
+Prunus,Density25,Tree density (25 m),8,29.5,0.12801868561655283,8
+Prunus,Density25,Tree density (25 m),9,32.0,0.13597183177868524,15
+Prunus,Density25,Tree density (25 m),10,38.0,0.19401455018669367,8
+Prunus,Mono_Rate,Monoculture rate,1,0.0,0.0349703727454956,24
+Prunus,Mono_Rate,Monoculture rate,2,0.2857142984867096,0.027347478456795214,15
+Prunus,Mono_Rate,Monoculture rate,3,0.4000000059604645,0.012762994709191844,8
+Prunus,Mono_Rate,Monoculture rate,4,0.527529776096344,0.006560212544475992,12
+Prunus,Mono_Rate,Monoculture rate,5,0.6000000238418579,-0.009134743284613995,11
+Prunus,Mono_Rate,Monoculture rate,6,0.75,-0.017062386294128373,12
+Prunus,Mono_Rate,Monoculture rate,7,0.9090909361839294,-0.013599211858077482,11
+Prunus,Mono_Rate,Monoculture rate,8,1.0,-0.041318800705282585,23
+Prunus,avg_svf,Sky-view factor,1,0.7264125049114227,0.0827727410942316,12
+Prunus,avg_svf,Sky-view factor,2,0.8263362348079681,0.06588332230846088,12
+Prunus,avg_svf,Sky-view factor,3,0.8565654754638672,0.04032032564282417,11
+Prunus,avg_svf,Sky-view factor,4,0.8725644946098328,0.03742526246545216,12
+Prunus,avg_svf,Sky-view factor,5,0.9236069917678833,0.053521762009371414,11
+Prunus,avg_svf,Sky-view factor,6,0.9344902634620667,0.021452708257129416,12
+Prunus,avg_svf,Sky-view factor,7,0.9427344799041748,0.005035455687902868,11
+Prunus,avg_svf,Sky-view factor,8,0.9620920121669769,-0.027870623860508204,12
+Prunus,avg_svf,Sky-view factor,9,0.9847710132598877,-0.04049343133175915,11
+Prunus,avg_svf,Sky-view factor,10,0.9923304915428162,-0.04301302732589344,12
+Prunus,avg_radiation,Solar radiation,1,572.4044799804688,0.0426425575860776,12
+Prunus,avg_radiation,Solar radiation,2,761.2755126953125,0.038309585836638384,12
+Prunus,avg_radiation,Solar radiation,3,849.0960083007812,0.022470021608486688,11
+Prunus,avg_radiation,Solar radiation,4,914.2204895019531,0.013125954166753218,12
+Prunus,avg_radiation,Solar radiation,5,951.4320068359375,0.01084471164292402,11
+Prunus,avg_radiation,Solar radiation,6,998.240478515625,-0.010953467766133448,12
+Prunus,avg_radiation,Solar radiation,7,1038.0,-0.06405194882642139,11
+Prunus,avg_radiation,Solar radiation,8,1072.5950317382812,-0.0695082563906908,12
+Prunus,avg_radiation,Solar radiation,9,1110.3199462890625,-0.05836997367441654,11
+Prunus,avg_radiation,Solar radiation,10,1133.114990234375,-0.057368402233502515,12
+Prunus,avg_LST,Land-surface temperature,1,20.076772689819336,-0.0955099267168687,13
+Prunus,avg_LST,Land-surface temperature,2,23.269203186035156,0.012634250335395336,11
+Prunus,avg_LST,Land-surface temperature,3,23.48111915588379,-0.011386695407881316,11
+Prunus,avg_LST,Land-surface temperature,4,24.31169891357422,0.0052913295138361195,14
+Prunus,avg_LST,Land-surface temperature,5,24.80218505859375,0.013405162634121047,9
+Prunus,avg_LST,Land-surface temperature,6,25.30634307861328,0.006915309311201175,12
+Prunus,avg_LST,Land-surface temperature,7,25.74043083190918,0.01073705040934411,11
+Prunus,avg_LST,Land-surface temperature,8,26.81283473968506,0.008464347614790313,12
+Prunus,avg_LST,Land-surface temperature,9,28.618404388427734,0.0183875306551768,11
+Prunus,avg_LST,Land-surface temperature,10,30.614527702331543,0.0005702104438872387,12
+Prunus,lightemiss,Night illumination,1,50.0,-0.036960885561395276,46
+Prunus,lightemiss,Night illumination,2,60.0,-0.015569857279346748,11
+Prunus,lightemiss,Night illumination,3,70.0,0.014723194821272045,32
+Prunus,lightemiss,Night illumination,4,80.0,0.03632942517288029,8
+Prunus,lightemiss,Night illumination,5,90.0,-0.0009845391296866264,11
+Prunus,lightemiss,Night illumination,6,105.0,-0.018387692922260612,8
+Prunus,type_Puisto,Park context,1,0.0,0.04894066501695376,13
+Prunus,type_Puisto,Park context,2,1.0,-0.0035448685751547494,103
+Prunus,soil_infill,Soil: fill,1,0.0,-0.015112291083342451,34
+Prunus,soil_infill,Soil: fill,2,1.0,0.015417962482698807,82
+Prunus,soil_bedrock,Soil: bedrock,1,0.0,0.01840650384234855,82
+Prunus,soil_bedrock,Soil: bedrock,2,1.0,-0.02305325074121356,34
+Prunus,soil_moraine,Soil: moraine,1,0.0,0.002776984044127554,114
+Prunus,soil_moraine,Soil: moraine,2,1.0,-0.03694792650640011,2
+Quercus,avg_noise_day,Daytime noise,1,35.0,0.051621508293060794,36
+Quercus,avg_noise_day,Daytime noise,2,47.5,0.026384091346062632,20
+Quercus,avg_noise_day,Daytime noise,3,49.375,0.0334241408854723,2
+Quercus,avg_noise_day,Daytime noise,4,52.5,0.027628610841929913,11
+Quercus,avg_noise_day,Daytime noise,5,57.5,-0.0021557412847566107,15
+Quercus,avg_noise_day,Daytime noise,6,60.0,-0.008219977840781212,9
+Quercus,avg_noise_day,Daytime noise,7,65.0,-0.026483559980988503,18
+Quercus,avg_noise_day,Daytime noise,8,72.5,-0.10752049274742603,4
+Quercus,Density25,Tree density (25 m),1,2.5,-0.10181757993996143,16
+Quercus,Density25,Tree density (25 m),2,6.0,-0.05826772821064179,13
+Quercus,Density25,Tree density (25 m),3,7.0,-0.050551412627100945,7
+Quercus,Density25,Tree density (25 m),4,8.0,-0.03396852761507034,10
+Quercus,Density25,Tree density (25 m),5,13.0,-0.0005163930666943392,15
+Quercus,Density25,Tree density (25 m),6,14.0,0.0008397668223971358,13
+Quercus,Density25,Tree density (25 m),7,16.5,0.029599304194562137,10
+Quercus,Density25,Tree density (25 m),8,19.0,0.03019497633123627,13
+Quercus,Density25,Tree density (25 m),9,20.0,0.020288827496447732,7
+Quercus,Density25,Tree density (25 m),10,22.0,0.05523300382562659,11
+Quercus,Mono_Rate,Monoculture rate,1,0.0,0.03074503540182891,23
+Quercus,Mono_Rate,Monoculture rate,2,0.13333334028720856,0.04430547893485602,17
+Quercus,Mono_Rate,Monoculture rate,3,0.21637427061796188,0.02427371342976888,6
+Quercus,Mono_Rate,Monoculture rate,4,0.25,0.012949523515999317,12
+Quercus,Mono_Rate,Monoculture rate,5,0.3095238208770752,0.014509498374536633,12
+Quercus,Mono_Rate,Monoculture rate,6,0.44999998807907104,0.028064122796058653,10
+Quercus,Mono_Rate,Monoculture rate,7,0.6899038553237915,-0.02569361694622785,12
+Quercus,Mono_Rate,Monoculture rate,8,1.0,-0.05514411483992539,23
+Quercus,avg_svf,Sky-view factor,1,0.699279248714447,0.042710197856649756,12
+Quercus,avg_svf,Sky-view factor,2,0.7992939949035645,0.017225554657422683,11
+Quercus,avg_svf,Sky-view factor,3,0.8805184960365295,0.017429158334077027,12
+Quercus,avg_svf,Sky-view factor,4,0.9116575121879578,0.04525028558617288,11
+Quercus,avg_svf,Sky-view factor,5,0.9352094829082489,0.016657594494366396,12
+Quercus,avg_svf,Sky-view factor,6,0.9510459899902344,-0.01030242385935377,11
+Quercus,avg_svf,Sky-view factor,7,0.9701840281486511,-0.030954076823863117,11
+Quercus,avg_svf,Sky-view factor,8,0.983027994632721,-0.03610768437890025,12
+Quercus,avg_svf,Sky-view factor,9,0.9923304915428162,0.0023300977296788583,11
+Quercus,avg_svf,Sky-view factor,10,0.9972115159034729,0.018119344264656927,12
+Quercus,avg_radiation,Solar radiation,1,541.0805053710938,-0.002599426283268258,12
+Quercus,avg_radiation,Solar radiation,2,730.1190185546875,0.004066272130744023,11
+Quercus,avg_radiation,Solar radiation,3,816.5054931640625,-0.0009192286694694,12
+Quercus,avg_radiation,Solar radiation,4,872.2479858398438,0.006081226260655306,11
+Quercus,avg_radiation,Solar radiation,5,961.7114868164062,0.016772520233644173,12
+Quercus,avg_radiation,Solar radiation,6,996.4290161132812,0.019804878006900915,11
+Quercus,avg_radiation,Solar radiation,7,1032.3599853515625,0.01040462574350055,11
+Quercus,avg_radiation,Solar radiation,8,1064.375,-0.025766104847813647,12
+Quercus,avg_radiation,Solar radiation,9,1104.449951171875,-0.04635125398635864,11
+Quercus,avg_radiation,Solar radiation,10,1137.52001953125,-0.0711620394140482,12
+Quercus,avg_LST,Land-surface temperature,1,22.982089042663574,-0.02145903871860355,12
+Quercus,avg_LST,Land-surface temperature,2,23.863937377929688,0.00297657349570231,11
+Quercus,avg_LST,Land-surface temperature,3,24.44329261779785,0.01499246820042442,14
+Quercus,avg_LST,Land-surface temperature,4,25.006410598754883,0.030614516139030455,10
+Quercus,avg_LST,Land-surface temperature,5,25.484079360961914,0.017040134068917145,11
+Quercus,avg_LST,Land-surface temperature,6,25.856643676757812,0.01818147024393759,11
+Quercus,avg_LST,Land-surface temperature,7,26.427453994750977,0.009872914482416078,11
+Quercus,avg_LST,Land-surface temperature,8,26.723112106323242,0.013811966173913484,12
+Quercus,avg_LST,Land-surface temperature,9,27.389625549316406,0.020098244199867953,11
+Quercus,avg_LST,Land-surface temperature,10,29.12512493133545,0.007927649964888891,12
+Quercus,lightemiss,Night illumination,1,50.0,-0.02692846777129241,22
+Quercus,lightemiss,Night illumination,2,60.0,0.007576967902423348,32
+Quercus,lightemiss,Night illumination,3,70.0,0.011157448762484515,24
+Quercus,lightemiss,Night illumination,4,80.0,0.018058265258065042,17
+Quercus,lightemiss,Night illumination,5,100.0,-0.051891687978059056,10
+Quercus,lightemiss,Night illumination,6,120.0,-0.05900121376034804,10
+Quercus,type_Puisto,Park context,1,0.0,-0.01269505621546515,23
+Quercus,type_Puisto,Park context,2,1.0,0.013425641541328767,92
+Quercus,soil_infill,Soil: fill,1,0.0,-0.021788122844251728,48
+Quercus,soil_infill,Soil: fill,2,1.0,0.01685818137449852,67
+Quercus,soil_bedrock,Soil: bedrock,1,0.0,0.01590316164035003,59
+Quercus,soil_bedrock,Soil: bedrock,2,1.0,-0.011250928995390755,56
+Quercus,soil_moraine,Soil: moraine,1,0.0,0.0041477221615373264,109
+Quercus,soil_moraine,Soil: moraine,2,1.0,-0.06162462259332339,6
+Sorbus,avg_noise_day,Daytime noise,1,41.25,0.06778956681955606,32
+Sorbus,avg_noise_day,Daytime noise,2,47.5,0.040596852478172095,28
+Sorbus,avg_noise_day,Daytime noise,3,50.0,0.020255700291062776,13
+Sorbus,avg_noise_day,Daytime noise,4,52.5,0.0246445080598018,28
+Sorbus,avg_noise_day,Daytime noise,5,55.0,0.006947744256732139,11
+Sorbus,avg_noise_day,Daytime noise,6,57.5,-0.0014386293478310108,15
+Sorbus,avg_noise_day,Daytime noise,7,62.5,-0.07827799712472103,17
+Sorbus,avg_noise_day,Daytime noise,8,72.5,-0.18229974433779716,14
+Sorbus,Density25,Tree density (25 m),1,2.0,-0.08496027297395117,17
+Sorbus,Density25,Tree density (25 m),2,5.0,-0.10574057814665139,16
+Sorbus,Density25,Tree density (25 m),3,6.0,-0.07120368455847105,15
+Sorbus,Density25,Tree density (25 m),4,8.0,-0.06561048186073701,30
+Sorbus,Density25,Tree density (25 m),5,9.0,-0.039717293033997216,3
+Sorbus,Density25,Tree density (25 m),6,10.0,-0.05574967048596591,16
+Sorbus,Density25,Tree density (25 m),7,13.0,-0.024580267507449856,14
+Sorbus,Density25,Tree density (25 m),8,16.0,0.05032626171841433,19
+Sorbus,Density25,Tree density (25 m),9,25.0,0.11776831671595574,15
+Sorbus,Density25,Tree density (25 m),10,36.0,0.16230513384708992,13
+Sorbus,Mono_Rate,Monoculture rate,1,0.0,0.012499952601501718,16
+Sorbus,Mono_Rate,Monoculture rate,2,0.05887445993721485,0.00523403994156979,16
+Sorbus,Mono_Rate,Monoculture rate,3,0.1547619104385376,0.03330366182490252,16
+Sorbus,Mono_Rate,Monoculture rate,4,0.3076923191547394,0.002504199743270874,17
+Sorbus,Mono_Rate,Monoculture rate,5,0.5192307829856873,0.012873713692118014,14
+Sorbus,Mono_Rate,Monoculture rate,6,1.0,-0.028039189693635874,79
+Sorbus,avg_svf,Sky-view factor,1,0.5724437534809113,0.04664632918138523,16
+Sorbus,avg_svf,Sky-view factor,2,0.6931585073471069,0.023925754652522942,17
+Sorbus,avg_svf,Sky-view factor,3,0.7353144884109497,0.01939656352624297,15
+Sorbus,avg_svf,Sky-view factor,4,0.7828224897384644,0.019431160110980273,15
+Sorbus,avg_svf,Sky-view factor,5,0.8282184898853302,0.024093302912660874,16
+Sorbus,avg_svf,Sky-view factor,6,0.8638407588005066,0.01260069533236674,16
+Sorbus,avg_svf,Sky-view factor,7,0.8988400101661682,0.01763663093249003,15
+Sorbus,avg_svf,Sky-view factor,8,0.9459270238876343,0.0008562776492908597,16
+Sorbus,avg_svf,Sky-view factor,9,0.9723857641220093,-0.0068402493379835505,16
+Sorbus,avg_svf,Sky-view factor,10,0.9895417392253876,0.06264090293552727,16
+Sorbus,avg_radiation,Solar radiation,1,394.7434997558594,0.06940650835167617,16
+Sorbus,avg_radiation,Solar radiation,2,530.5770263671875,0.06925368052907288,16
+Sorbus,avg_radiation,Solar radiation,3,638.3610229492188,0.052874603774398565,16
+Sorbus,avg_radiation,Solar radiation,4,718.0759887695312,0.04804804641753435,15
+Sorbus,avg_radiation,Solar radiation,5,775.8294982910156,0.014822224638919579,16
+Sorbus,avg_radiation,Solar radiation,6,817.9839782714844,-0.00014844352335785516,16
+Sorbus,avg_radiation,Solar radiation,7,886.530029296875,-0.008773322058065485,15
+Sorbus,avg_radiation,Solar radiation,8,987.1300048828125,0.0022953834268264472,16
+Sorbus,avg_radiation,Solar radiation,9,1044.0900268554688,-0.027735253679566085,16
+Sorbus,avg_radiation,Solar radiation,10,1114.2049560546875,-0.04276324075181037,16
+Sorbus,avg_LST,Land-surface temperature,1,20.7945556640625,-0.07872109347954392,16
+Sorbus,avg_LST,Land-surface temperature,2,23.550334930419922,-0.011489125314255944,16
+Sorbus,avg_LST,Land-surface temperature,3,24.407402992248535,0.011264612709055655,16
+Sorbus,avg_LST,Land-surface temperature,4,24.949159622192383,0.027329998525480428,15
+Sorbus,avg_LST,Land-surface temperature,5,25.932695388793945,0.0047783116848828895,18
+Sorbus,avg_LST,Land-surface temperature,6,26.25484275817871,0.024393363955563734,14
+Sorbus,avg_LST,Land-surface temperature,7,26.465051651000977,0.023527283931616693,15
+Sorbus,avg_LST,Land-surface temperature,8,27.201635360717773,0.02797149065608049,17
+Sorbus,avg_LST,Land-surface temperature,9,27.755353927612305,0.029905417220046124,15
+Sorbus,avg_LST,Land-surface temperature,10,28.878173828125,-0.04001885417528683,16
+Sorbus,lightemiss,Night illumination,1,50.0,-0.0005556642050471376,17
+Sorbus,lightemiss,Night illumination,2,60.0,-0.016342524767322984,36
+Sorbus,lightemiss,Night illumination,3,70.0,0.002554272723096397,36
+Sorbus,lightemiss,Night illumination,4,80.0,0.01623086434076814,17
+Sorbus,lightemiss,Night illumination,5,90.0,-0.014621836804401349,17
+Sorbus,lightemiss,Night illumination,6,100.0,-0.009167041280306876,8
+Sorbus,lightemiss,Night illumination,7,110.0,-0.03097802240933691,14
+Sorbus,lightemiss,Night illumination,8,170.0,0.03337518046968258,13
+Sorbus,type_Puisto,Park context,1,0.0,0.0027815185462576196,66
+Sorbus,type_Puisto,Park context,2,1.0,0.0055246240459066185,92
+Sorbus,soil_infill,Soil: fill,1,0.0,-0.012526729240244816,63
+Sorbus,soil_infill,Soil: fill,2,1.0,0.0129903372867327,95
+Sorbus,soil_bedrock,Soil: bedrock,1,0.0,0.02101533432515004,78
+Sorbus,soil_bedrock,Soil: bedrock,2,1.0,-0.025631421932484955,80
+Sorbus,soil_moraine,Soil: moraine,1,0.0,0.002705641259578237,155
+Sorbus,soil_moraine,Soil: moraine,2,1.0,-0.03535391762852669,3
+Tilia,avg_noise_day,Daytime noise,1,35.0,0.05770646518265659,187
+Tilia,avg_noise_day,Daytime noise,2,47.5,0.020155197933938305,187
+Tilia,avg_noise_day,Daytime noise,3,52.5,0.018339122626930476,125
+Tilia,avg_noise_day,Daytime noise,4,57.5,-0.0055604415079194705,194
+Tilia,avg_noise_day,Daytime noise,5,62.5,-0.02550931800085899,231
+Tilia,avg_noise_day,Daytime noise,6,67.5,-0.07798000753836759,319
+Tilia,avg_noise_day,Daytime noise,7,72.5,-0.10297354515617925,291
+Tilia,avg_noise_day,Daytime noise,8,76.25,-0.13178923974434534,6
+Tilia,Density25,Tree density (25 m),1,3.0,-0.1075896073223614,205
+Tilia,Density25,Tree density (25 m),2,5.0,-0.057462993654859275,113
+Tilia,Density25,Tree density (25 m),3,7.0,-0.06378701310190052,247
+Tilia,Density25,Tree density (25 m),4,8.0,-0.06574641134163055,144
+Tilia,Density25,Tree density (25 m),5,9.0,-0.06008035448138361,108
+Tilia,Density25,Tree density (25 m),6,10.0,-0.06527161001372085,142
+Tilia,Density25,Tree density (25 m),7,11.0,-0.04360741481266509,197
+Tilia,Density25,Tree density (25 m),8,14.0,-0.007680833135435188,110
+Tilia,Density25,Tree density (25 m),9,17.0,0.03573933633216382,123
+Tilia,Density25,Tree density (25 m),10,25.0,0.09398853852022716,151
+Tilia,Mono_Rate,Monoculture rate,1,0.2666666805744171,0.024993119299694794,167
+Tilia,Mono_Rate,Monoculture rate,2,0.5,0.022917276518176852,150
+Tilia,Mono_Rate,Monoculture rate,3,0.699999988079071,-0.00325827159776216,146
+Tilia,Mono_Rate,Monoculture rate,4,0.8333333134651184,-0.01569336582759123,153
+Tilia,Mono_Rate,Monoculture rate,5,1.0,-0.04508830480508983,924
+Tilia,avg_svf,Sky-view factor,1,0.6750819981098175,0.07566250093559457,154
+Tilia,avg_svf,Sky-view factor,2,0.7711054980754852,0.060354741314401876,154
+Tilia,avg_svf,Sky-view factor,3,0.8484687507152557,0.037908152476037765,154
+Tilia,avg_svf,Sky-view factor,4,0.8996902406215668,0.05402630084956234,154
+Tilia,avg_svf,Sky-view factor,5,0.938501238822937,0.037502399214479905,154
+Tilia,avg_svf,Sky-view factor,6,0.9579635262489319,-0.01064982701303257,155
+Tilia,avg_svf,Sky-view factor,7,0.9747300148010254,-0.024499516553714188,153
+Tilia,avg_svf,Sky-view factor,8,0.9860560297966003,-0.04532423157183576,167
+Tilia,avg_svf,Sky-view factor,9,0.9937250018119812,-0.03461435585528784,141
+Tilia,avg_svf,Sky-view factor,10,1.0,-0.02694599333033268,154
+Tilia,avg_radiation,Solar radiation,1,490.04600524902344,0.08378877556072427,154
+Tilia,avg_radiation,Solar radiation,2,694.4635009765625,0.09398386693807537,154
+Tilia,avg_radiation,Solar radiation,3,799.1524963378906,0.043827143199923264,154
+Tilia,avg_radiation,Solar radiation,4,868.9989929199219,0.014688929089699102,154
+Tilia,avg_radiation,Solar radiation,5,933.3504943847656,-0.005830428275091093,154
+Tilia,avg_radiation,Solar radiation,6,986.7030029296875,-0.0009093715108336893,154
+Tilia,avg_radiation,Solar radiation,7,1028.0599975585938,-0.029460615289753588,154
+Tilia,avg_radiation,Solar radiation,8,1069.1549682617188,-0.05789483806334569,154
+Tilia,avg_radiation,Solar radiation,9,1107.3150024414062,-0.0608229054827485,154
+Tilia,avg_radiation,Solar radiation,10,1152.3299560546875,-0.08568157702941423,154
+Tilia,avg_LST,Land-surface temperature,1,21.948137283325195,-0.05593274343779988,154
+Tilia,avg_LST,Land-surface temperature,2,23.767379760742188,0.008270152955387916,154
+Tilia,avg_LST,Land-surface temperature,3,24.704771041870117,0.024739538979596427,155
+Tilia,avg_LST,Land-surface temperature,4,25.559276580810547,0.027289221174725837,153
+Tilia,avg_LST,Land-surface temperature,5,26.24287986755371,0.020394621531102948,156
+Tilia,avg_LST,Land-surface temperature,6,26.854705810546875,0.013746313432694163,153
+Tilia,avg_LST,Land-surface temperature,7,27.50754737854004,0.010731829608970832,155
+Tilia,avg_LST,Land-surface temperature,8,28.081775665283203,-0.008328224699747712,154
+Tilia,avg_LST,Land-surface temperature,9,29.002931594848633,-0.013811781918201106,152
+Tilia,avg_LST,Land-surface temperature,10,30.433372497558594,-0.059247134307810624,154
+Tilia,lightemiss,Night illumination,1,50.0,-0.007159887082993269,175
+Tilia,lightemiss,Night illumination,2,70.0,0.0024261506309433876,288
+Tilia,lightemiss,Night illumination,3,80.0,0.014934762967373793,408
+Tilia,lightemiss,Night illumination,4,90.0,-0.017574004945619788,212
+Tilia,lightemiss,Night illumination,5,100.0,0.010978316747896504,193
+Tilia,lightemiss,Night illumination,6,110.0,-0.009572413203665826,127
+Tilia,lightemiss,Night illumination,7,160.0,-0.04221174319823447,137
+Tilia,type_Puisto,Park context,1,0.0,-0.011215842561321484,1042
+Tilia,type_Puisto,Park context,2,1.0,0.02240655315760219,498
+Tilia,soil_infill,Soil: fill,1,0.0,-0.015127179473330914,351
+Tilia,soil_infill,Soil: fill,2,1.0,0.01457615616364537,1189
+Tilia,soil_bedrock,Soil: bedrock,1,0.0,0.035682592393943655,806
+Tilia,soil_bedrock,Soil: bedrock,2,1.0,-0.032861650279534055,734
+Tilia,soil_moraine,Soil: moraine,1,0.0,0.004172212274344795,1522
+Tilia,soil_moraine,Soil: moraine,2,1.0,-0.0532044248862399,18
+Ulmus,avg_noise_day,Daytime noise,1,35.0,0.03339947757574365,138
+Ulmus,avg_noise_day,Daytime noise,2,47.5,0.020044814872405902,87
+Ulmus,avg_noise_day,Daytime noise,3,50.0,0.003024385653487924,36
+Ulmus,avg_noise_day,Daytime noise,4,52.5,0.017571676417491307,51
+Ulmus,avg_noise_day,Daytime noise,5,57.5,-0.006808299073837793,98
+Ulmus,avg_noise_day,Daytime noise,6,62.5,-0.01782942508028403,48
+Ulmus,avg_noise_day,Daytime noise,7,67.5,-0.053489635015527406,45
+Ulmus,Density25,Tree density (25 m),1,4.0,-0.11323414037102147,57
+Ulmus,Density25,Tree density (25 m),2,6.0,-0.07381235421716906,57
+Ulmus,Density25,Tree density (25 m),3,7.0,-0.0706962858599101,53
+Ulmus,Density25,Tree density (25 m),4,10.0,-0.0611449254960832,59
+Ulmus,Density25,Tree density (25 m),5,11.0,-0.04544457733969797,44
+Ulmus,Density25,Tree density (25 m),6,12.0,-0.032897483493963424,44
+Ulmus,Density25,Tree density (25 m),7,14.0,0.004187827913720748,46
+Ulmus,Density25,Tree density (25 m),8,17.0,0.03386856704282592,53
+Ulmus,Density25,Tree density (25 m),9,22.0,0.060557182159340174,57
+Ulmus,Density25,Tree density (25 m),10,27.0,0.0900913260199807,33
+Ulmus,Mono_Rate,Monoculture rate,1,0.0,0.011150294330568527,53
+Ulmus,Mono_Rate,Monoculture rate,2,0.1666666716337204,0.016709499550736782,51
+Ulmus,Mono_Rate,Monoculture rate,3,0.27272728085517883,0.005175815330483346,57
+Ulmus,Mono_Rate,Monoculture rate,4,0.4285714328289032,0.02888995212269947,40
+Ulmus,Mono_Rate,Monoculture rate,5,0.5,0.01599174801616327,51
+Ulmus,Mono_Rate,Monoculture rate,6,0.6428571343421936,0.0060461748321438535,57
+Ulmus,Mono_Rate,Monoculture rate,7,0.800000011920929,-0.009434669868069444,47
+Ulmus,Mono_Rate,Monoculture rate,8,1.0,-0.04656359713309172,147
+Ulmus,avg_svf,Sky-view factor,1,0.8003544807434082,0.037404204068212384,51
+Ulmus,avg_svf,Sky-view factor,2,0.8733059763908386,0.004992891206711647,50
+Ulmus,avg_svf,Sky-view factor,3,0.9218060076236725,0.02309354700613767,50
+Ulmus,avg_svf,Sky-view factor,4,0.9482572674751282,0.002850081067008432,50
+Ulmus,avg_svf,Sky-view factor,5,0.9603859782218933,-0.01648002642882513,51
+Ulmus,avg_svf,Sky-view factor,6,0.9717157483100891,-0.009065793892368675,50
+Ulmus,avg_svf,Sky-view factor,7,0.9797809720039368,-0.016492897692413227,53
+Ulmus,avg_svf,Sky-view factor,8,0.9860560297966003,-0.026859389578408385,47
+Ulmus,avg_svf,Sky-view factor,9,0.9951195120811462,0.0064532501475276565,52
+Ulmus,avg_svf,Sky-view factor,10,1.0,0.015395089964785053,49
+Ulmus,avg_radiation,Solar radiation,1,619.89599609375,0.04943144530532699,51
+Ulmus,avg_radiation,Solar radiation,2,787.8330078125,0.04549784975126386,50
+Ulmus,avg_radiation,Solar radiation,3,872.8869934082031,0.02044844377436675,50
+Ulmus,avg_radiation,Solar radiation,4,940.5789794921875,-0.00017302928841672838,50
+Ulmus,avg_radiation,Solar radiation,5,985.239990234375,0.011327556844608969,51
+Ulmus,avg_radiation,Solar radiation,6,1025.6849975585938,-0.0095598668808816,50
+Ulmus,avg_radiation,Solar radiation,7,1060.3350219726562,-0.03287811620393768,50
+Ulmus,avg_radiation,Solar radiation,8,1090.5900268554688,-0.053537572347559036,50
+Ulmus,avg_radiation,Solar radiation,9,1120.6300048828125,-0.06384666297584772,50
+Ulmus,avg_radiation,Solar radiation,10,1174.25,-0.07838486921151772,51
+Ulmus,avg_LST,Land-surface temperature,1,22.031879425048828,-0.057868811215146206,51
+Ulmus,avg_LST,Land-surface temperature,2,23.39481544494629,-0.0014308086290839128,50
+Ulmus,avg_LST,Land-surface temperature,3,24.46209144592285,0.012756624437170103,50
+Ulmus,avg_LST,Land-surface temperature,4,25.29267120361328,0.025069454762463767,51
+Ulmus,avg_LST,Land-surface temperature,5,25.883987426757812,0.020686673546009057,51
+Ulmus,avg_LST,Land-surface temperature,6,26.389854431152344,0.027705655755161554,49
+Ulmus,avg_LST,Land-surface temperature,7,26.958101272583008,0.019038448764476926,50
+Ulmus,avg_LST,Land-surface temperature,8,27.583599090576172,0.019678202574141324,50
+Ulmus,avg_LST,Land-surface temperature,9,29.003786087036133,-0.028291398510336876,50
+Ulmus,avg_LST,Land-surface temperature,10,30.125751495361328,-0.044858651437714475,51
+Ulmus,lightemiss,Night illumination,1,60.0,-0.021109663668218728,102
+Ulmus,lightemiss,Night illumination,2,70.0,0.009073184001645643,71
+Ulmus,lightemiss,Night illumination,3,80.0,0.016268697863794927,117
+Ulmus,lightemiss,Night illumination,4,90.0,-0.031138466595186164,92
+Ulmus,lightemiss,Night illumination,5,110.0,0.02474593310569394,49
+Ulmus,lightemiss,Night illumination,6,120.0,-0.012035930921722735,35
+Ulmus,lightemiss,Night illumination,7,150.0,-0.027652033968086076,37
+Ulmus,type_Puisto,Park context,1,0.0,-0.002712113232607202,155
+Ulmus,type_Puisto,Park context,2,1.0,0.008132533507381303,348
+Ulmus,soil_infill,Soil: fill,1,0.0,-0.019858923919573186,116
+Ulmus,soil_infill,Soil: fill,2,1.0,0.01874310718921497,387
+Ulmus,soil_bedrock,Soil: bedrock,1,0.0,0.03574256939160179,268
+Ulmus,soil_bedrock,Soil: bedrock,2,1.0,-0.03301497471340476,235
+Ulmus,soil_moraine,Soil: moraine,1,0.0,0.004735343205386321,501
+Ulmus,soil_moraine,Soil: moraine,2,1.0,-0.044236503541469574,2
