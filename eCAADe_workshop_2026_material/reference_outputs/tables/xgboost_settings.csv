@@ -1,0 +1,15 @@
+setting,value,why_it_is_used
+objective,reg:squarederror,Squared-error regression on log-SGR.
+tree_method,hist,Histogram trees provide efficient CPU training.
+selection n_estimators cap,1500,Maximum trees during validation-stage early stopping.
+early_stopping_rounds,60,Stop when validation RMSE has not improved for this many rounds.
+learning_rate,0.03,Small contribution from each tree; paired with many possible rounds.
+max_depth,4,Limits interaction complexity and overfitting in each tree.
+min_child_weight,8,Requires support before creating a small terminal region.
+subsample,0.8,"Each tree sees 80% of development rows, reducing variance."
+colsample_bytree,0.85,Each tree sees 85% of engineered predictors.
+gamma,0.02,Minimum loss reduction required for an additional split.
+reg_alpha,0.3,L1 regularization on leaf weights.
+reg_lambda,10.0,L2 regularization on leaf weights.
+random_state,2026,Makes row/feature sampling reproducible.
+n_jobs,-1,Use all available CPU threads.

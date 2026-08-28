@@ -9,9 +9,9 @@ This exercise turns multi-temporal urban-tree observations into one **pooled** X
 The lesson has five stages:
 
 1. Environment setting and data preparation.
-2. Leakage-safe data processing.
-3. Model training, validation, refitting, and locked testing.
-4. SHAP explanation: beeswarm, dependence, waterfall, and spatial SHAP.
+2. Leakage-safe data processing and training-only VIF diagnosis.
+3. Model training with visible parameter settings, validation, refitting, and locked testing.
+4. Environment-only SHAP explanation: beeswarm, dependence, waterfall, and spatial SHAP.
 5. ONNX model export with a reproducible example test set.
 
 ## Files
@@ -22,7 +22,7 @@ The lesson has five stages:
 | `urban_tree_ml_workshop_2026.py` | The same workflow as a reusable Python module and command-line script. |
 | `data/tree_carbon_ml_teaching_sample.csv` | Cleaned tree-level teaching sample used by the exercise. |
 | `requirements-colab.txt` | Python dependencies. |
-| `reference_outputs/` | Verified model, ONNX examples, metrics, and four reference SHAP figures. |
+| `reference_outputs/` | Verified model, VIF/settings tables, ONNX examples, metrics, and four environment-only SHAP figures. |
 
 ## Scientific target
 
@@ -57,14 +57,18 @@ The predictors are:
 
 The sample does not contain the soil layers used in the full research dataset, so soil predictors are intentionally absent from this teaching exercise.
 
+### VIF diagnostic
+
+Variance inflation factors are calculated from continuous training predictors only. Categorical one-hot variables are excluded to avoid exact dummy-variable dependence. VIF diagnoses linear collinearity; it does not measure nonlinear redundancy and is not used as an automatic XGBoost feature-removal rule. In the verified run, all numeric VIF values were below 2.5, with sky-view factor highest at 2.484.
+
 ## Run in Google Colab
 
 1. Click the Colab badge above.
 2. Choose **Runtime → Run all**.
 3. The setup cell installs only the workshop dependencies and clones this repository if needed.
-4. The final cell creates `/content/ecaaDe_2026_outputs` and a downloadable ZIP archive.
+4. The final cell creates `/content/eCAADe_2026_outputs` and a downloadable ZIP archive.
 
-The notebook calls the functions step by step, so participants can inspect the prepared data, validation decision, locked test, SHAP plots, and ONNX parity test separately.
+Every executable cell has a preceding explanation of its purpose, expected output, and interpretation. The notebook calls the functions step by step, so participants can inspect VIF, model settings, the validation decision, locked test, each SHAP view, and ONNX parity separately.
 
 ## Run as a Python script
 
@@ -104,11 +108,15 @@ The committed reference artifacts were generated with random seed 2026 and 543 v
 
 The percentage-point test RMSE is larger than its MAE because back-transformation magnifies a small number of high-growth observations. The log-SGR metrics remain the primary model-scale comparison.
 
-## Reading the SHAP outputs
+### XGBoost settings shown in the lesson
 
-- **Beeswarm:** summarizes the distribution, direction, and magnitude of feature contributions across the pooled test sample.
-- **Dependence:** x is the observed value of an environmental predictor, y is its SHAP contribution to log-SGR, and colour denotes its strongest approximate interaction feature.
-- **Waterfall:** decomposes one representative prediction from the model's expected value to its final log-SGR prediction.
+The notebook displays the executed settings before fitting: learning rate 0.03, maximum depth 4, minimum child weight 8, row subsample 0.80, column subsample 0.85, gamma 0.02, L1 regularization 0.30, L2 regularization 10.0, a 1,500-tree selection cap, and 60-round validation early stopping. The verified run selected 543 trees before the 85% refit.
+
+## Reading the environment-only SHAP outputs
+
+- **Beeswarm:** summarizes only the seven environmental contribution distributions across the pooled test sample. Height, species, period, and site type are omitted from display.
+- **Dependence:** x is the observed value of an environmental predictor, y is its SHAP contribution to log-SGR, and colour denotes its strongest approximate environmental interaction. Non-environment variables cannot appear on the colour bars.
+- **Waterfall:** starts from a contextual value that already contains height, species, period, and site-type SHAP contributions; the visible bars show only how the environmental block moves that value to the complete prediction.
 - **Spatial SHAP:** maps the local contribution of the highest-ranked environmental predictor at sampled test-tree coordinates. It is not an interpolated surface, a causal effect map, or a direct map of measured carbon gain.
 
 Positive SHAP values raise the fitted prediction relative to the model baseline; negative values lower it. SHAP describes fitted associations and interactions, not causal environmental effects.
@@ -144,10 +152,11 @@ In the verified run, maximum absolute ONNX differences were 4.77×10⁻⁶ log-S
 
 1. Why is the split assigned before converting trees into period rows?
 2. What information can the validation set influence, and what must remain locked?
-3. Compare the SHAP beeswarm with the three dependence panels. Can a globally important predictor still have a nonlinear local association?
-4. In the waterfall, which features move the representative prediction above or below the expected value?
-5. Why must a spatial SHAP map be labelled as model contribution rather than environmental effect?
-6. Change one engineered value in the ONNX example and predict again. Does the change agree with the dependence plot locally?
+3. Which numeric predictor has the largest VIF, and does it exceed a conventional review threshold?
+4. Compare the environmental beeswarm with the three dependence panels. Can a globally important predictor still have a nonlinear local association?
+5. In the environmental waterfall, does the environmental block move the representative prediction above or below its contextual starting value?
+6. Why must a spatial SHAP map be labelled as model contribution rather than environmental effect?
+7. Change one engineered value in the ONNX example and predict again. Does the change agree with the dependence plot locally?
 
 ## Reproducibility and interpretation boundaries
 
@@ -156,4 +165,3 @@ In the verified run, maximum absolute ONNX differences were 4.77×10⁻⁶ log-S
 - The pooled model retains period indicators for retrospective learning. A future-scenario or planning deployment model should remove period or fix every prediction to one common reference period.
 - Test performance applies to this filtered teaching sample and target definition.
 - Do not interpret full model R² as the percentage impact of the environment.
-

@@ -17,6 +17,7 @@ Target: log annualized specific carbon growth (`log-SGR`)
 
 ## Model checkpoint
 
+- Exposed settings: learning rate 0.03, maximum depth 4, row subsample 0.80, column subsample 0.85, L1 0.30, L2 10.0, and 60-round early stopping.
 - Validation-selected boosting rounds: 543.
 - Validation R²: 0.4268.
 - Locked-test R²: 0.4309.
@@ -24,9 +25,13 @@ Target: log annualized specific carbon growth (`log-SGR`)
 - Locked-test MAE: 4.4104 annual percentage points.
 - Locked-test MAE: 4.9637 kg C tree⁻¹ yr⁻¹.
 
+## VIF checkpoint
+
+Training-only continuous-predictor VIF values ranged from 1.122 to 2.484. Sky-view factor was highest (2.484), followed by solar radiation (2.090). No numeric predictor reached the conventional VIF = 5 review threshold. Categorical one-hot predictors were excluded from this linear diagnostic.
+
 ## SHAP checkpoint
 
-The four figures were generated from a reproducible sample of 1,200 locked-test observations. The leading environmental predictors by mean absolute SHAP were surrounding-tree density, solar radiation, and monoculture rate. These are fitted model associations, not causal effects.
+The four environment-only figures were generated from a reproducible sample of 1,200 locked-test observations. The leading environmental predictors by mean absolute SHAP were surrounding-tree density, solar radiation, and monoculture rate. Dependence-plot colour variables are restricted to environmental interactions. The waterfall absorbs height, species, period, and site-type SHAP contributions into its contextual starting value, so only environmental bars are displayed. These are fitted model associations, not causal effects.
 
 ## ONNX checkpoint
 

@@ -1,0 +1,9 @@
+feature,predictor_block,auxiliary_R2,tolerance,VIF,teaching_interpretation
+Sky-view factor,environment,0.5974445006413969,0.40255549935860313,2.484129521502781,low linear collinearity
+Solar radiation,environment,0.521501578980794,0.47849842101920603,2.0898710551018973,low linear collinearity
+Log height,biological,0.3588680892120307,0.6411319107879693,1.5597414247732135,low linear collinearity
+Night illumination,environment,0.21620789243263683,0.7837921075673632,1.2758485194545734,low linear collinearity
+Land-surface temperature,environment,0.17172431627858897,0.828275683721411,1.2073274872769875,low linear collinearity
+Tree density (25 m),environment,0.1711550226635834,0.8288449773364166,1.2064982322914095,low linear collinearity
+Daytime noise,environment,0.13522086178577275,0.8647791382142272,1.15636462052612,low linear collinearity
+Monoculture rate,environment,0.10856558116764592,0.8914344188323541,1.1217875133314357,low linear collinearity

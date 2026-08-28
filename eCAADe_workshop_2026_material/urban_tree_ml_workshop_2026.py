@@ -43,6 +43,7 @@ import xgboost as xgb
 from matplotlib.colors import TwoSlopeNorm
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -74,6 +75,9 @@ ENVIRONMENTAL_FEATURES = [
     "avg_LST",
     "lightemiss",
 ]
+
+SELECTION_ESTIMATOR_CAP = 1500
+EARLY_STOPPING_ROUNDS = 60
 
 PERIODS = {
     "2015-2017": {
@@ -350,6 +354,56 @@ def prepare_data(config: WorkflowConfig) -> dict[str, Any]:
     }
 
 
+def run_vif_analysis(
+    prepared: dict[str, Any],
+) -> dict[str, pd.DataFrame]:
+    """Calculate VIF for continuous model inputs using training rows only.
+
+    Categorical one-hot columns are intentionally excluded because retaining every
+    category creates exact dummy-variable dependence. VIF is a linear diagnostic;
+    it does not measure nonlinear redundancy and is not an automatic XGBoost
+    feature-selection rule.
+    """
+    training = prepared["long"].loc[
+        prepared["long"]["Split"] == "train", NUMERIC_FEATURES
+    ].copy()
+    training = training.replace([np.inf, -np.inf], np.nan)
+    training = training.fillna(training.median(numeric_only=True)).astype(float)
+
+    rows: list[dict[str, Any]] = []
+    for feature in NUMERIC_FEATURES:
+        other_features = [name for name in NUMERIC_FEATURES if name != feature]
+        model = LinearRegression().fit(training[other_features], training[feature])
+        auxiliary_r2 = float(model.score(training[other_features], training[feature]))
+        tolerance = 1.0 - auxiliary_r2
+        vif = float("inf") if tolerance <= 1e-12 else 1.0 / tolerance
+        if vif < 5:
+            interpretation = "low linear collinearity"
+        elif vif < 10:
+            interpretation = "reviewable linear collinearity"
+        else:
+            interpretation = "high linear collinearity"
+        rows.append(
+            {
+                "feature": readable_feature_name(feature),
+                "predictor_block": "biological" if feature == "Log_Height" else "environment",
+                "auxiliary_R2": auxiliary_r2,
+                "tolerance": tolerance,
+                "VIF": vif,
+                "teaching_interpretation": interpretation,
+            }
+        )
+
+    vif_table = pd.DataFrame(rows).sort_values("VIF", ascending=False).reset_index(drop=True)
+    correlation = training.rename(columns=readable_feature_name).corr(method="pearson")
+    paths = prepared["paths"]
+    vif_table.to_csv(paths["tables"] / "vif_numeric_training.csv", index=False)
+    correlation.to_csv(paths["tables"] / "numeric_training_correlation.csv")
+    print("Training-only VIF diagnostic")
+    print(vif_table.round(3).to_string(index=False))
+    return {"vif": vif_table, "correlation": correlation}
+
+
 def build_preprocessor() -> ColumnTransformer:
     numeric_pipe = Pipeline(
         steps=[("imputer", SimpleImputer(strategy="median"))]
@@ -469,6 +523,27 @@ def xgb_parameters(random_state: int, n_estimators: int) -> dict[str, Any]:
     }
 
 
+def xgb_parameter_table(random_state: int) -> pd.DataFrame:
+    """Return the exact XGBoost settings with short teaching explanations."""
+    rows = [
+        ("objective", "reg:squarederror", "Squared-error regression on log-SGR."),
+        ("tree_method", "hist", "Histogram trees provide efficient CPU training."),
+        ("selection n_estimators cap", SELECTION_ESTIMATOR_CAP, "Maximum trees during validation-stage early stopping."),
+        ("early_stopping_rounds", EARLY_STOPPING_ROUNDS, "Stop when validation RMSE has not improved for this many rounds."),
+        ("learning_rate", 0.03, "Small contribution from each tree; paired with many possible rounds."),
+        ("max_depth", 4, "Limits interaction complexity and overfitting in each tree."),
+        ("min_child_weight", 8, "Requires support before creating a small terminal region."),
+        ("subsample", 0.80, "Each tree sees 80% of development rows, reducing variance."),
+        ("colsample_bytree", 0.85, "Each tree sees 85% of engineered predictors."),
+        ("gamma", 0.02, "Minimum loss reduction required for an additional split."),
+        ("reg_alpha", 0.30, "L1 regularization on leaf weights."),
+        ("reg_lambda", 10.0, "L2 regularization on leaf weights."),
+        ("random_state", random_state, "Makes row/feature sampling reproducible."),
+        ("n_jobs", -1, "Use all available CPU threads."),
+    ]
+    return pd.DataFrame(rows, columns=["setting", "value", "why_it_is_used"])
+
+
 def train_validate_refit_test(
     prepared: dict[str, Any], config: WorkflowConfig
 ) -> dict[str, Any]:
@@ -476,6 +551,8 @@ def train_validate_refit_test(
     frame = prepared["long"]
     paths = prepared["paths"]
     split = {name: frame[frame["Split"] == name].copy() for name in ["train", "validation", "test"]}
+    settings = xgb_parameter_table(config.random_state)
+    settings.to_csv(paths["tables"] / "xgboost_settings.csv", index=False)
 
     selection_preprocessor = build_preprocessor()
     selection_preprocessor.fit(split["train"][RAW_MODEL_FEATURES])
@@ -485,8 +562,8 @@ def train_validate_refit_test(
     y_validation = split["validation"][TARGET].to_numpy(dtype=np.float32)
 
     selection_model = XGBRegressor(
-        **xgb_parameters(config.random_state, n_estimators=1500),
-        early_stopping_rounds=60,
+        **xgb_parameters(config.random_state, n_estimators=SELECTION_ESTIMATOR_CAP),
+        early_stopping_rounds=EARLY_STOPPING_ROUNDS,
     )
     selection_model.fit(
         x_train,
@@ -494,7 +571,9 @@ def train_validate_refit_test(
         eval_set=[(x_validation, y_validation)],
         verbose=False,
     )
-    best_iteration = int(getattr(selection_model, "best_iteration", 1499))
+    best_iteration = int(
+        getattr(selection_model, "best_iteration", SELECTION_ESTIMATOR_CAP - 1)
+    )
     selected_trees = best_iteration + 1
 
     validation_prediction = selection_model.predict(x_validation)
@@ -566,14 +645,15 @@ def train_validate_refit_test(
         "test_prediction": test_prediction,
         "metrics": metrics,
         "selected_trees": selected_trees,
+        "settings": settings,
         "paths": paths,
     }
 
 
-def explain_with_shap(
+def compute_environment_shap(
     trained: dict[str, Any], config: WorkflowConfig
 ) -> dict[str, Any]:
-    """Create pooled test-set beeswarm, dependence, waterfall, and spatial SHAP."""
+    """Calculate full-model SHAP, then retain only environmental columns."""
     paths = trained["paths"]
     x_test = trained["x_test"]
     test_raw = trained["split"]["test"]
@@ -588,73 +668,170 @@ def explain_with_shap(
     if shap_values.ndim == 3:
         shap_values = shap_values[:, :, 0]
     expected_value = float(np.asarray(explainer.expected_value).reshape(-1)[0])
-    explanation = shap.Explanation(
-        values=shap_values,
+    environmental_columns = [
+        readable_feature_name(name) for name in ENVIRONMENTAL_FEATURES
+    ]
+    environmental_indices = [
+        x_sample.columns.get_loc(name) for name in environmental_columns
+    ]
+    environmental_x = x_sample[environmental_columns].copy()
+    environmental_values = shap_values[:, environmental_indices]
+    environmental_explanation = shap.Explanation(
+        values=environmental_values,
         base_values=np.full(sample_n, expected_value),
-        data=x_sample.to_numpy(),
-        feature_names=list(x_sample.columns),
+        data=environmental_x.to_numpy(),
+        feature_names=environmental_columns,
     )
 
-    plt.figure(figsize=(10, 7))
-    shap.plots.beeswarm(explanation, max_display=15, show=False)
-    plt.title("Pooled XGBoost SHAP beeswarm · locked test sample")
+    summary_rows: list[dict[str, float | str]] = []
+    for column_index, feature in enumerate(environmental_columns):
+        contribution = environmental_values[:, column_index]
+        observed = environmental_x[feature]
+        low_cut = float(observed.quantile(0.20))
+        high_cut = float(observed.quantile(0.80))
+        high_minus_low = float(
+            contribution[observed >= high_cut].mean()
+            - contribution[observed <= low_cut].mean()
+        )
+        summary_rows.append(
+            {
+                "feature": feature,
+                "minimum_SHAP": float(np.min(contribution)),
+                "maximum_SHAP": float(np.max(contribution)),
+                "full_SHAP_range": float(np.ptp(contribution)),
+                "P05_SHAP": float(np.quantile(contribution, 0.05)),
+                "P95_SHAP": float(np.quantile(contribution, 0.95)),
+                "robust_P05_P95_range": float(
+                    np.quantile(contribution, 0.95) - np.quantile(contribution, 0.05)
+                ),
+                "mean_absolute_SHAP": float(np.abs(contribution).mean()),
+                "high_minus_low_SHAP": high_minus_low,
+                "feature_SHAP_Spearman": float(
+                    pd.Series(observed.to_numpy()).corr(
+                        pd.Series(contribution), method="spearman"
+                    )
+                ),
+            }
+        )
+    summary = pd.DataFrame(summary_rows).sort_values(
+        "mean_absolute_SHAP", ascending=False
+    )
+    summary.to_csv(paths["tables"] / "environment_shap_summary.csv", index=False)
+    return {
+        "x_sample": x_sample,
+        "raw_sample": raw_sample,
+        "full_shap_values": shap_values,
+        "expected_value": expected_value,
+        "environment_columns": environmental_columns,
+        "environment_indices": environmental_indices,
+        "environment_x": environmental_x,
+        "environment_shap_values": environmental_values,
+        "environment_explanation": environmental_explanation,
+        "summary": summary,
+        "trained": trained,
+        "paths": paths,
+    }
+
+
+def plot_environment_beeswarm(shap_bundle: dict[str, Any]) -> Path:
+    """Plot only environmental contributions across the pooled test sample."""
+    plt.figure(figsize=(10, 6.5))
+    shap.plots.beeswarm(
+        shap_bundle["environment_explanation"],
+        max_display=len(shap_bundle["environment_columns"]),
+        show=False,
+    )
+    plt.title("Environmental SHAP beeswarm · pooled locked-test sample")
     plt.tight_layout()
-    beeswarm_path = paths["figures"] / "shap_beeswarm_pooled.png"
+    beeswarm_path = shap_bundle["paths"]["figures"] / "shap_beeswarm_environment_only.png"
     plt.savefig(beeswarm_path, dpi=220, bbox_inches="tight")
     plt.close()
+    return beeswarm_path
 
-    mean_abs = np.abs(shap_values).mean(axis=0)
-    summary = pd.DataFrame(
-        {"feature": x_sample.columns, "mean_absolute_SHAP": mean_abs}
-    ).sort_values("mean_absolute_SHAP", ascending=False)
-    summary.to_csv(paths["tables"] / "shap_mean_absolute_summary.csv", index=False)
 
-    environmental_columns = [
-        name for name in x_sample.columns if name in {readable_feature_name(x) for x in ENVIRONMENTAL_FEATURES}
-    ]
+def plot_environment_dependence(shap_bundle: dict[str, Any]) -> Path:
+    """Plot the three leading environmental dependencies with environmental colours."""
+    summary = shap_bundle["summary"]
     top_environment = (
-        summary[summary["feature"].isin(environmental_columns)]
-        .head(3)["feature"]
-        .tolist()
+        summary.head(3)["feature"].tolist()
     )
     fig, axes = plt.subplots(1, len(top_environment), figsize=(6 * len(top_environment), 5))
     axes = np.atleast_1d(axes)
     for axis, feature in zip(axes, top_environment):
-        feature_index = x_sample.columns.get_loc(feature)
-        interaction_ranking = shap.approximate_interactions(feature_index, shap_values, x_sample)
+        feature_index = shap_bundle["environment_x"].columns.get_loc(feature)
+        interaction_ranking = shap.approximate_interactions(
+            feature_index,
+            shap_bundle["environment_shap_values"],
+            shap_bundle["environment_x"],
+        )
         interaction_index = next(
             (int(index) for index in interaction_ranking if int(index) != feature_index),
             feature_index,
         )
         shap.dependence_plot(
             feature_index,
-            shap_values,
-            x_sample,
+            shap_bundle["environment_shap_values"],
+            shap_bundle["environment_x"],
             interaction_index=interaction_index,
             ax=axis,
             show=False,
         )
         axis.set_title(feature)
         axis.axhline(0, color="0.45", linestyle="--", linewidth=0.9)
-    fig.suptitle("SHAP dependence · strongest approximate interactions", fontsize=15)
+    fig.suptitle(
+        "Environmental SHAP dependence · environmental interactions only",
+        fontsize=15,
+    )
     fig.tight_layout()
-    dependence_path = paths["figures"] / "shap_dependence_top3_environment.png"
+    dependence_path = shap_bundle["paths"]["figures"] / "shap_dependence_environment_only.png"
     fig.savefig(dependence_path, dpi=220, bbox_inches="tight")
     plt.close(fig)
+    return dependence_path
 
-    sample_predictions = trained["model"].predict(x_sample)
+
+def plot_environment_waterfall(shap_bundle: dict[str, Any]) -> Path:
+    """Decompose environmental shifts around a non-environment contextual baseline."""
+    trained = shap_bundle["trained"]
+    sample_predictions = trained["model"].predict(shap_bundle["x_sample"])
     representative = int(np.argmin(np.abs(sample_predictions - np.median(sample_predictions))))
+    environmental_sum = float(
+        shap_bundle["environment_shap_values"][representative].sum()
+    )
+    conditional_base = float(sample_predictions[representative] - environmental_sum)
+    waterfall_explanation = shap.Explanation(
+        values=shap_bundle["environment_shap_values"][representative],
+        base_values=conditional_base,
+        data=shap_bundle["environment_x"].iloc[representative].to_numpy(),
+        feature_names=shap_bundle["environment_columns"],
+    )
     plt.figure(figsize=(9, 6))
-    shap.plots.waterfall(explanation[representative], max_display=12, show=False)
-    plt.title("SHAP waterfall · representative locked-test observation")
+    shap.plots.waterfall(
+        waterfall_explanation,
+        max_display=len(shap_bundle["environment_columns"]) + 1,
+        show=False,
+    )
+    plt.title("Environmental SHAP waterfall · representative test observation")
+    plt.gcf().text(
+        0.01,
+        0.01,
+        "Starting value includes height, species, period, and site-type SHAP contributions.",
+        fontsize=9,
+        color="0.35",
+    )
     plt.tight_layout()
-    waterfall_path = paths["figures"] / "shap_waterfall_representative.png"
+    waterfall_path = shap_bundle["paths"]["figures"] / "shap_waterfall_environment_only.png"
     plt.savefig(waterfall_path, dpi=220, bbox_inches="tight")
     plt.close()
+    return waterfall_path
 
-    top_spatial_feature = top_environment[0]
-    spatial_index = x_sample.columns.get_loc(top_spatial_feature)
-    spatial_values = shap_values[:, spatial_index]
+
+def plot_environment_spatial(shap_bundle: dict[str, Any]) -> Path:
+    """Map the leading environmental SHAP contribution at sampled tree points."""
+    top_spatial_feature = str(shap_bundle["summary"].iloc[0]["feature"])
+    spatial_index = shap_bundle["environment_x"].columns.get_loc(top_spatial_feature)
+    spatial_values = shap_bundle["environment_shap_values"][:, spatial_index]
+    raw_sample = shap_bundle["raw_sample"]
+    test_raw = shap_bundle["trained"]["split"]["test"]
     limit = float(np.quantile(np.abs(spatial_values), 0.99))
     limit = max(limit, 1e-9)
     x_km = (raw_sample["X"].to_numpy() - test_raw["X"].min()) / 1000.0
@@ -678,23 +855,36 @@ def explain_with_shap(
     colorbar = fig.colorbar(points, ax=axis, shrink=0.75)
     colorbar.set_label("SHAP contribution to log-SGR")
     fig.tight_layout()
-    spatial_path = paths["figures"] / "spatial_shap_top_environmental_feature.png"
+    spatial_path = shap_bundle["paths"]["figures"] / "spatial_shap_environment_top_feature.png"
     fig.savefig(spatial_path, dpi=220, bbox_inches="tight")
     plt.close(fig)
 
     spatial_table = raw_sample[[TREE_ID, "Species_Name", "Period", "X", "Y"]].copy()
     spatial_table["mapped_feature"] = top_spatial_feature
-    spatial_table["feature_value"] = x_sample[top_spatial_feature].to_numpy()
+    spatial_table["feature_value"] = shap_bundle["environment_x"][top_spatial_feature].to_numpy()
     spatial_table["SHAP_value"] = spatial_values
-    spatial_table.to_csv(paths["tables"] / "spatial_shap_test_points.csv", index=False)
+    spatial_table.to_csv(
+        shap_bundle["paths"]["tables"] / "spatial_shap_test_points.csv",
+        index=False,
+    )
+    return spatial_path
 
-    print("SHAP figures saved:")
+
+def explain_with_shap(
+    trained: dict[str, Any], config: WorkflowConfig
+) -> dict[str, Any]:
+    """Create four environment-only SHAP outputs for command-line runs."""
+    shap_bundle = compute_environment_shap(trained, config)
+    beeswarm_path = plot_environment_beeswarm(shap_bundle)
+    dependence_path = plot_environment_dependence(shap_bundle)
+    waterfall_path = plot_environment_waterfall(shap_bundle)
+    spatial_path = plot_environment_spatial(shap_bundle)
+
+    print("Environment-only SHAP figures saved:")
     for path in [beeswarm_path, dependence_path, waterfall_path, spatial_path]:
         print(" -", path)
     return {
-        "explanation": explanation,
-        "summary": summary,
-        "top_environment": top_environment,
+        **shap_bundle,
         "beeswarm": beeswarm_path,
         "dependence": dependence_path,
         "waterfall": waterfall_path,
@@ -913,11 +1103,13 @@ def run_workflow(config: WorkflowConfig) -> dict[str, Any]:
     )
 
     prepared = prepare_data(config)
+    vif_outputs = run_vif_analysis(prepared)
     trained = train_validate_refit_test(prepared, config)
     shap_outputs = explain_with_shap(trained, config)
     onnx_outputs = export_onnx_and_examples(trained, config)
     return {
         "prepared": prepared,
+        "vif": vif_outputs,
         "trained": trained,
         "shap": shap_outputs,
         "onnx": onnx_outputs,
