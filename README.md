@@ -7,6 +7,8 @@
 
 This repository contains the analysis underlying **“Towards Carbon Responsive Landscape Planning: Multi-Temporal LiDAR and Explainable Machine Learning for Urban Tree Growth Diagnosis.”** It provides an integrated workflow for relative-growth modelling, explanation, spatial validation, diagnosis, change detection, and planning outputs. Earlier exploratory LiDAR/carbon scripts are retained under `legacy_pipeline/` for provenance.
 
+Teaching material for the pooled train–validation–test, SHAP, spatial-SHAP, and ONNX workflow is available in [eCAADe Workshop 2026 Material](eCAADe_workshop_2026_material/README.md).
+
 ## What is reproducible here
 
 - A common `OID_`-grouped comparison of OLS, random forest, XGBoost, and MLP.
@@ -56,6 +58,7 @@ Tree-Point-Cloud-Training-and-Analysing/
 ├── results/          compact numerical audit trail
 ├── scripts/          analysis, validation, visualization, and GIS exporters
 ├── tests/            project integrity and numerical checkpoint audit
+├── eCAADe_workshop_2026_material/  pooled Colab/Python teaching exercise
 └── legacy_pipeline/  archived preliminary scripts and sample data
 ```
 
