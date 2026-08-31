@@ -76,8 +76,18 @@ ENVIRONMENTAL_FEATURES = [
     "lightemiss",
 ]
 
-SELECTION_ESTIMATOR_CAP = 1500
-EARLY_STOPPING_ROUNDS = 60
+DEFAULT_XGB_SETTINGS: dict[str, int | float] = {
+    "selection_n_estimators_cap": 1500,
+    "early_stopping_rounds": 60,
+    "learning_rate": 0.03,
+    "max_depth": 4,
+    "min_child_weight": 8,
+    "subsample": 0.80,
+    "colsample_bytree": 0.85,
+    "gamma": 0.02,
+    "reg_alpha": 0.30,
+    "reg_lambda": 10.0,
+}
 
 PERIODS = {
     "2015-2017": {
@@ -504,40 +514,84 @@ def regression_metrics(
     }
 
 
-def xgb_parameters(random_state: int, n_estimators: int) -> dict[str, Any]:
+def resolve_xgb_settings(
+    user_settings: dict[str, int | float] | None = None,
+) -> dict[str, int | float]:
+    """Merge and validate the learner-editable XGBoost settings."""
+    settings = DEFAULT_XGB_SETTINGS.copy()
+    if user_settings:
+        unknown = sorted(set(user_settings) - set(settings))
+        if unknown:
+            raise ValueError(
+                "Unknown XGBoost teaching setting(s): " + ", ".join(unknown)
+            )
+        settings.update(user_settings)
+
+    integer_positive = [
+        "selection_n_estimators_cap",
+        "early_stopping_rounds",
+        "max_depth",
+    ]
+    for name in integer_positive:
+        value = settings[name]
+        if isinstance(value, bool) or int(value) != value or value < 1:
+            raise ValueError(f"{name} must be a positive integer; received {value!r}.")
+        settings[name] = int(value)
+
+    if settings["learning_rate"] <= 0:
+        raise ValueError("learning_rate must be greater than zero.")
+    for name in ["subsample", "colsample_bytree"]:
+        if not 0 < settings[name] <= 1:
+            raise ValueError(f"{name} must be in the interval (0, 1].")
+    for name in ["min_child_weight", "gamma", "reg_alpha", "reg_lambda"]:
+        if settings[name] < 0:
+            raise ValueError(f"{name} must be non-negative.")
+    return settings
+
+
+def xgb_parameters(
+    random_state: int,
+    n_estimators: int,
+    user_settings: dict[str, int | float] | None = None,
+) -> dict[str, Any]:
+    settings = resolve_xgb_settings(user_settings)
     return {
         "objective": "reg:squarederror",
         "tree_method": "hist",
         "n_estimators": n_estimators,
-        "max_depth": 4,
-        "learning_rate": 0.03,
-        "min_child_weight": 8,
-        "subsample": 0.80,
-        "colsample_bytree": 0.85,
-        "reg_lambda": 10.0,
-        "reg_alpha": 0.30,
-        "gamma": 0.02,
+        "max_depth": settings["max_depth"],
+        "learning_rate": settings["learning_rate"],
+        "min_child_weight": settings["min_child_weight"],
+        "subsample": settings["subsample"],
+        "colsample_bytree": settings["colsample_bytree"],
+        "reg_lambda": settings["reg_lambda"],
+        "reg_alpha": settings["reg_alpha"],
+        "gamma": settings["gamma"],
         "random_state": random_state,
         "n_jobs": -1,
         "verbosity": 0,
     }
 
 
-def xgb_parameter_table(random_state: int) -> pd.DataFrame:
+def xgb_parameter_table(
+    random_state: int,
+    user_settings: dict[str, int | float] | None = None,
+) -> pd.DataFrame:
     """Return the exact XGBoost settings with short teaching explanations."""
+    settings = resolve_xgb_settings(user_settings)
     rows = [
         ("objective", "reg:squarederror", "Squared-error regression on log-SGR."),
         ("tree_method", "hist", "Histogram trees provide efficient CPU training."),
-        ("selection n_estimators cap", SELECTION_ESTIMATOR_CAP, "Maximum trees during validation-stage early stopping."),
-        ("early_stopping_rounds", EARLY_STOPPING_ROUNDS, "Stop when validation RMSE has not improved for this many rounds."),
-        ("learning_rate", 0.03, "Small contribution from each tree; paired with many possible rounds."),
-        ("max_depth", 4, "Limits interaction complexity and overfitting in each tree."),
-        ("min_child_weight", 8, "Requires support before creating a small terminal region."),
-        ("subsample", 0.80, "Each tree sees 80% of development rows, reducing variance."),
-        ("colsample_bytree", 0.85, "Each tree sees 85% of engineered predictors."),
-        ("gamma", 0.02, "Minimum loss reduction required for an additional split."),
-        ("reg_alpha", 0.30, "L1 regularization on leaf weights."),
-        ("reg_lambda", 10.0, "L2 regularization on leaf weights."),
+        ("selection_n_estimators_cap", settings["selection_n_estimators_cap"], "Maximum trees during validation-stage early stopping."),
+        ("early_stopping_rounds", settings["early_stopping_rounds"], "Stop when validation RMSE has not improved for this many rounds."),
+        ("learning_rate", settings["learning_rate"], "Small contribution from each tree; paired with many possible rounds."),
+        ("max_depth", settings["max_depth"], "Limits interaction complexity and overfitting in each tree."),
+        ("min_child_weight", settings["min_child_weight"], "Requires support before creating a small terminal region."),
+        ("subsample", settings["subsample"], "Each tree sees this fraction of development rows, reducing variance."),
+        ("colsample_bytree", settings["colsample_bytree"], "Each tree sees this fraction of engineered predictors."),
+        ("gamma", settings["gamma"], "Minimum loss reduction required for an additional split."),
+        ("reg_alpha", settings["reg_alpha"], "L1 regularization on leaf weights."),
+        ("reg_lambda", settings["reg_lambda"], "L2 regularization on leaf weights."),
         ("random_state", random_state, "Makes row/feature sampling reproducible."),
         ("n_jobs", -1, "Use all available CPU threads."),
     ]
@@ -545,13 +599,16 @@ def xgb_parameter_table(random_state: int) -> pd.DataFrame:
 
 
 def train_validate_refit_test(
-    prepared: dict[str, Any], config: WorkflowConfig
+    prepared: dict[str, Any],
+    config: WorkflowConfig,
+    user_xgb_settings: dict[str, int | float] | None = None,
 ) -> dict[str, Any]:
     """Select boosting rounds on validation, refit on 85%, test once."""
     frame = prepared["long"]
     paths = prepared["paths"]
     split = {name: frame[frame["Split"] == name].copy() for name in ["train", "validation", "test"]}
-    settings = xgb_parameter_table(config.random_state)
+    resolved_settings = resolve_xgb_settings(user_xgb_settings)
+    settings = xgb_parameter_table(config.random_state, resolved_settings)
     settings.to_csv(paths["tables"] / "xgboost_settings.csv", index=False)
 
     selection_preprocessor = build_preprocessor()
@@ -562,8 +619,12 @@ def train_validate_refit_test(
     y_validation = split["validation"][TARGET].to_numpy(dtype=np.float32)
 
     selection_model = XGBRegressor(
-        **xgb_parameters(config.random_state, n_estimators=SELECTION_ESTIMATOR_CAP),
-        early_stopping_rounds=EARLY_STOPPING_ROUNDS,
+        **xgb_parameters(
+            config.random_state,
+            n_estimators=int(resolved_settings["selection_n_estimators_cap"]),
+            user_settings=resolved_settings,
+        ),
+        early_stopping_rounds=int(resolved_settings["early_stopping_rounds"]),
     )
     selection_model.fit(
         x_train,
@@ -572,7 +633,11 @@ def train_validate_refit_test(
         verbose=False,
     )
     best_iteration = int(
-        getattr(selection_model, "best_iteration", SELECTION_ESTIMATOR_CAP - 1)
+        getattr(
+            selection_model,
+            "best_iteration",
+            int(resolved_settings["selection_n_estimators_cap"]) - 1,
+        )
     )
     selected_trees = best_iteration + 1
 
@@ -590,7 +655,11 @@ def train_validate_refit_test(
     x_test = as_engineered_frame(final_preprocessor, split["test"][RAW_MODEL_FEATURES])
 
     final_model = XGBRegressor(
-        **xgb_parameters(config.random_state, n_estimators=selected_trees)
+        **xgb_parameters(
+            config.random_state,
+            n_estimators=selected_trees,
+            user_settings=resolved_settings,
+        )
     )
     final_model.fit(x_development, development[TARGET].to_numpy(dtype=np.float32))
     test_prediction = final_model.predict(x_test)
@@ -646,6 +715,7 @@ def train_validate_refit_test(
         "metrics": metrics,
         "selected_trees": selected_trees,
         "settings": settings,
+        "resolved_settings": resolved_settings,
         "paths": paths,
     }
 
@@ -750,14 +820,14 @@ def plot_environment_beeswarm(shap_bundle: dict[str, Any]) -> Path:
 
 
 def plot_environment_dependence(shap_bundle: dict[str, Any]) -> Path:
-    """Plot the three leading environmental dependencies with environmental colours."""
+    """Plot all seven environmental dependencies with environmental colours."""
     summary = shap_bundle["summary"]
-    top_environment = (
-        summary.head(3)["feature"].tolist()
-    )
-    fig, axes = plt.subplots(1, len(top_environment), figsize=(6 * len(top_environment), 5))
-    axes = np.atleast_1d(axes)
-    for axis, feature in zip(axes, top_environment):
+    ranked_environment = summary["feature"].tolist()
+    fig, axes = plt.subplots(3, 3, figsize=(18, 15))
+    flat_axes = axes.ravel()
+    for panel_number, (axis, feature) in enumerate(
+        zip(flat_axes, ranked_environment), start=1
+    ):
         feature_index = shap_bundle["environment_x"].columns.get_loc(feature)
         interaction_ranking = shap.approximate_interactions(
             feature_index,
@@ -776,14 +846,20 @@ def plot_environment_dependence(shap_bundle: dict[str, Any]) -> Path:
             ax=axis,
             show=False,
         )
-        axis.set_title(feature)
+        axis.set_title(f"{chr(64 + panel_number)}  {feature}", loc="left", fontweight="bold")
         axis.axhline(0, color="0.45", linestyle="--", linewidth=0.9)
+    for axis in flat_axes[len(ranked_environment):]:
+        axis.axis("off")
     fig.suptitle(
-        "Environmental SHAP dependence · environmental interactions only",
-        fontsize=15,
+        "All environmental SHAP dependencies · environmental interactions only",
+        fontsize=16,
+        fontweight="bold",
     )
-    fig.tight_layout()
-    dependence_path = shap_bundle["paths"]["figures"] / "shap_dependence_environment_only.png"
+    fig.tight_layout(rect=(0, 0, 1, 0.97))
+    dependence_path = (
+        shap_bundle["paths"]["figures"]
+        / "shap_dependence_all_environmental_variables.png"
+    )
     fig.savefig(dependence_path, dpi=220, bbox_inches="tight")
     plt.close(fig)
     return dependence_path

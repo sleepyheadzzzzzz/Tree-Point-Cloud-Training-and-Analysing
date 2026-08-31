@@ -10,7 +10,7 @@ The lesson has five stages:
 
 1. Environment setting and data preparation.
 2. Leakage-safe data processing and training-only VIF diagnosis.
-3. Model training with visible parameter settings, validation, refitting, and locked testing.
+3. Model training with an editable parameter cell, validation, refitting, and locked testing.
 4. Environment-only SHAP explanation: beeswarm, dependence, waterfall, and spatial SHAP.
 5. ONNX model export with a reproducible example test set.
 
@@ -68,7 +68,7 @@ Variance inflation factors are calculated from continuous training predictors on
 3. The setup cell installs only the workshop dependencies and clones this repository if needed.
 4. The final cell creates `/content/eCAADe_2026_outputs` and a downloadable ZIP archive.
 
-Every executable cell has a preceding explanation of its purpose, expected output, and interpretation. The notebook calls the functions step by step, so participants can inspect VIF, model settings, the validation decision, locked test, each SHAP view, and ONNX parity separately.
+Every executable cell has a preceding explanation of its purpose, expected output, and interpretation. The notebook calls the functions step by step, so participants can inspect VIF, edit model settings, compare the validation decision, preserve the locked test, examine each SHAP view, and verify ONNX parity separately.
 
 ## Run as a Python script
 
@@ -110,12 +110,12 @@ The percentage-point test RMSE is larger than its MAE because back-transformatio
 
 ### XGBoost settings shown in the lesson
 
-The notebook displays the executed settings before fitting: learning rate 0.03, maximum depth 4, minimum child weight 8, row subsample 0.80, column subsample 0.85, gamma 0.02, L1 regularization 0.30, L2 regularization 10.0, a 1,500-tree selection cap, and 60-round validation early stopping. The verified run selected 543 trees before the 85% refit.
+The notebook contains one clearly marked `USER_XGB_SETTINGS` cell. Participants can change learning rate, maximum depth, minimum child weight, row and column subsampling, gamma, L1/L2 regularization, the selection-tree cap, and validation early stopping, then rerun the training cells to compare results. The supplied defaults are learning rate 0.03, maximum depth 4, minimum child weight 8, row subsample 0.80, column subsample 0.85, gamma 0.02, L1 regularization 0.30, L2 regularization 10.0, a 1,500-tree selection cap, and 60-round validation early stopping. These defaults selected 543 trees before the verified 85% refit. Use validation performance for setting comparisons; do not repeatedly select settings from the locked test.
 
 ## Reading the environment-only SHAP outputs
 
 - **Beeswarm:** summarizes only the seven environmental contribution distributions across the pooled test sample. Height, species, period, and site type are omitted from display.
-- **Dependence:** x is the observed value of an environmental predictor, y is its SHAP contribution to log-SGR, and colour denotes its strongest approximate environmental interaction. Non-environment variables cannot appear on the colour bars.
+- **Dependence:** the contact sheet illustrates all seven environmental variables. In each panel, x is the observed predictor value, y is its SHAP contribution to log-SGR, and colour denotes its strongest approximate environmental interaction. Non-environment variables cannot appear on the colour bars.
 - **Waterfall:** starts from a contextual value that already contains height, species, period, and site-type SHAP contributions; the visible bars show only how the environmental block moves that value to the complete prediction.
 - **Spatial SHAP:** maps the local contribution of the highest-ranked environmental predictor at sampled test-tree coordinates. It is not an interpolated surface, a causal effect map, or a direct map of measured carbon gain.
 
@@ -153,7 +153,7 @@ In the verified run, maximum absolute ONNX differences were 4.77×10⁻⁶ log-S
 1. Why is the split assigned before converting trees into period rows?
 2. What information can the validation set influence, and what must remain locked?
 3. Which numeric predictor has the largest VIF, and does it exceed a conventional review threshold?
-4. Compare the environmental beeswarm with the three dependence panels. Can a globally important predictor still have a nonlinear local association?
+4. Compare the environmental beeswarm with all seven dependence panels. Can a globally important predictor still have a nonlinear local association?
 5. In the environmental waterfall, does the environmental block move the representative prediction above or below its contextual starting value?
 6. Why must a spatial SHAP map be labelled as model contribution rather than environmental effect?
 7. Change one engineered value in the ONNX example and predict again. Does the change agree with the dependence plot locally?

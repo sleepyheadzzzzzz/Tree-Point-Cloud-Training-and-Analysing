@@ -1,6 +1,6 @@
 # Verified reference run
 
-Date: 2026-08-28  
+Date: 2026-08-31
 Workflow: `urban_tree_ml_workshop_2026.py`  
 Random seed: 2026  
 Model scope: one pooled XGBoost model with one-hot species, site type, and period  
@@ -17,7 +17,7 @@ Target: log annualized specific carbon growth (`log-SGR`)
 
 ## Model checkpoint
 
-- Exposed settings: learning rate 0.03, maximum depth 4, row subsample 0.80, column subsample 0.85, L1 0.30, L2 10.0, and 60-round early stopping.
+- Editable default settings: learning rate 0.03, maximum depth 4, row subsample 0.80, column subsample 0.85, L1 0.30, L2 10.0, and 60-round early stopping.
 - Validation-selected boosting rounds: 543.
 - Validation R²: 0.4268.
 - Locked-test R²: 0.4309.
@@ -31,7 +31,7 @@ Training-only continuous-predictor VIF values ranged from 1.122 to 2.484. Sky-vi
 
 ## SHAP checkpoint
 
-The four environment-only figures were generated from a reproducible sample of 1,200 locked-test observations. The leading environmental predictors by mean absolute SHAP were surrounding-tree density, solar radiation, and monoculture rate. Dependence-plot colour variables are restricted to environmental interactions. The waterfall absorbs height, species, period, and site-type SHAP contributions into its contextual starting value, so only environmental bars are displayed. These are fitted model associations, not causal effects.
+The four environment-only figures were generated from a reproducible sample of 1,200 locked-test observations. The dependence contact sheet illustrates all seven environmental predictors, ordered by mean absolute SHAP; the leading predictors were surrounding-tree density, solar radiation, and monoculture rate. Dependence-plot colour variables are restricted to environmental interactions. The waterfall absorbs height, species, period, and site-type SHAP contributions into its contextual starting value, so only environmental bars are displayed. These are fitted model associations, not causal effects.
 
 ## ONNX checkpoint
 
