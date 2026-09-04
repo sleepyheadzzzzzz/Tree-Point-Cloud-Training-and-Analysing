@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-04",
+  "status": "implemented_and_tested_on_synthetic_and_observed_cell_inputs",
+  "full_area_status": "pending_original_spatial_inputs_on_unmounted_F_drive",
+  "unit_tests_passed": 9,
+  "real_qgis_version_tested": "3.40.11-Bratislava",
+  "qgis_install_zip_worker_test_passed": true,
+  "qgis_modes_tested": ["local_vs_reference", "later_vs_earlier"],
+  "observed_demo_cells_per_period": 225,
+  "matched_rasters_checked": 21,
+  "sampled_explanations_checked": 264,
+  "species_categories_checked": 11,
+  "maximum_additivity_error_percentage_points": 8.881784197001252e-16,
+  "maximum_raster_parity_error_percentage_points": 6.26184492702464e-07,
+  "environmental_inputs": 11,
+  "shapley_groups": 9,
+  "soil_grouping": "Infill, bedrock and moraine indicators move jointly",
+  "model_retrained": false,
+  "thresholds_reselected": false,
+  "old_rasters_overwritten": false,
+  "private_grid_or_observed_demo_maps_published": false,
+  "limitation": "Technical additivity/implementation checks do not improve predictive accuracy or establish causality. The local demonstration is sparse, not wall-to-wall."
+}

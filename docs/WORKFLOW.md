@@ -172,3 +172,22 @@ python scripts/create_environment_change_figure_with_noise.py \
 ```
 
 All changes are later minus earlier. Figure 7 deliberately reverses the display palette for monoculture rate, solar radiation, LST, and noise so decreases are green and increases are red; the numeric raster signs are unchanged.
+
+## 8. Clickable environmental explanations
+
+Use [CLICKABLE_SPATIAL_WATERFALL.md](CLICKABLE_SPATIAL_WATERFALL.md) to generate a
+matched raster/model package and install the QGIS click tool. It supports local
+versus reference and later versus earlier explanations. Contributions are
+recomputed on the annual-percentage-growth scale and sum to the mapped
+difference; ordinal suitability-level changes are shown separately.
+
+```bash
+python scripts/build_clickable_spatial_package.py \
+  --input data/spatial_grid_with_soil.csv --height 10 --park-context 1 \
+  --output outputs/clickable_spatial
+python scripts/validate_clickable_spatial_package.py \
+  --package outputs/clickable_spatial/manifest.json \
+  --output outputs/clickable_spatial_validation.json
+python scripts/build_qgis_waterfall_plugin.py \
+  --output outputs/tree_growth_waterfall.zip
+```
