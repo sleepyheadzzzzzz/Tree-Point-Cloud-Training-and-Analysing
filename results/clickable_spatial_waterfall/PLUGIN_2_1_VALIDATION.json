@@ -1,0 +1,22 @@
+{
+  "plugin_version": "2.1.0",
+  "tested_qgis": "3.40.11-Bratislava",
+  "tested_platform": "Windows",
+  "official_repository_status": "not submitted; public author/contact and OSGeo sign-in pending",
+  "scientific_unit_tests_passed": 24,
+  "test_suites": {
+    "test_spatial_waterfall.py": 10,
+    "test_tree_growth_workbench.py": 6,
+    "test_area_planting.py": 8
+  },
+  "qgis_integration": {
+    "installed_zip_training_finalization_diagnosis_click": "passed on synthetic model-training data",
+    "area_planning_button_external_worker": "passed on synthetic suitability",
+    "gpkg_shapefile_geometry_crs_area_roundtrip": "passed",
+    "launcher_repeated_empty_namespace": "passed",
+    "raster_menu_registration_and_unload": "passed"
+  },
+  "json_preprocessing_raster_values_equal_to_original": true,
+  "source_zip_contains_joblib_compiled_libraries_or_private_rasters": false,
+  "scientific_scope": "Technical checks only; no claim of improved prediction accuracy, causal validity, global planning optimality or field feasibility. Original manuscript results and archived maps are unchanged."
+}

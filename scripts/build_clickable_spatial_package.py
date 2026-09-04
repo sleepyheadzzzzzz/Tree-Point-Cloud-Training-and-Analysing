@@ -41,7 +41,8 @@ def parse_args():
     p.add_argument("--input", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--model", type=Path, default=ROOT / "models/xgb_spatial_deployment_no_period_three_soil.json")
-    p.add_argument("--preprocessing", type=Path, default=ROOT / "models/preprocessing_spatial_deployment.joblib")
+    text_preprocessing=ROOT / "results/spatial_validation/deployment_preprocessing.json"
+    p.add_argument("--preprocessing", type=Path, default=text_preprocessing if text_preprocessing.exists() else ROOT / "models/preprocessing_spatial_deployment.joblib")
     p.add_argument("--domain", type=Path, default=ROOT / "results/spatial_validation/development_training_domain.csv")
     p.add_argument("--thresholds", type=Path, default=ROOT / "results/suitability/fixed_selected_seven_level_thresholds.csv")
     p.add_argument("--template-raster", type=Path, help="Use its exact extent/grid; source points outside it are excluded")
@@ -123,7 +124,9 @@ def build(args):
     available = pd.read_csv(args.input, nrows=0).columns
     sources = resolve_columns(available, args.periods)
     width, height, transform = grid_from_input(args)
-    preprocessing = joblib.load(args.preprocessing)  # trusted scientific artifact only
+    preprocessing = (json.loads(args.preprocessing.read_text(encoding="utf-8"))
+                     if args.preprocessing.suffix.lower()==".json" else joblib.load(args.preprocessing))
+    # Legacy joblib is supported only for trusted scientific artifacts.
     model_format=preprocessing.get("model_format","xgboost_json")
     if model_format=="xgboost_json" and preprocessing.get("use_scaled",False):
         raise ValueError("Scaled models require the trusted-joblib bundle with its scaler")

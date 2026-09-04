@@ -52,6 +52,8 @@ class WorkbenchPanel(QWidget):
         self.diagnose_button.clicked.connect(self.diagnose);form.addRow(self.diagnose_button)
         note=QLabel("Current-model mapping needs X/Y and all eleven environmental inputs, including soil, for each period. The recovered July-28 demo uses its own eight-input archived model. Do not substitute models between packages. A template controls geometry only.")
         note.setWordWrap(True);form.addRow(note)
+        from .planting import PlantingForm
+        self.planting=PlantingForm(self)
         self.log=QPlainTextEdit();self.log.setReadOnly(True);self.log.setMinimumHeight(150);layout.addWidget(self.log)
         buttons=QHBoxLayout();self.cancel=QPushButton("Cancel running job");self.cancel.clicked.connect(self.process.kill);buttons.addWidget(self.cancel)
         button=QPushButton("Open last output folder");button.clicked.connect(self.open_output);buttons.addWidget(button);layout.addLayout(buttons)
@@ -98,11 +100,13 @@ class WorkbenchPanel(QWidget):
         if not Path(executable).is_file(): self.log.appendPlainText("Choose ML Python in the Interpretation tab first.");return
         if action!="finalize" and (not config.get("output") or Path(config["output"]).exists()):
             self.log.appendPlainText("Enter a NEW output directory; existing directories are protected.");return
-        worker=Path(__file__).parent/"worker/tree_growth_workbench.py"
-        if not worker.exists(): worker=Path(__file__).resolve().parents[2]/"scripts/tree_growth_workbench.py"
+        worker_name="area_planting.py" if action=="planting" else "tree_growth_workbench.py"
+        worker=Path(__file__).parent/"worker"/worker_name
+        if not worker.exists(): worker=Path(__file__).resolve().parents[2]/"scripts"/worker_name
         self.counter+=1;path=Path(self.dock.temp.name)/f"workflow_{self.counter}.json"
         path.write_text(json.dumps(config,indent=2),encoding="utf-8")
         args=["-u",str(worker),action,"--run",config["run"]] if action=="finalize" else ["-u",str(worker),action,"--config",str(path)]
+        if action=="planting": args=["-u",str(worker),"--config",str(path)]
         environment=QProcessEnvironment.systemEnvironment()
         for key in ["PYTHONPATH","PYTHONHOME","QT_PLUGIN_PATH","QGIS_PREFIX_PATH"]: environment.remove(key)
         if self.dock.extra_paths.text().strip(): environment.insert("PYTHONPATH",self.dock.extra_paths.text().strip())
@@ -126,6 +130,17 @@ class WorkbenchPanel(QWidget):
             self.dock.trusted_model_packages.add(str((self.last_folder/"manifest.json").resolve()))
             self.dock.manifest.setText(str(self.last_folder/"manifest.json"));self.dock.open_package();self.dock.load_map();self.dock.activate_click()
             self.dock.main_tabs.setCurrentIndex(1)
+        if code==0 and self.action=="planting":
+            try:
+                from .planting import export_and_load
+                count,_=export_and_load(self.last_folder)
+                from qgis.core import QgsCoordinateTransform,QgsProject
+                canvas=self.dock.iface.mapCanvas()
+                canvas.setExtent(QgsCoordinateTransform(count.crs(),canvas.mapSettings().destinationCrs(),QgsProject.instance()).transformBoundingBox(count.extent()))
+                canvas.refresh()
+                self.log.appendPlainText("Loaded count map and both polygon alternatives. Toggle one proposal at a time. GeoPackage, Shapefile, QML styles and GeoJSON saved.")
+            except Exception as error:
+                self.log.appendPlainText("Raster/GeoJSON generation succeeded; GIS export/loading failed: "+str(error))
 
     def reports(self):
         folder=Path(self.run_folder.text())

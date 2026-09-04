@@ -16,6 +16,12 @@ The local demo now restores all 3,988,736 cells of the archived diagnosis grid,
 with matching original inputs/model rather than observed-tree coverage only.
 New model experiments and the archived eight-input maps remain clearly separated.
 
+Version 2.1 adds [area planting](docs/QGIS_AREA_PLANTING.md): a 0–9 suitable-genus
+count map, suitable-area polygons and two alternatives—highest suitability and
+diversity-oriented allocation—with GeoPackage/Shapefile export. See
+[installation and official QGIS publication](docs/QGIS_PUBLICATION.md).
+The plugin is experimental and is not yet listed as an approved QGIS release.
+
 ## What is reproducible here
 
 - A common `OID_`-grouped comparison of OLS, random forest, XGBoost, and MLP.

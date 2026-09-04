@@ -257,7 +257,8 @@ def diagnose(config):
         if args["crs"]!=deployment["crs"]: raise ValueError("Diagnosis CRS differs from training coordinates")
         args.update({key:final/deployment[key] for key in ["model","preprocessing","domain","thresholds"]})
     else:
-        args.update(model=ROOT/"models/xgb_spatial_deployment_no_period_three_soil.json",preprocessing=ROOT/"models/preprocessing_spatial_deployment.joblib",
+        text_preprocessing=ROOT/"results/spatial_validation/deployment_preprocessing.json"
+        args.update(model=ROOT/"models/xgb_spatial_deployment_no_period_three_soil.json",preprocessing=text_preprocessing if text_preprocessing.exists() else ROOT/"models/preprocessing_spatial_deployment.joblib",
                     domain=ROOT/"results/spatial_validation/development_training_domain.csv",thresholds=ROOT/"results/suitability/fixed_selected_seven_level_thresholds.csv")
     build(SimpleNamespace(**args))
 

@@ -6,7 +6,8 @@ import shutil
 import tempfile
 
 from qgis.PyQt.QtCore import Qt, QProcess, QProcessEnvironment, QSettings, QTimer
-from qgis.PyQt.QtGui import QColor
+from qgis.PyQt.QtGui import QColor, QIcon, QDesktopServices
+from qgis.PyQt.QtCore import QUrl
 from qgis.PyQt.QtSvg import QSvgWidget
 from qgis.PyQt.QtWidgets import (QAction, QComboBox, QDockWidget, QFileDialog,
                                 QFormLayout, QHBoxLayout, QLabel, QLineEdit,
@@ -30,9 +31,9 @@ class TreeGrowthPlugin:
         self.iface, self.dock, self.action = iface, None, None
 
     def initGui(self):
-        self.action = QAction("Tree Growth Workbench", self.iface.mainWindow())
+        self.action = QAction(QIcon(str(Path(__file__).parent/"icon.svg")), "Tree Growth Workbench", self.iface.mainWindow())
         self.action.triggered.connect(self.run)
-        self.iface.addPluginToMenu("Tree Growth", self.action)
+        self.iface.addPluginToRasterMenu("Tree Growth", self.action)
 
     def run(self):
         if self.dock is None:
@@ -43,7 +44,7 @@ class TreeGrowthPlugin:
 
     def unload(self):
         if self.action:
-            self.iface.removePluginMenu("Tree Growth", self.action)
+            self.iface.removePluginRasterMenu("Tree Growth", self.action)
         if self.dock:
             self.dock.shutdown()
             self.iface.removeDockWidget(self.dock)
@@ -100,6 +101,9 @@ class WaterfallDock(QDockWidget):
         for button in [self.load_button, self.click_button, self.export_button]:
             buttons.addWidget(button)
         layout.addLayout(buttons)
+        help_button=QPushButton("User guide / installation / area planting")
+        help_button.clicked.connect(lambda: QDesktopServices.openUrl(QUrl("https://github.com/sleepyheadzzzzzz/Tree-Point-Cloud-Training-and-Analysing/blob/main/docs/QGIS_WORKBENCH.md")))
+        layout.addWidget(help_button)
         self.info = QLabel("Choose a manifest.json package and an ML Python interpreter. No model is retrained.")
         self.info.setWordWrap(True)
         layout.addWidget(self.info)

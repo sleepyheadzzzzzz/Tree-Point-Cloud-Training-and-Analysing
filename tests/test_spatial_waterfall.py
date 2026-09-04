@@ -95,6 +95,16 @@ class RasterTests(unittest.TestCase):
                 self.assertEqual(len(result["contributions_pp"]),9)
                 ET.fromstring(waterfall_svg(result))
 
+    def test_text_preprocessing_produces_identical_rasters(self):
+        args=SimpleNamespace(**vars(self.args))
+        args.preprocessing=ROOT/"results/spatial_validation/deployment_preprocessing.json"
+        args.output=self.path/"text_package"
+        build(args)
+        for original in (self.args.output/"rasters").glob("*.tif"):
+            with rasterio.open(original) as a, rasterio.open(args.output/"rasters"/original.name) as b:
+                np.testing.assert_array_equal(a.read(),b.read())
+                self.assertEqual(a.transform,b.transform)
+
     def test_missing_and_off_extent(self):
         for x,y in [(5,1),(3,3),(100,100)]:
             self.assertEqual(self.package.explain(x,y)["status"],"missing")
