@@ -161,6 +161,18 @@ python scripts/explain_spatial_cell.py \
   --output outputs/click_examples/tilia_change
 ```
 
+### Launcher troubleshooting
+
+A local `START_IN_QGIS.py` launcher belongs in **Plugins → Python Console →
+Show Editor**, not the Processing Toolbox's Script Editor. Processing executes
+code in an empty namespace and expects a processing algorithm, whereas this
+launcher opens an interactive dock. A launcher must explicitly obtain the
+desktop interface with `from qgis.utils import iface`; it must not rely on the
+console's injected `iface` variable. Keep the plugin instance alive beyond the
+editor namespace. If Processing reports “No script found”, use the Python
+Console editor or install the plugin ZIP instead. Reopen the launcher after
+updating it so QGIS does not run a stale editor copy.
+
 ## Verification
 
 ```bash
