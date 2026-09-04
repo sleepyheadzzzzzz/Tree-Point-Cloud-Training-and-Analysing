@@ -175,6 +175,11 @@ All changes are later minus earlier. Figure 7 deliberately reverses the display 
 
 ## 8. Clickable environmental explanations
 
+For a desktop interface spanning new training runs, locked validation, diagnosis
+export and interpretation, install the [QGIS Workbench](QGIS_WORKBENCH.md).
+The historical manuscript commands above remain unchanged. New plugin runs use
+explicitly documented filtering and produce separate results.
+
 Use [CLICKABLE_SPATIAL_WATERFALL.md](CLICKABLE_SPATIAL_WATERFALL.md) to generate a
 matched raster/model package and install the QGIS click tool. It supports local
 versus reference and later versus earlier explanations. Contributions are

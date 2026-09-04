@@ -1,11 +1,11 @@
 [general]
-name=Tree Growth Waterfall
-description=Click matched growth suitability and change rasters for reference-based environmental Shapley explanations.
-version=1.0.0
+name=Tree Growth Workbench
+description=Spatial training, locked validation, diagnosis rasters and clickable environmental Shapley interpretation.
+version=2.0.0
 qgisMinimumVersion=3.28
 author=Tree Point Cloud Training and Analysing contributors
 email=
-about=Frozen period-free growth model; environmental contributions in percentage points. Requires a matched spatial package and an external Python environment with numpy, rasterio and xgboost.
+about=Research workbench: OLS/RF/XGBoost/MLP spatial-block comparison, separate locked-test finalization, deployment rasters and exact environmental waterfalls. External scientific Python required. Includes current frozen model; archived packages retain their own model and thresholds. Experimental decision support, not a validated planting prescription.
 category=Raster
 experimental=True
 homepage=https://github.com/sleepyheadzzzzzz/Tree-Point-Cloud-Training-and-Analysing

@@ -24,7 +24,7 @@ import xgboost as xgb
 from rasterio.transform import from_origin
 from rasterio.windows import Window
 
-from spatial_waterfall_core import (ENVIRONMENT, GROUPS, SPECIES, NODATA, domain_codes,
+from spatial_waterfall_core import (ENVIRONMENT, GROUPS, SPECIES, NODATA, domain_codes, ModelPredictor,
                                     matrix_from_environment, percentage, sha256)
 
 PERIODS = ["15_17", "17_21", "21_23"]
@@ -123,11 +123,16 @@ def build(args):
     available = pd.read_csv(args.input, nrows=0).columns
     sources = resolve_columns(available, args.periods)
     width, height, transform = grid_from_input(args)
-    booster = xgb.Booster(params={"nthread": 4})
-    booster.load_model(args.model)
     preprocessing = joblib.load(args.preprocessing)  # trusted scientific artifact only
-    if preprocessing.get("use_scaled", False):
-        raise ValueError("This exporter expects the unscaled frozen XGBoost model")
+    model_format=preprocessing.get("model_format","xgboost_json")
+    if model_format=="xgboost_json" and preprocessing.get("use_scaled",False):
+        raise ValueError("Scaled models require the trusted-joblib bundle with its scaler")
+    booster=ModelPredictor(args.model,model_format)
+    if preprocessing.get("feature_columns") != booster.feature_names:
+        raise ValueError("Model and preprocessing feature order differ")
+    if preprocessing.get("model_sha256") and preprocessing["model_sha256"]!=sha256(args.model):
+        raise ValueError("Model differs from the frozen training/preprocessing contract")
+    supported=preprocessing.get("supported_species",list(SPECIES))
     reference = {f: float(preprocessing["feature_medians"][f]) for f in ENVIRONMENT}
     reference["type_Puisto"] = float(args.park_context)
     reference_env = np.array([reference[f] for f in ENVIRONMENT], np.float32)
@@ -143,7 +148,8 @@ def build(args):
     args.output.mkdir(parents=True)
     rasters = args.output / "rasters"
     rasters.mkdir()
-    shutil.copy2(args.model, args.output / "model.json")
+    model_file="model.json" if model_format=="xgboost_json" else "model.joblib"
+    shutil.copy2(args.model, args.output / model_file)
     period_files = {period: {kind: f"rasters/{kind}_{period}.tif" for kind in ["environment", "growth", "deviation", "suitability", "reliability", "within_p01_p99"]} for period in args.periods}
     stats = {p: dict(valid_cells=0, out_of_range_cells=0, quiet_noise_fills=0) for p in args.periods}
     total, included = 0, 0
@@ -218,6 +224,7 @@ def build(args):
                     if valid.any():
                         matrix = matrix_from_environment(booster, env[valid], args.height, 1)
                         for species in SPECIES:
+                            if species not in supported: continue
                             for name in SPECIES.values():
                                 matrix[:, booster.feature_names.index("Species_"+name)] = 0
                             matrix[:, booster.feature_names.index("Species_"+SPECIES[species])] = 1
@@ -250,15 +257,17 @@ def build(args):
             a, b = re.read(1,window=win), rl.read(1,window=win)
             valid = (a>0)&(b>0)
             code = np.where(valid,np.maximum(a,b),0).astype(np.uint8)
-            gc.write(np.where(valid[None],gl.read(window=win)-ge.read(window=win),NODATA).astype(np.float32),window=win)
-            sc.write(np.where(valid[None],sl.read(window=win).astype(np.int16)-se.read(window=win).astype(np.int16),-128).astype(np.int16),window=win)
+            ga,gb=ge.read(window=win),gl.read(window=win)
+            sa,sb=se.read(window=win),sl.read(window=win)
+            gc.write(np.where(valid[None]&(ga>NODATA)&(gb>NODATA),gb-ga,NODATA).astype(np.float32),window=win)
+            sc.write(np.where(valid[None]&(sa>0)&(sb>0),sb.astype(np.int16)-sa.astype(np.int16),-128).astype(np.int16),window=win)
             rc.write(code,1,window=win)
     scope_note = ("Observed-cell demonstration only; other cells are NoData, not interpolated."
                   if args.scope == "observed_cells_demo" else "Predictions cover supplied grid cells with complete environmental inputs.")
     manifest = dict(schema_version=1, scope=args.scope, scope_note=scope_note, crs=args.crs,
                     grid=dict(width=width,height=height,transform=list(transform)[:6]),
-                    model=dict(file="model.json",sha256=sha256(args.model),feature_names=booster.feature_names),
-                    environment_features=ENVIRONMENT,groups=GROUPS,species=SPECIES,reference_height_m=args.height,
+                    model=dict(file=model_file,format=model_format,sha256=sha256(args.model),feature_names=booster.feature_names),
+                    environment_features=ENVIRONMENT,groups=GROUPS,species={s:SPECIES[s] for s in supported},reference_height_m=args.height,
                     reference_environment=reference,reference_growth_percent=dict(zip(SPECIES,reference_predictions)),
                     thresholds_annual_growth_percent=thresholds.tolist(),domain=domain,periods=period_files,change=change,
                     source_columns=sources, source_input_sha256=sha256(args.input),statistics=stats,

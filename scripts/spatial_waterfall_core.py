@@ -87,30 +87,61 @@ not a population background. Interactions are allocated by Shapley weights.
                 coalitions_evaluated=len(masks))
 
 
+class ModelPredictor:
+    """Unified frozen predictor. Load joblib only from trusted local training runs."""
+    def __init__(self, path, format="xgboost_json"):
+        self.format = format
+        if format == "xgboost_json":
+            self.model = xgb.Booster(params={"nthread": 1})
+            self.model.load_model(path)
+            self.feature_names = self.model.feature_names
+        elif format == "trusted_joblib":
+            import joblib
+            self.bundle = joblib.load(path)
+            self.model = self.bundle["model"]
+            self.feature_names = self.bundle["feature_columns"]
+        else:
+            raise ValueError("Unsupported frozen model format")
+
+    def inplace_predict(self, matrix):
+        if self.format == "xgboost_json":
+            return self.model.inplace_predict(matrix)
+        values = np.asarray(matrix, np.float32)
+        if self.bundle["use_scaled"]:
+            values = self.bundle["scaler"].transform(values)
+        return np.asarray(self.model.predict(values), float)
+
+
 def matrix_from_environment(booster, environment, height, species_code):
     if species_code not in SPECIES or not np.isfinite(height) or height <= 0:
         raise ValueError("Choose species 1-11 and a positive height")
     environment = np.atleast_2d(np.asarray(environment, np.float32))
     names = booster.feature_names
-    expected = {"Log_Height", *ENVIRONMENT, *("Species_" + s for s in SPECIES.values())}
+    environment_names = [f for f in ENVIRONMENT if f in (names or [])]
+    if environment_names not in [ENVIRONMENT, ENVIRONMENT[:8]]:
+        raise ValueError("Expected either the archived eight-input or current eleven-input specification")
+    expected = {"Log_Height", *environment_names, *("Species_" + s for s in SPECIES.values())}
     if set(names or []) != expected:
-        raise ValueError("Expected the frozen period-free pooled three-soil feature specification")
+        raise ValueError("Expected a frozen period-free pooled one-hot species model")
+    if environment.shape[1] != len(environment_names):
+        raise ValueError("Environmental input count does not match the model")
     matrix = np.zeros((len(environment), len(names)), np.float32)
     matrix[:, names.index("Log_Height")] = np.log(height)
     matrix[:, names.index("Species_" + SPECIES[species_code])] = 1
-    for j, name in enumerate(ENVIRONMENT):
+    for j, name in enumerate(environment_names):
         matrix[:, names.index(name)] = environment[:, j]
     return matrix
 
 
-def domain_codes(environment, height, domain):
+def domain_codes(environment, height, domain, environment_names=None):
     """0 missing; 1 inside development min-max; 2 outside. Not confidence."""
     env = np.atleast_2d(environment)
+    environment_names = environment_names or ENVIRONMENT
     valid = np.isfinite(env).all(axis=1) & (env > -9990).all(axis=1)
     inside, robust = valid.copy(), valid.copy()
-    for feature in ["Log_Height", *ENVIRONMENT]:
+    for feature in ["Log_Height", *environment_names]:
         bounds = domain[feature]
-        values = np.full(len(env), np.log(height)) if feature == "Log_Height" else env[:, ENVIRONMENT.index(feature)]
+        values = np.full(len(env), np.log(height)) if feature == "Log_Height" else env[:, environment_names.index(feature)]
         inside &= (values >= bounds["Minimum"]) & (values <= bounds["Maximum"])
         robust &= (values >= bounds["P01"]) & (values <= bounds["P99"])
     return np.where(~valid, 0, np.where(inside, 1, 2)).astype("uint8"), robust.astype("uint8")
@@ -134,11 +165,12 @@ class SpatialPackage:
         model_path = self.file(self.meta["model"]["file"])
         if sha256(model_path) != self.meta["model"]["sha256"]:
             raise ValueError("Frozen model checksum mismatch")
-        self.booster = xgb.Booster(params={"nthread": 1})
-        self.booster.load_model(model_path)
+        self.booster = ModelPredictor(model_path, self.meta["model"].get("format", "xgboost_json"))
         if self.booster.feature_names != self.meta["model"]["feature_names"]:
             raise ValueError("Model feature-order mismatch")
         self.thresholds = np.asarray(self.meta["thresholds_annual_growth_percent"])
+        self.environment_names = self.meta["environment_features"]
+        self.groups = self.meta["groups"]
 
     def file(self, relative):
         return safe_package_path(self.root, relative)
@@ -157,7 +189,7 @@ class SpatialPackage:
             row, col = src.index(x, y)
             if not (0 <= row < src.height and 0 <= col < src.width):
                 return None
-            if list(src.descriptions) != ENVIRONMENT:
+            if list(src.descriptions) != self.environment_names:
                 raise ValueError("Environment raster band order differs from manifest contract")
             vals = src.read(window=((row, row + 1), (col, col + 1)))[:, 0, 0]
         if not np.isfinite(vals).all() or np.any(vals <= -9990):
@@ -167,7 +199,7 @@ class SpatialPackage:
     def explain(self, x, y, species_code=2, mode="local", period="21_23"):
         if mode not in {"local", "change"}:
             raise ValueError("mode must be local or change")
-        if species_code not in SPECIES:
+        if str(species_code) not in self.meta["species"]:
             raise ValueError("Species code must be 1-11")
         early, late = self.meta["change"]["earlier"], self.meta["change"]["later"]
         target_period = late if mode == "change" else period
@@ -177,19 +209,31 @@ class SpatialPackage:
             return dict(status="missing", reliability_code=0,
                         message="No diagnosis: no valid environmental inputs for this cell and required period(s).")
         env_end, row, col = target
-        env_start = source[0] if source else np.array([self.meta["reference_environment"][f] for f in ENVIRONMENT], np.float32)
+        env_start = source[0] if source else np.array([self.meta["reference_environment"][f] for f in self.environment_names], np.float32)
         height = self.meta["reference_height_m"]
         endpoints = matrix_from_environment(self.booster, np.stack([env_start, env_end]), height, species_code)
-        groups = [[self.booster.feature_names.index(f) for f in group["features"]] for group in GROUPS]
+        groups = [[self.booster.feature_names.index(f) for f in group["features"]] for group in self.groups]
         result = exact_grouped_contrast(self.booster.inplace_predict, endpoints[0], endpoints[1], groups)
-        reliability, robust = domain_codes(np.stack([env_start, env_end]), height, self.meta["domain"])
+        reliability, robust = domain_codes(np.stack([env_start, env_end]), height, self.meta["domain"], self.environment_names)
         warnings = []
+        imputed = []
+        for current in ([early, target_period] if mode == "change" else [target_period]):
+            path = self.meta["periods"][current].get("imputed_inputs")
+            if path:
+                with rasterio.open(self.file(path)) as src:
+                    self.check_grid(src)
+                    flags = src.read(window=((row,row+1),(col,col+1)))[:,0,0]
+                imputed += [f"{current}: {f}" for f, flag in zip(self.environment_names,flags) if flag == 1]
+        if imputed:
+            warnings.append("Missing inputs were median-imputed by the archived exporter: " + ", ".join(imputed))
         if np.any(reliability == 2):
             warnings.append("OUT OF RANGE: at least one endpoint is outside development min-max limits.")
         elif not robust.all():
             warnings.append("Inside min-max, but at least one endpoint is outside P01-P99 limits.")
         if self.meta.get("scope") != "wall_to_wall_input_grid":
             warnings.append(self.meta["scope_note"])
+        if self.meta.get("model_vintage_note"):
+            warnings.append(self.meta["model_vintage_note"])
         levels = [int(np.searchsorted(self.thresholds, value, side="right") + 1)
                   for value in [result["start_growth_percent"], result["end_growth_percent"]]]
         # Refuse an explanation that does not match the mapped predictions.
@@ -200,7 +244,8 @@ class SpatialPackage:
         for current, expected in to_check:
             with rasterio.open(self.file(self.meta["periods"][current]["growth"])) as src:
                 self.check_grid(src)
-                if src.descriptions[species_code - 1] != SPECIES[species_code]:
+                expected_label = self.meta.get("species_band_labels",{}).get(str(species_code),SPECIES[species_code])
+                if src.descriptions[species_code - 1] != expected_label:
                     raise ValueError("Growth raster species-band mismatch")
                 mapped = float(src.read(species_code, window=((row, row + 1), (col, col + 1)))[0, 0])
             errors.append(abs(mapped - expected))
@@ -217,11 +262,12 @@ class SpatialPackage:
                       species=SPECIES[species_code], species_code=species_code, reference_height_m=height,
                       x=float(x), y=float(y), row=row, column=col,
                       start_level=levels[0], end_level=levels[1], level_change=levels[1]-levels[0],
-                      reliability_code=int(2 if np.any(reliability == 2) else 1),
+                      reliability_code=int(0 if imputed else 2 if np.any(reliability == 2) else 1),
                       within_p01_p99=bool(robust.all()), warnings=warnings,
                       max_raster_parity_error_pp=max(errors),
-                      start_environment=dict(zip(ENVIRONMENT, map(float, env_start))),
-                      end_environment=dict(zip(ENVIRONMENT, map(float, env_end))), groups=GROUPS,
+                      start_environment=dict(zip(self.environment_names, map(float, env_start))),
+                      end_environment=dict(zip(self.environment_names, map(float, env_end))), groups=self.groups,
+                      imputed_inputs=imputed,
                       interpretation="Reference-dependent model associations, not causal effects or measured offsets.")
         return result
 
@@ -238,7 +284,9 @@ def waterfall_svg(result):
     padding = max((hi-lo)*0.18, 0.2)
     lo, hi = lo-padding, hi+padding
     scale = lambda v: 340 + 420 * (v-lo)/(hi-lo)
-    height = 245 + (len(order)+2)*39 + 21*len(result["warnings"])
+    import textwrap
+    warning_lines = [line for warning in result["warnings"] for line in textwrap.wrap(warning,112)]
+    height = 245 + (len(order)+2)*39 + 21*len(warning_lines)
     items = [f'<svg xmlns="http://www.w3.org/2000/svg" width="900" height="{height}" viewBox="0 0 900 {height}">', f'<rect width="900" height="{height}" fill="white"/>']
     def text(x, y, s, size=13, color="#25323b", weight="normal", anchor="start"):
         items.append(f'<text x="{x:.2f}" y="{y:.2f}" font-family="Arial,sans-serif" font-size="{size}" fill="{color}" font-weight="{weight}" text-anchor="{anchor}">{html.escape(str(s))}</text>')
@@ -249,7 +297,7 @@ def waterfall_svg(result):
     text(18, 78, f'{start:.3f}% to {end:.3f}% per year | difference {result["delta_pp"]:+.3f} percentage points', 15, weight="bold")
     text(18, 101, f'Suitability {result["start_level"]} to {result["end_level"]} | domain code {result["reliability_code"]} (not confidence)', 13)
     names = ["Earlier growth" if change else "Reference growth"]
-    names += [GROUPS[j]["label"] for j in order]
+    names += [result["groups"][j]["label"] for j in order]
     names += ["Later growth" if change else "Local growth"]
     for i, name in enumerate(names):
         y = 139 + i*39
@@ -267,7 +315,7 @@ def waterfall_svg(result):
             items.append(f'<line x1="{scale(a):.2f}" y1="{y-30}" x2="{scale(a):.2f}" y2="{y-10}" stroke="#b4bdc3" stroke-dasharray="3 3"/>')
             text(790, y+4, f'{term:+.4f} pp', 12, color=color)
             vals = []
-            for feature in GROUPS[j]["features"]:
+            for feature in result["groups"][j]["features"]:
                 vals.append(f'{result["start_environment"][feature]:.3g} to {result["end_environment"][feature]:.3g}')
             text(28, y+19, "; ".join(vals), 10, color="#66747d")
     axis_y = 139 + len(names)*39
@@ -276,8 +324,8 @@ def waterfall_svg(result):
         text(scale(value), axis_y+19, f'{value:.2f}', 11, anchor="middle")
     text(550, axis_y+39, "Annual carbon growth (% per year)", 13, anchor="middle")
     text(18, axis_y+64, "Green: positive contribution | Red: negative | Bars sum to the mapped difference.", 12)
-    text(18, axis_y+84, "Model associations only. Soil indicators are explained jointly; no causal attribution.", 12)
-    for i, warning in enumerate(result["warnings"]):
+    text(18, axis_y+84, "Reference-dependent model associations, not causal effects or observed growth offsets.", 12)
+    for i, warning in enumerate(warning_lines):
         text(18, axis_y+107+i*21, warning, 11, color="#9b5a12")
     items.append("</svg>")
     return "\n".join(items)

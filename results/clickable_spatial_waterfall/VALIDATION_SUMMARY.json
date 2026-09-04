@@ -1,7 +1,8 @@
 {
   "date": "2026-09-04",
-  "status": "implemented_and_tested_on_synthetic_and_observed_cell_inputs",
-  "full_area_status": "pending_original_spatial_inputs_on_unmounted_F_drive",
+  "status": "historical_v1_observed_cell_demonstration",
+  "superseded_by": "WORKBENCH_VALIDATION_SUMMARY.json",
+  "full_area_status": "Was pending in v1; subsequently restored and audited in the v2 workbench",
   "unit_tests_passed": 9,
   "real_qgis_version_tested": "3.40.11-Bratislava",
   "qgis_install_zip_worker_test_passed": true,

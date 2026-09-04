@@ -10,7 +10,7 @@ from qgis.PyQt.QtGui import QColor
 from qgis.PyQt.QtSvg import QSvgWidget
 from qgis.PyQt.QtWidgets import (QAction, QComboBox, QDockWidget, QFileDialog,
                                 QFormLayout, QHBoxLayout, QLabel, QLineEdit,
-                                QPushButton, QScrollArea, QVBoxLayout, QWidget)
+                                QPushButton, QScrollArea, QVBoxLayout, QWidget, QTabWidget, QMessageBox)
 from qgis.core import (QgsColorRampShader, QgsCoordinateReferenceSystem,
                        QgsCoordinateTransform, QgsPointXY, QgsProject, QgsRasterLayer,
                        QgsRasterShader, QgsSingleBandPseudoColorRenderer)
@@ -30,7 +30,7 @@ class TreeGrowthPlugin:
         self.iface, self.dock, self.action = iface, None, None
 
     def initGui(self):
-        self.action = QAction("Tree Growth Waterfall", self.iface.mainWindow())
+        self.action = QAction("Tree Growth Workbench", self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addPluginToMenu("Tree Growth", self.action)
 
@@ -52,15 +52,17 @@ class TreeGrowthPlugin:
 
 class WaterfallDock(QDockWidget):
     def __init__(self, iface):
-        super().__init__("Tree Growth | click to explain", iface.mainWindow())
+        super().__init__("Tree Growth Workbench | diagnosis + interpretation", iface.mainWindow())
         self.setObjectName("TreeGrowthWaterfallDock")
         self.iface = iface
         self.root = None
         self.meta = None
         self.layer = None
         self.last_output = None
+        self.trusted_model_packages=set()
         self.temp = tempfile.TemporaryDirectory(prefix="tree_growth_click_")
         self.request_id = 0
+        self.request_signature=None
         self.settings = QSettings()
         body = QWidget()
         layout = QVBoxLayout(body)
@@ -107,7 +109,13 @@ class WaterfallDock(QDockWidget):
         scroll.setWidgetResizable(True)
         scroll.setWidget(self.svg)
         layout.addWidget(scroll)
-        self.setWidget(body)
+        from .workbench import WorkbenchPanel
+        self.main_tabs=QTabWidget()
+        self.workbench=WorkbenchPanel(self)
+        self.main_tabs.addTab(self.workbench,"Training / validation / diagnosis")
+        self.main_tabs.addTab(body,"Interpretation: click a map cell")
+        self.main_tabs.setCurrentIndex(1)
+        self.setWidget(self.main_tabs)
         self.setMinimumWidth(710)
         self.tool = QgsMapToolEmitPoint(iface.mapCanvas())
         self.tool.canvasClicked.connect(self.clicked)
@@ -143,12 +151,18 @@ class WaterfallDock(QDockWidget):
         self.meta = json.loads(path.read_text(encoding="utf-8"))
         if self.meta.get("schema_version") != 1:
             raise ValueError("Unsupported spatial package")
+        if self.meta["model"].get("format")=="trusted_joblib" and str(path) not in self.trusted_model_packages:
+            answer=QMessageBox.question(self,"Trust this model package?","This package uses a Python joblib model, which can execute code when loaded. Continue only for a package you created or otherwise trust.",QMessageBox.Yes|QMessageBox.No,QMessageBox.No)
+            if answer!=QMessageBox.Yes:
+                self.meta=None
+                raise ValueError("Model trust was not confirmed")
+            self.trusted_model_packages.add(str(path))
         self.species.blockSignals(True)
         self.mode.blockSignals(True)
         self.species.clear()
         for code, name in sorted(self.meta["species"].items(), key=lambda item:int(item[0])):
             self.species.addItem(f"{code}  {name}", int(code))
-        self.species.setCurrentIndex(1)
+        self.species.setCurrentIndex(min(1,self.species.count()-1))
         self.mode.clear()
         for period in self.meta["periods"]:
             self.mode.addItem(f"Local vs reference | {period}", ("local",period))
@@ -199,7 +213,7 @@ class WaterfallDock(QDockWidget):
                 extent = QgsCoordinateTransform(layer.crs(),canvas.mapSettings().destinationCrs(),QgsProject.instance()).transformBoundingBox(layer.extent())
                 canvas.setExtent(extent)
             self.iface.mapCanvas().refresh()
-            self.info.setText(self.meta["scope_note"] + " Red = negative difference; green = positive. Click a valid cell.")
+            self.info.setText(self.meta["scope_note"] + " Click a coloured cell to explain the modelled environmental contrast.")
         except Exception as error:
             self.info.setText("Cannot load map: " + str(error))
 
@@ -229,6 +243,7 @@ class WaterfallDock(QDockWidget):
         self.request_id += 1
         self.output_stem = Path(self.temp.name)/f"click_{self.request_id}"
         mode, period = self.mode.currentData()
+        self.request_signature=(str(Path(self.manifest.text()).resolve()),self.species.currentData(),mode,period)
         args = [str(worker),"--package",self.manifest.text(),"--x",str(converted.x()),"--y",str(converted.y()),
                 "--species",str(self.species.currentData()),"--mode",mode,"--period",period,"--output",str(self.output_stem)]
         environment = QProcessEnvironment.systemEnvironment()
@@ -243,6 +258,10 @@ class WaterfallDock(QDockWidget):
 
     def finished(self, code, status):
         self.timer.stop()
+        current=self.mode.currentData()
+        if not current or self.request_signature!=(str(Path(self.manifest.text()).resolve()),self.species.currentData(),*current):
+            self.info.setText("Map settings changed while the explanation was running. Click the current map again.")
+            return
         if code != 0:
             error = bytes(self.process.readAllStandardError()).decode("utf-8",errors="replace")
             self.info.setText("Explanation failed: " + error[-1800:])
@@ -282,6 +301,7 @@ class WaterfallDock(QDockWidget):
             self.info.setText("Exported available result files. Existing files were not overwritten.")
 
     def shutdown(self):
+        self.workbench.shutdown()
         self.timer.stop()
         if self.process.state() != QProcess.NotRunning:
             self.process.kill()

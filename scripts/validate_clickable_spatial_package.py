@@ -20,6 +20,8 @@ def main():
     started = time.perf_counter()
     package = SpatialPackage(args.package)
     meta = package.meta
+    supported=list(map(int,meta["species"]))
+    selected_species=[s for s in args.species if s in supported] or supported[:1]
     shape, transform, crs = None, None, None
     rasters_checked, valid = 0, {}
     for period, record in meta["periods"].items():
@@ -33,15 +35,24 @@ def main():
         with rasterio.open(package.file(record["reliability"])) as src:
             mask = src.read(1)
             assert np.isin(mask,[0,1,2]).all()
-            valid[period] = mask > 0
+        with rasterio.open(package.file(record["growth"])) as src:
+            valid[period] = src.read(supported[0]) != NODATA
+        if "imputed_inputs" not in record:
+            assert np.array_equal(valid[period],mask>0),"Coverage and reliability disagree"
         with rasterio.open(package.file(record["growth"])) as growth, rasterio.open(package.file(record["suitability"])) as suitability:
             for species in range(1,12):
                 g,s = growth.read(species),suitability.read(species)
+                if species not in supported:
+                    assert np.all(g==NODATA) and np.all(s==0)
+                    continue
                 assert np.all(g[~valid[period]] == NODATA)
                 assert np.all(s[~valid[period]] == 0)
                 expected = np.searchsorted(package.thresholds,g[valid[period]],side="right")+1
-                # Stored float32 growth may round at a threshold: flag rather than silently change classes.
-                assert np.all(s[valid[period]] == expected), "Suitability thresholds do not reproduce stored classes"
+                mismatch=s[valid[period]]!=expected
+                if mismatch.any():
+                    values=g[valid[period]][mismatch]
+                    distance=np.min(abs(values[:,None]-package.thresholds),axis=1)
+                    assert np.all(distance<=2*np.spacing(abs(values))), "Suitability thresholds do not reproduce stored classes"
     records = []
     rng = np.random.default_rng(2026)
     modes = [("local",period,mask) for period,mask in valid.items()]
@@ -54,7 +65,7 @@ def main():
     early,late = meta["periods"][change["earlier"]],meta["periods"][change["later"]]
     for input_key,output_key,nodata in [("growth","growth_change",NODATA),("suitability","suitability_change",-128)]:
         with rasterio.open(package.file(early[input_key])) as a,rasterio.open(package.file(late[input_key])) as b,rasterio.open(package.file(change[output_key])) as out:
-            for species in range(1,12):
+            for species in supported:
                 difference = b.read(species).astype(float)-a.read(species).astype(float)
                 actual = out.read(species)
                 assert np.all(actual[~pair_valid] == nodata)
@@ -66,7 +77,7 @@ def main():
         for position in chosen:
             row,col = positions[position]
             x,y = rasterio.transform.xy(transform,row,col)
-            for species in args.species:
+            for species in selected_species:
                 result = package.explain(x,y,species,mode,period)
                 assert result["status"] == "ok"
                 assert abs(sum(result["contributions_pp"])-result["delta_pp"]) < 1e-8

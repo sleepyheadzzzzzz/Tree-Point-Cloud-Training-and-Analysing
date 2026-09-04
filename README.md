@@ -9,9 +9,12 @@ This repository contains the analysis underlying **“Towards Carbon Responsive 
 
 Teaching material for the pooled train–validation–test, SHAP, spatial-SHAP, and ONNX workflow is available in [eCAADe Workshop 2026 Material](eCAADe_workshop_2026_material/README.md).
 
-New: [clickable QGIS suitability and change waterfalls](docs/CLICKABLE_SPATIAL_WATERFALL.md)
-explain matched raster cells in annual percentage points. The code is tested;
-the local demonstration covers observed cells only, pending the full spatial inputs.
+New: [Tree Growth Workbench for QGIS](docs/QGIS_WORKBENCH.md) combines editable
+OLS/RF/XGBoost/MLP training, spatial validation, diagnosis-raster export and
+[clickable environmental waterfalls](docs/CLICKABLE_SPATIAL_WATERFALL.md).
+The local demo now restores all 3,988,736 cells of the archived diagnosis grid,
+with matching original inputs/model rather than observed-tree coverage only.
+New model experiments and the archived eight-input maps remain clearly separated.
 
 ## What is reproducible here
 
@@ -62,7 +65,7 @@ Tree-Point-Cloud-Training-and-Analysing/
 ├── results/          compact numerical audit trail
 ├── scripts/          analysis, validation, visualization, and GIS exporters
 ├── tests/            project integrity and numerical checkpoint audit
-├── qgis/             clickable environmental waterfall plugin
+├── qgis/             training, validation, diagnosis and interpretation plugin
 ├── eCAADe_workshop_2026_material/  pooled Colab/Python teaching exercise
 └── legacy_pipeline/  archived preliminary scripts and sample data
 ```
