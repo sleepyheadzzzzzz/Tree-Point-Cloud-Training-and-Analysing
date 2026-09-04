@@ -2,7 +2,7 @@
   "plugin_version": "2.1.0",
   "tested_qgis": "3.40.11-Bratislava",
   "tested_platform": "Windows",
-  "official_repository_status": "not submitted; public author/contact and OSGeo sign-in pending",
+  "official_repository_status": "not submitted; author/contact supplied; authenticated QGIS submission pending",
   "scientific_unit_tests_passed": 24,
   "test_suites": {
     "test_spatial_waterfall.py": 10,

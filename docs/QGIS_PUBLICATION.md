@@ -3,8 +3,9 @@
 ## Status
 
 Version 2.1.0 is an **experimental install-from-ZIP candidate**, not an approved
-listing in the official QGIS repository. Public author/contact metadata and an
-OSGeo-authenticated submission remain necessary. Installing a ZIP or pushing
+listing in the official QGIS repository. Public author/contact metadata is set
+to **Yao Chaowen — chaowen.yao@aalto.fi**. An authenticated submission and
+repository approval remain necessary. Installing a ZIP or pushing
 source code to GitHub is not the same as QGIS approval.
 
 ## Local installation and dependencies
@@ -57,10 +58,10 @@ comparison, reference-matched spatial explanations and genus-area allocation.
 Search the QGIS catalogue for overlapping tools before submission and explain
 that specific scope in the submission notes.
 
-1. Fill `qgis/tree_growth_waterfall/metadata.txt` with the **author's approved
-   public name and real contact email**. The current blank email intentionally
-   prevents accidental official submission under an invented identity. Confirm
-   publication rights to all bundled model/code assets before release.
+1. Verify `qgis/tree_growth_waterfall/metadata.txt`: the user-approved public
+   author is **Yao Chaowen** and contact is **chaowen.yao@aalto.fi**. These details
+   will be public. Confirm publication rights to all bundled model/code assets
+   before release.
 2. Review version, description, license, dependencies, changelog, icon, links and
    limits. QGIS 3.40.11 on Windows is tested; QGIS 4 is **not supported**. Linux/
    macOS are unverified, not claimed tested. Additional platform testing is advised.
@@ -83,8 +84,9 @@ that specific scope in the submission notes.
    and link these guides; release assets are an optional distribution route, not
    official QGIS publication. Keep this broad research repository: a second
    repository is not necessary.
-5. Sign in to [QGIS Plugins](https://plugins.qgis.org/) with your **OSGeo ID**, then
-   choose **Share a plugin** and upload the verified ZIP. Enter the requested
+5. Sign in to [QGIS Plugins](https://plugins.qgis.org/accounts/login/). The current
+   login page offers **GitHub, GitLab, Google or OSGeo ID**; complete your chosen
+   sign-in yourself. Then choose **Share a plugin** and upload the verified ZIP. Enter the requested
    metadata and retain the experimental designation. Do not share your password
    or access token in chat, source files or documentation.
 6. Wait for the repository's security scan and manual review, and respond to
