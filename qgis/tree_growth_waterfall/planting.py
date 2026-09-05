@@ -63,7 +63,7 @@ class PlantingForm:
 
     def geometry_list(self, path, crs):
         layer = QgsVectorLayer(path, "planning mask", "ogr")
-        if not layer.isValid() or not layer.crs().isValid() or layer.geometryType() != QgsWkbTypes.PolygonGeometry:
+        if not layer.isValid() or not layer.crs().isValid() or layer.geometryType() != QgsWkbTypes.GeometryType.PolygonGeometry:
             raise ValueError("Boundary/exclusions must be polygon data with a valid CRS")
         transform = QgsCoordinateTransform(layer.crs(), crs, QgsProject.instance())
         geometries = []
@@ -92,7 +92,8 @@ class PlantingForm:
             if len(bands) != 9: raise ValueError("Nine genus bands are required")
             message = "Confirm genus bands: "+mapping+".\nNoData is not an unsuitable observation. Without boundary/exclusions/domain data, the result is only a suitability-footprint screening. Continue?"
             if QMessageBox.question(self.panel, "Confirm area-planning inputs", message,
-                                    QMessageBox.Yes | QMessageBox.No, QMessageBox.No) != QMessageBox.Yes:
+                                    QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                                    QMessageBox.StandardButton.No) != QMessageBox.StandardButton.Yes:
                 return
             self.panel.start("planting", config)
         except Exception as error:
@@ -119,7 +120,7 @@ def export_and_load(folder):
             options.driverName = driver; options.fileEncoding = "UTF-8"
             result = QgsVectorFileWriter.writeAsVectorFormatV3(layer, str(target),
                 QgsProject.instance().transformContext(), options)
-            if result[0] != QgsVectorFileWriter.NoError:
+            if result[0] != QgsVectorFileWriter.WriterError.NoError:
                 raise RuntimeError(str(result))
         categories = [QgsRendererCategory(name, QgsFillSymbol.createSimple(dict(color=color,
             outline_style="no")), name) for name, color in zip(GENERA.values(), COLORS)]
@@ -133,7 +134,7 @@ def export_and_load(folder):
     count = QgsRasterLayer(str(folder/report["rasters"]["suitable_genus_count"]), "Suitable genera (0-9)")
     if not count.isValid(): raise ValueError("Count raster failed to load")
     colors = ["#f2f2f2", "#edf8e9", "#c7e9c0", "#a1d99b", "#74c476", "#41ab5d", "#238b45", "#006d2c", "#005322", "#003717"]
-    ramp = QgsColorRampShader(); ramp.setColorRampType(QgsColorRampShader.Discrete)
+    ramp = QgsColorRampShader(); ramp.setColorRampType(QgsColorRampShader.Type.Discrete)
     ramp.setColorRampItemList([QgsColorRampShader.ColorRampItem(i, QColor(c), str(i)) for i,c in enumerate(colors)])
     shader = QgsRasterShader(); shader.setRasterShaderFunction(ramp)
     count.setRenderer(QgsSingleBandPseudoColorRenderer(count.dataProvider(), 1, shader))

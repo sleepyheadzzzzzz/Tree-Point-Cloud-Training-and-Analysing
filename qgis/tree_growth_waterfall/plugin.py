@@ -38,7 +38,7 @@ class TreeGrowthPlugin:
     def run(self):
         if self.dock is None:
             self.dock = WaterfallDock(self.iface)
-            self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dock)
+            self.iface.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.dock)
         self.dock.show()
         self.dock.raise_()
 
@@ -125,7 +125,7 @@ class WaterfallDock(QDockWidget):
         self.tool.canvasClicked.connect(self.clicked)
         self.marker = QgsVertexMarker(iface.mapCanvas())
         self.marker.setColor(QColor("#aa2546"))
-        self.marker.setIconType(QgsVertexMarker.ICON_CROSS)
+        self.marker.setIconType(QgsVertexMarker.IconType.ICON_CROSS)
         self.marker.setIconSize(12)
         self.marker.hide()
         self.process = QProcess(self)
@@ -156,8 +156,14 @@ class WaterfallDock(QDockWidget):
         if self.meta.get("schema_version") != 1:
             raise ValueError("Unsupported spatial package")
         if self.meta["model"].get("format")=="trusted_joblib" and str(path) not in self.trusted_model_packages:
-            answer=QMessageBox.question(self,"Trust this model package?","This package uses a Python joblib model, which can execute code when loaded. Continue only for a package you created or otherwise trust.",QMessageBox.Yes|QMessageBox.No,QMessageBox.No)
-            if answer!=QMessageBox.Yes:
+            answer=QMessageBox.question(
+                self,
+                "Trust this model package?",
+                "This package uses a Python joblib model, which can execute code when loaded. Continue only for a package you created or otherwise trust.",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+                QMessageBox.StandardButton.No,
+            )
+            if answer!=QMessageBox.StandardButton.Yes:
                 self.meta=None
                 raise ValueError("Model trust was not confirmed")
             self.trusted_model_packages.add(str(path))
@@ -195,7 +201,10 @@ class WaterfallDock(QDockWidget):
             if not layer.isValid():
                 raise ValueError("Raster did not load")
             shader = QgsColorRampShader()
-            shader.setColorRampType(QgsColorRampShader.Discrete if discrete else QgsColorRampShader.Interpolated)
+            shader.setColorRampType(
+                QgsColorRampShader.Type.Discrete if discrete
+                else QgsColorRampShader.Type.Interpolated
+            )
             if discrete and mode != "change":
                 palette = ["#a33a36","#dd8068","#f0bb97","#eeedc5","#badd91","#72b96d","#1c743e"]
                 items = [QgsColorRampShader.ColorRampItem(i+1,QColor(c),str(i+1)) for i,c in enumerate(palette)]
@@ -225,10 +234,10 @@ class WaterfallDock(QDockWidget):
         if self.meta:
             self.iface.mapCanvas().setMapTool(self.tool)
 
-    def clicked(self, point, button=Qt.LeftButton):
-        if button != Qt.LeftButton or not self.meta:
+    def clicked(self, point, button=Qt.MouseButton.LeftButton):
+        if button != Qt.MouseButton.LeftButton or not self.meta:
             return
-        if self.process.state() != QProcess.NotRunning:
+        if self.process.state() != QProcess.ProcessState.NotRunning:
             self.info.setText("An explanation is running; please wait.")
             return
         executable = self.python.text().strip()
@@ -273,7 +282,7 @@ class WaterfallDock(QDockWidget):
         try:
             result = json.loads(self.output_stem.with_suffix(".json").read_text(encoding="utf-8"))
             self.svg.load(str(self.output_stem.with_suffix(".svg")))
-            self.svg.renderer().setAspectRatioMode(Qt.KeepAspectRatio)
+            self.svg.renderer().setAspectRatioMode(Qt.AspectRatioMode.KeepAspectRatio)
             self.svg.setMinimumHeight(self.svg.renderer().defaultSize().height())
             self.last_output = self.output_stem
             if result["status"] == "ok":
@@ -307,7 +316,7 @@ class WaterfallDock(QDockWidget):
     def shutdown(self):
         self.workbench.shutdown()
         self.timer.stop()
-        if self.process.state() != QProcess.NotRunning:
+        if self.process.state() != QProcess.ProcessState.NotRunning:
             self.process.kill()
             self.process.waitForFinished(3000)
         canvas = self.iface.mapCanvas()

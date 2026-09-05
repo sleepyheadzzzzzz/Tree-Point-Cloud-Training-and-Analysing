@@ -22,9 +22,9 @@ Growth → TreeSuit XAI**. The same internal plugin ID is retained so this
 upgrades the earlier Tree Growth Waterfall plugin rather than creating a
 second unrelated plugin.
 
-See [publication and environment setup](QGIS_PUBLICATION.md). Version 2.1.1 is
-the corrected experimental submission candidate; official repository approval
-is a separate QGIS maintainer decision.
+See [publication and environment setup](QGIS_PUBLICATION.md). Version 2.1.2 is
+the Qt6-enum-corrected experimental submission candidate; official repository
+approval is a separate QGIS maintainer decision.
 
 Select the external scientific Python executable under **Interpretation**.
 It must satisfy the repository `requirements.txt`; QGIS's own Python does not

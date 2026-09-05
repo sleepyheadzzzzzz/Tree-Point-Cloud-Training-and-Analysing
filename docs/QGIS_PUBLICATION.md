@@ -3,10 +3,12 @@
 ## Status
 
 Version 2.1.0 was uploaded to the official QGIS repository but blocked by the
-initial automated scan. Version 2.1.1 corrects its removable-language assertions,
-digest representation and style issue and adopts the public name **TreeSuit XAI**.
-It remains an experimental submission candidate until the corrected upload passes
-the QGIS checks and maintainer review. Public author/contact metadata is set to
+initial automated scan. Version 2.1.1 corrected its security/quality findings,
+passed that scan with zero issues, and adopted the public name **TreeSuit XAI**;
+the separate Qt6 checker then reported 26 legacy enum aliases. Version 2.1.2 uses
+Qt6-style scoped enums that were also verified in QGIS 3.40.11. It remains an
+experimental submission candidate until it passes the repository checks and
+maintainer review. Public author/contact metadata is set to
 **Yao Chaowen — chaowen.yao@aalto.fi**. Installing a ZIP, submitting it, or
 pushing source code to GitHub is not the same as QGIS approval. The live
 [QGIS plugin record](https://plugins.qgis.org/plugins/tree_growth_waterfall/)
@@ -29,7 +31,7 @@ is the authoritative publication status.
 3. Build the installer with the repository root as the working directory:
 
    ```bash
-   python scripts/build_qgis_waterfall_plugin.py --output outputs/TreeSuit_XAI_2.1.1.zip
+   python scripts/build_qgis_waterfall_plugin.py --output outputs/TreeSuit_XAI_2.1.2.zip
    ```
 
 4. In QGIS choose **Plugins → Manage and Install Plugins → Install from ZIP**.
@@ -76,7 +78,7 @@ that specific scope in the submission notes.
    python tests/test_spatial_waterfall.py
    python tests/test_tree_growth_workbench.py
    python tests/test_area_planting.py
-   python scripts/build_qgis_waterfall_plugin.py --official --output outputs/TreeSuit_XAI_2.1.1.zip
+   python scripts/build_qgis_waterfall_plugin.py --official --output outputs/TreeSuit_XAI_2.1.2.zip
    ```
 
    `--official` rejects missing author/contact fields. Archive names must start

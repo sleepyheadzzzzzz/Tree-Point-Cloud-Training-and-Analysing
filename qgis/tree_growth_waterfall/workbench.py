@@ -85,7 +85,13 @@ class WorkbenchPanel(QWidget):
         except Exception as e: self.log.appendPlainText("Cannot start: "+str(e))
 
     def finalize(self):
-        if QMessageBox.question(self,"Open locked test?","This permanently records test access for this run. Finalize the validation-selected model now?",QMessageBox.Yes|QMessageBox.No,QMessageBox.No)!=QMessageBox.Yes:
+        if QMessageBox.question(
+            self,
+            "Open locked test?",
+            "This permanently records test access for this run. Finalize the validation-selected model now?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No,
+        ) != QMessageBox.StandardButton.Yes:
             return
         self.start("finalize",{"run":self.run_folder.text()})
 
@@ -94,7 +100,7 @@ class WorkbenchPanel(QWidget):
             template_raster=self.template.text(),height=self.height.value(),park_context=self.park.currentIndex(),resolution=self.resolution.value(),crs=self.crs.text()))
 
     def start(self,action,config):
-        if self.process.state()!=QProcess.NotRunning:
+        if self.process.state()!=QProcess.ProcessState.NotRunning:
             self.log.appendPlainText("Wait for or cancel the current job.");return
         executable=self.dock.python.text().strip()
         if not Path(executable).is_file(): self.log.appendPlainText("Choose ML Python in the Interpretation tab first.");return
@@ -154,5 +160,5 @@ class WorkbenchPanel(QWidget):
         if self.last_folder and self.last_folder.exists(): QDesktopServices.openUrl(QUrl.fromLocalFile(str(self.last_folder)))
 
     def shutdown(self):
-        if self.process.state()!=QProcess.NotRunning:
+        if self.process.state()!=QProcess.ProcessState.NotRunning:
             self.process.kill();self.process.waitForFinished(3000)

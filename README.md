@@ -22,8 +22,9 @@ count map, suitable-area polygons and two alternatives—highest suitability and
 diversity-oriented allocation—with GeoPackage/Shapefile export. See
 [installation and official QGIS publication](docs/QGIS_PUBLICATION.md).
 The plugin is experimental. QGIS repository version 2.1.1 passed the automated
-security and quality scan with zero issues and is awaiting volunteer maintainer
-approval; it is not yet a public release.
+security scan but reported 26 legacy enum aliases in its separate Qt6 check.
+Version 2.1.2 applies the scoped-enum corrections while retaining tested QGIS
+3.40 compatibility; it is not yet an approved public release.
 
 ## What is reproducible here
 

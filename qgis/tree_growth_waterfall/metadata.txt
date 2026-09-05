@@ -1,7 +1,7 @@
 [general]
 name=TreeSuit XAI
 description=Explainable AI for diagnosing urban-tree growth suitability through spatial validation, diagnosis maps and cell-level Shapley interpretation.
-version=2.1.1
+version=2.1.2
 qgisMinimumVersion=3.40
 qgisMaximumVersion=3.99
 author=Yao Chaowen
@@ -15,4 +15,4 @@ tracker=https://github.com/sleepyheadzzzzzz/Tree-Point-Cloud-Training-and-Analys
 icon=icon.svg
 license=GPL-3.0
 tags=trees,carbon,suitability,explainable AI,spatial validation,shap,planting
-changelog=2.1.1: public name changed to TreeSuit XAI; always-on raster validation checks, explicit SHA256 digest-byte metadata and code-quality fix; predictions unchanged. 2.1.0: area-planting alternatives, genus counts and polygon exports; source-only installer with JSON frozen preprocessing; publication and user documentation. 2.0.0: training, locked validation, diagnosis and clickable interpretation.
+changelog=2.1.2: Qt6-scoped Qt and QGIS enums while retaining tested QGIS 3.40 compatibility; predictions unchanged. 2.1.1: public name changed to TreeSuit XAI; always-on raster validation checks, explicit SHA256 digest-byte metadata and code-quality fix; predictions unchanged. 2.1.0: area-planting alternatives, genus counts and polygon exports. 2.0.0: training, locked validation, diagnosis and clickable interpretation.
