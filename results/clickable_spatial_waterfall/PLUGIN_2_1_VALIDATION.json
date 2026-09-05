@@ -2,7 +2,7 @@
   "plugin_version": "2.1.2",
   "tested_qgis": "3.40.11-Bratislava",
   "tested_platform": "Windows",
-  "official_repository_status": "2.1.1 passed security but reported 26 Qt6 enum findings; corrected 2.1.2 is undergoing local verification before upload; no public version yet",
+  "official_repository_status": "2.1.2 uploaded; QGIS security/quality scan passed with 0 issues and Qt6 check passed with no issues; volunteer maintainer approval pending; no public version yet",
   "scientific_unit_tests_passed": 26,
   "test_suites": {
     "test_spatial_waterfall.py": 12,
