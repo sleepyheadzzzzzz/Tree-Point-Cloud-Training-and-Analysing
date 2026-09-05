@@ -1,12 +1,12 @@
 [general]
-name=Tree Growth Workbench
-description=Spatial training, locked validation, diagnosis rasters and clickable environmental Shapley interpretation.
-version=2.1.0
+name=TreeSuit XAI
+description=Explainable AI for diagnosing urban-tree growth suitability through spatial validation, diagnosis maps and cell-level Shapley interpretation.
+version=2.1.1
 qgisMinimumVersion=3.40
 qgisMaximumVersion=3.99
 author=Yao Chaowen
 email=chaowen.yao@aalto.fi
-about=Research workbench: spatial-block model comparison, locked-test finalization, diagnosis rasters, reference-matched environmental waterfalls and two area-planting alternatives. Requires a separately installed scientific Python with numpy, pandas, scipy, scikit-learn, statsmodels, xgboost, shap, matplotlib, rasterio, joblib and Pillow; see the user guide and requirements.txt. No automatic dependency installation or data upload. Bundled model is Helsinki-specific. Tested on Windows with QGIS 3.40.11; Linux/macOS unverified; QGIS 4 not supported. Experimental screening, not planting approval. User-created joblib model packages must be trusted.
+about=TreeSuit XAI is an explainable-AI research workbench for diagnosing urban-tree growth suitability. It combines spatial-block model comparison, locked-test validation, diagnosis rasters, reference-matched environmental Shapley waterfalls and two area-planting alternatives. Requires a separately installed scientific Python with numpy, pandas, scipy, scikit-learn, statsmodels, xgboost, shap, matplotlib, rasterio, joblib and Pillow; see the user guide and requirements.txt. No automatic dependency installation or data upload. The bundled model is Helsinki-specific. Tested on Windows with QGIS 3.40.11; Linux/macOS unverified; QGIS 4 not supported. Experimental screening, not planting approval. User-created joblib model packages must be trusted.
 category=Raster
 experimental=True
 homepage=https://github.com/sleepyheadzzzzzz/Tree-Point-Cloud-Training-and-Analysing
@@ -14,5 +14,5 @@ repository=https://github.com/sleepyheadzzzzzz/Tree-Point-Cloud-Training-and-Ana
 tracker=https://github.com/sleepyheadzzzzzz/Tree-Point-Cloud-Training-and-Analysing/issues
 icon=icon.svg
 license=GPL-3.0
-tags=trees,carbon,suitability,spatial validation,shap,planting
-changelog=2.1.0: area-planting alternatives, genus counts and polygon exports; source-only installer with JSON frozen preprocessing; publication and user documentation. 2.0.0: training, locked validation, diagnosis and clickable interpretation.
+tags=trees,carbon,suitability,explainable AI,spatial validation,shap,planting
+changelog=2.1.1: public name changed to TreeSuit XAI; always-on raster validation checks, explicit SHA256 digest-byte metadata and code-quality fix; predictions unchanged. 2.1.0: area-planting alternatives, genus counts and polygon exports; source-only installer with JSON frozen preprocessing; publication and user documentation. 2.0.0: training, locked validation, diagnosis and clickable interpretation.

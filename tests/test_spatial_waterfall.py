@@ -15,10 +15,20 @@ import rasterio
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
 from spatial_waterfall_core import ENVIRONMENT, exact_grouped_contrast, SpatialPackage, waterfall_svg
-from build_clickable_spatial_package import build
+from build_clickable_spatial_package import build, expected_model_hash
 
 
 class ShapleyTests(unittest.TestCase):
+    def test_explicit_digest_integrity_and_validation(self):
+        import hashlib
+        raw=hashlib.sha256(b"test model").digest()
+        prep=dict(model_digest=dict(algorithm="sha256",bytes=list(raw)))
+        self.assertEqual(expected_model_hash(prep),raw.hex())
+        prep["model_digest"]["bytes"][0]=256
+        with self.assertRaises(ValueError): expected_model_hash(prep)
+        from validate_clickable_spatial_package import require
+        with self.assertRaises(ValueError): require(False,"must always fail")
+
     @staticmethod
     def model(x):
         x = np.asarray(x, dtype=np.float64)
@@ -104,6 +114,17 @@ class RasterTests(unittest.TestCase):
             with rasterio.open(original) as a, rasterio.open(args.output/"rasters"/original.name) as b:
                 np.testing.assert_array_equal(a.read(),b.read())
                 self.assertEqual(a.transform,b.transform)
+
+    def test_changed_integrity_digest_blocks_export(self):
+        args=SimpleNamespace(**vars(self.args))
+        prep=json.loads((ROOT/"results/spatial_validation/deployment_preprocessing.json").read_text())
+        prep["model_digest"]["bytes"][0] ^= 1
+        args.preprocessing=self.path/"changed_digest.json"
+        args.preprocessing.write_text(json.dumps(prep))
+        args.output=self.path/"must_not_build"
+        with self.assertRaisesRegex(ValueError,"frozen training/preprocessing"):
+            build(args)
+        self.assertFalse(args.output.exists())
 
     def test_missing_and_off_extent(self):
         for x,y in [(5,1),(3,3),(100,100)]:

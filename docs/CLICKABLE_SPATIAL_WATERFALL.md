@@ -1,6 +1,6 @@
 # Clickable suitability and change diagnosis
 
-The QGIS **Tree Growth Workbench** connects a matched raster package to a
+The QGIS **TreeSuit XAI** workbench connects a matched raster package to a
 cell-specific environmental explanation. The GeoTIFFs also open in ArcGIS;
 the interactive side panel is implemented for QGIS 3.x.
 
@@ -140,7 +140,7 @@ python scripts/build_qgis_waterfall_plugin.py --output outputs/tree_growth_water
 ```
 
 1. In QGIS, open **Plugins → Manage and Install Plugins → Install from ZIP**.
-2. Install the ZIP and open **Plugins → Tree Growth → Tree Growth Workbench**.
+2. Install the ZIP and open **Plugins → Tree Growth → TreeSuit XAI**.
 3. Browse to the matched package's `manifest.json`.
 4. Select the Python executable in the ML environment used to generate the
    package. QGIS's bundled Python does not need XGBoost installed.

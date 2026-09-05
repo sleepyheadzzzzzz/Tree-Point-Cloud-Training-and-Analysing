@@ -1,12 +1,16 @@
-# Publishing Tree Growth Workbench
+# Publishing TreeSuit XAI
 
 ## Status
 
-Version 2.1.0 is an **experimental install-from-ZIP candidate**, not an approved
-listing in the official QGIS repository. Public author/contact metadata is set
-to **Yao Chaowen — chaowen.yao@aalto.fi**. An authenticated submission and
-repository approval remain necessary. Installing a ZIP or pushing
-source code to GitHub is not the same as QGIS approval.
+Version 2.1.0 was uploaded to the official QGIS repository but blocked by the
+initial automated scan. Version 2.1.1 corrects its removable-language assertions,
+digest representation and style issue and adopts the public name **TreeSuit XAI**.
+It remains an experimental submission candidate until the corrected upload passes
+the QGIS checks and maintainer review. Public author/contact metadata is set to
+**Yao Chaowen — chaowen.yao@aalto.fi**. Installing a ZIP, submitting it, or
+pushing source code to GitHub is not the same as QGIS approval. The live
+[QGIS plugin record](https://plugins.qgis.org/plugins/tree_growth_waterfall/)
+is the authoritative publication status.
 
 ## Local installation and dependencies
 
@@ -25,12 +29,12 @@ source code to GitHub is not the same as QGIS approval.
 3. Build the installer with the repository root as the working directory:
 
    ```bash
-   python scripts/build_qgis_waterfall_plugin.py --output outputs/Tree_Growth_Workbench_2.1.0.zip
+   python scripts/build_qgis_waterfall_plugin.py --output outputs/TreeSuit_XAI_2.1.1.zip
    ```
 
 4. In QGIS choose **Plugins → Manage and Install Plugins → Install from ZIP**.
    Select the ZIP, install, enable it, then restart QGIS after upgrading.
-5. Open **Raster → Tree Growth → Tree Growth Workbench**. In Interpretation,
+5. Open **Raster → Tree Growth → TreeSuit XAI**. In Interpretation,
    select the separate environment's Python executable. Extra module paths are
    normally blank. Follow the [user guide](QGIS_WORKBENCH.md) and
    [area planting exercise](QGIS_AREA_PLANTING.md).
@@ -72,7 +76,7 @@ that specific scope in the submission notes.
    python tests/test_spatial_waterfall.py
    python tests/test_tree_growth_workbench.py
    python tests/test_area_planting.py
-   python scripts/build_qgis_waterfall_plugin.py --official --output outputs/Tree_Growth_Workbench_2.1.0.zip
+   python scripts/build_qgis_waterfall_plugin.py --official --output outputs/TreeSuit_XAI_2.1.1.zip
    ```
 
    `--official` rejects missing author/contact fields. Archive names must start
@@ -92,14 +96,14 @@ that specific scope in the submission notes.
 6. Wait for the repository's security scan and manual review, and respond to
    reviewer feedback. Submission does not guarantee approval or a fixed deadline.
    See the [official approval process](https://plugins.qgis.org/docs/approval).
-7. After approval, users can search for Tree Growth Workbench in QGIS's plugin
+7. After approval, users can search for TreeSuit XAI in QGIS's plugin
    manager. Because it is experimental, they may need to enable experimental
    plugins. For updates, increment the version and changelog, test and upload a
    new version under the same plugin/package identity.
 
 ## Suggested submission description
 
-Tree Growth Workbench is an experimental research tool for urban-tree carbon
+TreeSuit XAI is an explainable-AI research tool for diagnosing urban-tree carbon
 growth. It compares OLS, RF, XGBoost and MLP on grouped spatial training/validation
 partitions, evaluates a locked spatial test, exports fixed-threshold growth
 suitability and environmental contrasts, and explains map cells through exact

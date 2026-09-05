@@ -1,6 +1,6 @@
 # Area planting: two alternative densification proposals
 
-Open **Raster → Tree Growth → Tree Growth Workbench**, then the workflow tab
+Open **Raster → Tree Growth → TreeSuit XAI**, then the workflow tab
 **4. Area planting**. This extends model diagnosis into explicit, inspectable
 planning alternatives. It does not retrain the model or validate a planting design.
 

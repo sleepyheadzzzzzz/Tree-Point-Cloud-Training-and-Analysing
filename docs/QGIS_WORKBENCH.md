@@ -1,4 +1,9 @@
-# Tree Growth Workbench for QGIS
+# TreeSuit XAI for QGIS
+
+**TreeSuit XAI** is an explainable-AI workbench for diagnosing urban-tree growth
+suitability. It links leakage-aware model training and spatial validation to
+diagnosis maps, cell-specific environmental explanations and inspectable
+area-planting alternatives.
 
 An experimental research plugin for connected steps: **train and compare →
 finalize and test → spatial diagnosis → click-based interpretation → area planting**. It does
@@ -13,12 +18,13 @@ python scripts/build_qgis_waterfall_plugin.py --output outputs/tree_growth_workb
 
 Install through **Plugins → Manage and Install Plugins → Install from ZIP**.
 Restart QGIS when upgrading an already loaded version. Open **Raster → Tree
-Growth → Tree Growth Workbench**. The same internal plugin ID is retained so
-this upgrades the earlier Tree Growth Waterfall plugin rather than creating a
+Growth → TreeSuit XAI**. The same internal plugin ID is retained so this
+upgrades the earlier Tree Growth Waterfall plugin rather than creating a
 second unrelated plugin.
 
-See [publication and environment setup](QGIS_PUBLICATION.md). Version 2.1.0 is
-an experimental ZIP candidate; official repository submission/approval is separate.
+See [publication and environment setup](QGIS_PUBLICATION.md). Version 2.1.1 is
+the corrected experimental submission candidate; official repository approval
+is a separate QGIS maintainer decision.
 
 Select the external scientific Python executable under **Interpretation**.
 It must satisfy the repository `requirements.txt`; QGIS's own Python does not

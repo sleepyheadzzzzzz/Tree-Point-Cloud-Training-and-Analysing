@@ -283,7 +283,8 @@ def waterfall_svg(result):
     lo, hi = min([start, end, *levels]), max([start, end, *levels])
     padding = max((hi-lo)*0.18, 0.2)
     lo, hi = lo-padding, hi+padding
-    scale = lambda v: 340 + 420 * (v-lo)/(hi-lo)
+    def scale(v):
+        return 340 + 420 * (v-lo)/(hi-lo)
     import textwrap
     warning_lines = [line for warning in result["warnings"] for line in textwrap.wrap(warning,112)]
     height = 245 + (len(order)+2)*39 + 21*len(warning_lines)

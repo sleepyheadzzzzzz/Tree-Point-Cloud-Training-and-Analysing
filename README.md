@@ -9,7 +9,8 @@ This repository contains the analysis underlying **“Towards Carbon Responsive 
 
 Teaching material for the pooled train–validation–test, SHAP, spatial-SHAP, and ONNX workflow is available in [eCAADe Workshop 2026 Material](eCAADe_workshop_2026_material/README.md).
 
-New: [Tree Growth Workbench for QGIS](docs/QGIS_WORKBENCH.md) combines editable
+New: [TreeSuit XAI for QGIS](docs/QGIS_WORKBENCH.md) is an explainable-AI
+workbench for diagnosing urban-tree growth suitability. It combines editable
 OLS/RF/XGBoost/MLP training, spatial validation, diagnosis-raster export and
 [clickable environmental waterfalls](docs/CLICKABLE_SPATIAL_WATERFALL.md).
 The local demo now restores all 3,988,736 cells of the archived diagnosis grid,
@@ -20,7 +21,8 @@ Version 2.1 adds [area planting](docs/QGIS_AREA_PLANTING.md): a 0–9 suitable-g
 count map, suitable-area polygons and two alternatives—highest suitability and
 diversity-oriented allocation—with GeoPackage/Shapefile export. See
 [installation and official QGIS publication](docs/QGIS_PUBLICATION.md).
-The plugin is experimental and is not yet listed as an approved QGIS release.
+The plugin is experimental. Its QGIS repository submission is undergoing
+automated and manual review; it is not yet an approved public release.
 
 ## What is reproducible here
 

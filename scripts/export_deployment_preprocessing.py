@@ -18,10 +18,12 @@ def export(root):
     result = dict(feature_columns=prep["feature_columns"],
         feature_medians={k:float(v) for k,v in prep["feature_medians"].items()},
         use_scaled=False, model_format="xgboost_json", supported_species=list(range(1,12)),
-        model_sha256=hashlib.sha256(model.read_bytes()).hexdigest(),
-        source_preprocessing_sha256=hashlib.sha256(original.read_bytes()).hexdigest())
+        model_digest=dict(algorithm="sha256", bytes=list(hashlib.sha256(model.read_bytes()).digest())),
+        source_preprocessing_digest=dict(algorithm="sha256", bytes=list(hashlib.sha256(original.read_bytes()).digest())))
+    # These are public file-integrity digests, not credentials. Explicit algorithm
+    # and byte-array fields avoid mistaking opaque hexadecimal strings for keys.
     target=root/"results/spatial_validation/deployment_preprocessing.json"
-    target.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    target.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(target)
 
 

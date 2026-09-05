@@ -31,7 +31,7 @@ class TreeGrowthPlugin:
         self.iface, self.dock, self.action = iface, None, None
 
     def initGui(self):
-        self.action = QAction(QIcon(str(Path(__file__).parent/"icon.svg")), "Tree Growth Workbench", self.iface.mainWindow())
+        self.action = QAction(QIcon(str(Path(__file__).parent/"icon.svg")), "TreeSuit XAI", self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.iface.addPluginToRasterMenu("Tree Growth", self.action)
 
@@ -53,7 +53,7 @@ class TreeGrowthPlugin:
 
 class WaterfallDock(QDockWidget):
     def __init__(self, iface):
-        super().__init__("Tree Growth Workbench | diagnosis + interpretation", iface.mainWindow())
+        super().__init__("TreeSuit XAI | growth-suitability diagnosis", iface.mainWindow())
         self.setObjectName("TreeGrowthWaterfallDock")
         self.iface = iface
         self.root = None

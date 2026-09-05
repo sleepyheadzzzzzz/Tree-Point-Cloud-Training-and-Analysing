@@ -8,6 +8,12 @@ import rasterio
 from spatial_waterfall_core import SpatialPackage, NODATA
 
 
+def require(condition, message):
+    """Audit invariants remain enforced even when Python runs with -O."""
+    if not condition:
+        raise ValueError(message)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--package",type=Path,required=True)
@@ -30,29 +36,29 @@ def main():
                 current = (src.height,src.width)
                 if shape is None:
                     shape,transform,crs = current,src.transform,src.crs
-                assert (current,src.transform,src.crs) == (shape,transform,crs), "Misaligned raster"
+                require((current,src.transform,src.crs) == (shape,transform,crs), "Misaligned raster")
                 rasters_checked += 1
         with rasterio.open(package.file(record["reliability"])) as src:
             mask = src.read(1)
-            assert np.isin(mask,[0,1,2]).all()
+            require(np.isin(mask,[0,1,2]).all(), "Unknown reliability code")
         with rasterio.open(package.file(record["growth"])) as src:
             valid[period] = src.read(supported[0]) != NODATA
         if "imputed_inputs" not in record:
-            assert np.array_equal(valid[period],mask>0),"Coverage and reliability disagree"
+            require(np.array_equal(valid[period],mask>0), "Coverage and reliability disagree")
         with rasterio.open(package.file(record["growth"])) as growth, rasterio.open(package.file(record["suitability"])) as suitability:
             for species in range(1,12):
                 g,s = growth.read(species),suitability.read(species)
                 if species not in supported:
-                    assert np.all(g==NODATA) and np.all(s==0)
+                    require(np.all(g==NODATA) and np.all(s==0), "Unsupported species has mapped values")
                     continue
-                assert np.all(g[~valid[period]] == NODATA)
-                assert np.all(s[~valid[period]] == 0)
+                require(np.all(g[~valid[period]] == NODATA), "Growth outside valid coverage")
+                require(np.all(s[~valid[period]] == 0), "Suitability outside valid coverage")
                 expected = np.searchsorted(package.thresholds,g[valid[period]],side="right")+1
                 mismatch=s[valid[period]]!=expected
                 if mismatch.any():
                     values=g[valid[period]][mismatch]
                     distance=np.min(abs(values[:,None]-package.thresholds),axis=1)
-                    assert np.all(distance<=2*np.spacing(abs(values))), "Suitability thresholds do not reproduce stored classes"
+                    require(np.all(distance<=2*np.spacing(abs(values))), "Suitability thresholds do not reproduce stored classes")
     records = []
     rng = np.random.default_rng(2026)
     modes = [("local",period,mask) for period,mask in valid.items()]
@@ -68,7 +74,7 @@ def main():
             for species in supported:
                 difference = b.read(species).astype(float)-a.read(species).astype(float)
                 actual = out.read(species)
-                assert np.all(actual[~pair_valid] == nodata)
+                require(np.all(actual[~pair_valid] == nodata), "Change values outside paired coverage")
                 np.testing.assert_allclose(actual[pair_valid],difference[pair_valid],rtol=1e-6,atol=1e-6)
     modes += [("change",change["later"],valid[change["earlier"]]&valid[change["later"]])]
     for mode,period,mask in modes:
@@ -79,10 +85,10 @@ def main():
             x,y = rasterio.transform.xy(transform,row,col)
             for species in selected_species:
                 result = package.explain(x,y,species,mode,period)
-                assert result["status"] == "ok"
-                assert abs(sum(result["contributions_pp"])-result["delta_pp"]) < 1e-8
+                require(result["status"] == "ok", "Sampled explanation is invalid")
+                require(abs(sum(result["contributions_pp"])-result["delta_pp"]) < 1e-8, "Shapley contributions do not close")
                 records.append({k:result[k] for k in ["mode","period","species_code","row","column","delta_pp","additivity_error_pp","max_raster_parity_error_pp"]})
-    assert records, "No valid explanations tested"
+    require(records, "No valid explanations tested")
     report = dict(passed=True,rasters_checked=rasters_checked,explanations_checked=len(records),
                   valid_cells_by_period={k:int(v.sum()) for k,v in valid.items()},
                   max_additivity_error_pp=max(abs(r["additivity_error_pp"]) for r in records),

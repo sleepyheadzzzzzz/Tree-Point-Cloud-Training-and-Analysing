@@ -38,7 +38,8 @@ def main():
             archive.write(root/relative,"tree_growth_waterfall/"+relative)
     with zipfile.ZipFile(args.output) as archive:
         forbidden={".pyc",".pyo",".dll",".exe",".so",".joblib",".pkl",".tif"}
-        assert not any(Path(name).suffix.lower() in forbidden for name in archive.namelist())
+        if any(Path(name).suffix.lower() in forbidden for name in archive.namelist()):
+            raise ValueError("QGIS package contains a forbidden binary, model or raster file")
     if args.output.stat().st_size > 20_000_000:
         raise ValueError("QGIS package exceeds 20 MB")
     print(args.output)

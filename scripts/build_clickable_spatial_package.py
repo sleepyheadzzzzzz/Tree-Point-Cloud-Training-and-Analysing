@@ -113,6 +113,22 @@ def set_descriptions(dst, labels, unit):
         dst.update_tags(band, unit=unit)
 
 
+def expected_model_hash(preprocessing):
+    """Read explicit digest bytes, retaining legacy trusted-package compatibility."""
+    if "model_digest" not in preprocessing:
+        return preprocessing.get("model_sha256")
+    digest = preprocessing["model_digest"]
+    values = digest.get("bytes")
+    if digest.get("algorithm") != "sha256" or not isinstance(values, list) or len(values) != 32:
+        raise ValueError("Malformed model-integrity digest")
+    if any(type(value) is not int or not 0 <= value <= 255 for value in values):
+        raise ValueError("Malformed SHA256 byte value")
+    expected = bytes(values).hex()
+    if preprocessing.get("model_sha256") and preprocessing["model_sha256"] != expected:
+        raise ValueError("Conflicting model-integrity digests")
+    return expected
+
+
 def build(args):
     started = time.perf_counter()
     if args.output.exists():
@@ -133,7 +149,8 @@ def build(args):
     booster=ModelPredictor(args.model,model_format)
     if preprocessing.get("feature_columns") != booster.feature_names:
         raise ValueError("Model and preprocessing feature order differ")
-    if preprocessing.get("model_sha256") and preprocessing["model_sha256"]!=sha256(args.model):
+    expected_hash = expected_model_hash(preprocessing)
+    if expected_hash and expected_hash != sha256(args.model):
         raise ValueError("Model differs from the frozen training/preprocessing contract")
     supported=preprocessing.get("supported_species",list(SPECIES))
     reference = {f: float(preprocessing["feature_medians"][f]) for f in ENVIRONMENT}
