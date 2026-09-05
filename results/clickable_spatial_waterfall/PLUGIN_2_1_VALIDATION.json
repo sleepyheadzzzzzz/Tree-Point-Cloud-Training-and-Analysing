@@ -2,7 +2,7 @@
   "plugin_version": "2.1.1",
   "tested_qgis": "3.40.11-Bratislava",
   "tested_platform": "Windows",
-  "official_repository_status": "2.1.0 uploaded but blocked by automated scan; corrected 2.1.1 prepared for upload; approval pending",
+  "official_repository_status": "2.1.1 uploaded; QGIS automated security and quality scan passed with 0 issues; volunteer maintainer approval pending; no public version yet",
   "scientific_unit_tests_passed": 26,
   "test_suites": {
     "test_spatial_waterfall.py": 12,
